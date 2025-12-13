@@ -52,7 +52,7 @@
 	$: hasFooterSection = sections?.some((s) => s.section_type === 'footer');
 </script>
 
-<div class="min-h-screen bg-white tb-cq" class:tb-embed={embed}>
+<div class="tb-cq min-h-screen bg-white" class:tb-embed={embed}>
 	{#if !hasHeaderSection}
 		<Header1 {website} {pb} {pages} {currentPage} {sections} data={emptyHeaderData} />
 	{/if}
@@ -61,7 +61,15 @@
 		{@const Component = getComponent(section)}
 		{#if Component}
 			<div id={section.section_type}>
-				<svelte:component this={Component} {website} data={section.data} {pb} {sections} {pages} {currentPage} />
+				<svelte:component
+					this={Component}
+					{website}
+					data={section.data}
+					{pb}
+					{sections}
+					{pages}
+					{currentPage}
+				/>
 			</div>
 		{/if}
 	{/each}
