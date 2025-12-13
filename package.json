@@ -1,0 +1,36 @@
+{
+	"name": "@tradebolt/components",
+	"version": "1.0.0",
+	"description": "Shared Svelte components for TradeBolt website builder and renderer",
+	"type": "module",
+	"exports": {
+		".": "./src/WebsitePageRenderer.svelte",
+		"./WebsitePageRenderer.svelte": "./src/WebsitePageRenderer.svelte",
+		"./components/heroes/Hero1.svelte": "./src/components/heroes/Hero1.svelte",
+		"./components/heroes/Hero2.svelte": "./src/components/heroes/Hero2.svelte",
+		"./components/about/About1.svelte": "./src/components/about/About1.svelte",
+		"./components/services/Services1.svelte": "./src/components/services/Services1.svelte",
+		"./components/locations/Locations1.svelte": "./src/components/locations/Locations1.svelte",
+		"./components/contact/Contact1.svelte": "./src/components/contact/Contact1.svelte",
+		"./components/contact/Contact2.svelte": "./src/components/contact/Contact2.svelte",
+		"./components/gallery/Gallery1.svelte": "./src/components/gallery/Gallery1.svelte",
+		"./components/gallery/Gallery2.svelte": "./src/components/gallery/Gallery2.svelte",
+		"./components/footers/Footer1.svelte": "./src/components/footers/Footer1.svelte",
+		"./components/navigation/Nav1.svelte": "./src/components/navigation/Nav1.svelte"
+	},
+	"peerDependencies": {
+		"svelte": "^5.0.0"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/YOUR_USERNAME/TradeBolt-Components.git"
+	},
+	"keywords": [
+		"svelte",
+		"components",
+		"tradebolt"
+	],
+	"author": "TradeBolt",
+	"license": "UNLICENSED",
+	"private": true
+}
