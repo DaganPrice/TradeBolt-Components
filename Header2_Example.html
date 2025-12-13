@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KGCON Design & Build</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #1a1a1a;
+        }
+
+        header {
+            background: #2a2a2a;
+            color: white;
+        }
+
+        .top-bar {
+            background: #1f1f1f;
+            padding: 12px 0;
+            border-bottom: 1px solid #333;
+        }
+
+        .top-bar-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            background: #a4d233;
+            width: 70px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: bold;
+            color: white;
+            font-style: italic;
+        }
+
+        .logo-text {
+            font-size: 32px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .logo-text span {
+            display: block;
+            font-size: 11px;
+            letter-spacing: 4px;
+            font-weight: 300;
+            margin-top: -5px;
+        }
+
+        .contact-info {
+            text-align: right;
+        }
+
+        .phone {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .phone i {
+            font-size: 18px;
+        }
+
+        .hours {
+            color: #a4d233;
+            font-size: 13px;
+        }
+
+        .nav-bar {
+            background: #2a2a2a;
+            padding: 0;
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 35px;
+            align-items: center;
+        }
+
+        nav ul li {
+            position: relative;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            padding: 20px 0;
+            display: inline-block;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover,
+        nav ul li a.active {
+            color: #a4d233;
+        }
+
+        nav ul li a.dropdown::after {
+            content: '\f107';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            margin-left: 8px;
+            font-size: 12px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-icons a {
+            color: white;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: #a4d233;
+        }
+
+        .cta-button {
+            background: #a4d233;
+            color: white;
+            text-decoration: none;
+            padding: 12px 28px;
+            font-weight: bold;
+            font-size: 13px;
+            letter-spacing: 1px;
+            transition: background 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background: #8fb829;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .top-bar-content,
+            .nav-content {
+                padding: 0 20px;
+            }
+
+            nav ul {
+                gap: 20px;
+            }
+
+            .logo-text {
+                font-size: 24px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .top-bar-content {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .contact-info {
+                text-align: center;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+
+            .nav-content {
+                flex-direction: column;
+                padding: 15px 20px;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="top-bar">
+            <div class="top-bar-content">
+                <div class="logo-section">
+                    <div class="logo-icon">K</div>
+                    <div class="logo-text">
+                        KGCON
+                        <span>DESIGN & BUILD</span>
+                    </div>
+                </div>
+                <div class="contact-info">
+                    <div class="phone">
+                        <i class="fas fa-phone"></i>
+                        0161 791 4751
+                    </div>
+                    <div class="hours">Open Monday to Friday, 9am to 5pm</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="nav-bar">
+            <div class="nav-content">
+                <nav>
+                    <ul>
+                        <li><a href="#" class="active">Home</a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Values</a></li>
+                        <li><a href="#" class="dropdown">Residential</a></li>
+                        <li><a href="#">Commercial</a></li>
+                        <li><a href="#">Projects</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </nav>
+                <div class="nav-right">
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-google-plus-g"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                    <a href="#" class="cta-button">GET AN ESTIMATE</a>
+                </div>
+            </div>
+        </div>
+    </header>
+</body>
+</html>

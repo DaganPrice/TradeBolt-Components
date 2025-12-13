@@ -20,7 +20,18 @@
 	$: isMultiPage = navPages.length > 0;
 
 	// Get unique section types on the current page for jump links
-	$: sectionTypes = [...new Set(sections.filter((s) => s.is_visible).map((s) => s.section_type))];
+	$: allSectionTypes = [...new Set(sections.filter((s) => s.is_visible).map((s) => s.section_type))];
+
+	// Apply custom order if specified in header data, otherwise use default order
+	$: sectionTypes = (() => {
+		const navOrder = data?.nav_order;
+		if (navOrder && Array.isArray(navOrder) && navOrder.length > 0) {
+			// Use custom order, but only include sections that actually exist
+			return navOrder.filter((type) => allSectionTypes.includes(type));
+		}
+		// Default order: all visible sections
+		return allSectionTypes;
+	})();
 
 	// Map section types to readable labels
 	function getSectionLabel(sectionType) {
@@ -329,6 +340,9 @@
 
 	.tb-nav-cta {
 		display: none;
+		padding: 0.5rem 1.25rem;
+		align-items: center;
+		justify-content: center;
 	}
 
 	@container (min-width: 768px) {
