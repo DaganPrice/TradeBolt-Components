@@ -165,9 +165,9 @@
 				{/if}
 			</a>
 
-			<div class="ml-auto flex items-center gap-3">
+			<div class="ml-auto flex items-center gap-8">
 				<!-- Desktop Navigation -->
-				<div class="tb-nav-desktop items-center space-x-8">
+				<div class="tb-nav-desktop items-center gap-8">
 					{#if isMultiPage}
 						<!-- Multi-page navigation: Link to actual pages -->
 						{#each navPages as page}
