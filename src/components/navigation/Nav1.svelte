@@ -39,7 +39,7 @@
 			? data.contact_cta_label.trim()
 			: getSectionLabel('contact');
 
-	$: showCtaButton = data?.show_cta_button === true;
+	$: showCtaButton = data?.show_cta_button !== false;
 	$: ctaLabel =
 		data && typeof data.cta_label === 'string' && data.cta_label.trim()
 			? data.cta_label.trim()
@@ -146,7 +146,7 @@
 
 <nav class="fixed top-0 right-0 left-0 z-50 bg-white shadow-md">
 	<div class="container mx-auto px-4">
-		<div class="flex h-16 items-center justify-between">
+		<div class="flex h-16 items-center">
 			<!-- Logo / Business Name -->
 			<a
 				href={isMultiPage ? '/' : '#hero'}
@@ -165,48 +165,48 @@
 				{/if}
 			</a>
 
-			<!-- Desktop Navigation -->
-			<div class="tb-nav-desktop items-center space-x-8">
-				{#if isMultiPage}
-					<!-- Multi-page navigation: Link to actual pages -->
-					{#each navPages as page}
-						<a
-							href="/{page.slug}"
-							class="text-gray-700 {colors.hover} font-medium transition-colors {currentPage &&
-							currentPage.id === page.id
-								? 'font-bold ' + colors.text
-								: ''}"
-						>
-							{page.title}
-						</a>
-					{/each}
-				{:else}
-					<!-- Single-page navigation: Jump links within page -->
-					{#each sectionTypes as sectionType}
-						{#if sectionType !== 'header' && sectionType !== 'hero' && sectionType !== 'footer'}
-							{#if sectionType === 'contact' && !showCtaButton}
-								<a
-									href="#{sectionType}"
-									on:click|preventDefault={() => scrollToSection(sectionType)}
-									class="px-6 py-2 {colors.bg} {colors.hoverBg} rounded-lg font-semibold text-white transition-colors"
-								>
-									{contactCtaLabel}
-								</a>
-							{:else}
-								<a
-									href="#{sectionType}"
-									on:click|preventDefault={() => scrollToSection(sectionType)}
-									class="text-gray-700 {colors.hover} font-medium transition-colors"
-								>
-									{sectionType === 'contact' ? contactCtaLabel : getSectionLabel(sectionType)}
-								</a>
+			<div class="ml-auto flex items-center gap-3">
+				<!-- Desktop Navigation -->
+				<div class="tb-nav-desktop items-center space-x-8">
+					{#if isMultiPage}
+						<!-- Multi-page navigation: Link to actual pages -->
+						{#each navPages as page}
+							<a
+								href="/{page.slug}"
+								class="text-gray-700 {colors.hover} font-medium transition-colors {currentPage &&
+								currentPage.id === page.id
+									? 'font-bold ' + colors.text
+									: ''}"
+							>
+								{page.title}
+							</a>
+						{/each}
+					{:else}
+						<!-- Single-page navigation: Jump links within page -->
+						{#each sectionTypes as sectionType}
+							{#if sectionType !== 'header' && sectionType !== 'hero' && sectionType !== 'footer'}
+								{#if sectionType === 'contact' && !showCtaButton}
+									<a
+										href="#{sectionType}"
+										on:click|preventDefault={() => scrollToSection(sectionType)}
+										class="px-6 py-2 {colors.bg} {colors.hoverBg} rounded-lg font-semibold text-white transition-colors"
+									>
+										{contactCtaLabel}
+									</a>
+								{:else}
+									<a
+										href="#{sectionType}"
+										on:click|preventDefault={() => scrollToSection(sectionType)}
+										class="text-gray-700 {colors.hover} font-medium transition-colors"
+									>
+										{sectionType === 'contact' ? contactCtaLabel : getSectionLabel(sectionType)}
+									</a>
+								{/if}
 							{/if}
-						{/if}
-					{/each}
-				{/if}
-			</div>
+						{/each}
+					{/if}
+				</div>
 
-			<div class="flex items-center gap-3">
 				{#if showCtaButton}
 					<a
 						href={ctaHref}
