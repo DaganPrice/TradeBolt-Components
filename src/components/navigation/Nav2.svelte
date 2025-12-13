@@ -1,4 +1,6 @@
 <script>
+	import { onDestroy, onMount } from 'svelte';
+
 	export let website;
 	export let pb;
 	export let pages = [];
@@ -8,6 +10,9 @@
 
 	let logoUrl = null;
 	let mobileMenuOpen = false;
+	let headerEl = null;
+	let headerSpacerHeight = 140;
+	let headerResizeObserver = null;
 
 	if (website.logo) {
 		logoUrl = pb.files.getURL(website, website.logo);
@@ -127,9 +132,31 @@
 	$: colors = getColorClasses(website.color_scheme);
 	$: phoneNumber = website?.contact_details?.phone || '';
 	$: businessHours = data?.business_hours || 'Monday - Friday, 9am - 5pm';
+
+	function updateHeaderSpacer() {
+		if (!headerEl) return;
+		const next = headerEl.offsetHeight || 0;
+		if (next > 0) headerSpacerHeight = next;
+	}
+
+	onMount(() => {
+		updateHeaderSpacer();
+
+		if (typeof ResizeObserver !== 'undefined') {
+			headerResizeObserver = new ResizeObserver(() => updateHeaderSpacer());
+			if (headerEl) headerResizeObserver.observe(headerEl);
+		}
+
+		window.addEventListener('resize', updateHeaderSpacer);
+	});
+
+	onDestroy(() => {
+		window.removeEventListener('resize', updateHeaderSpacer);
+		headerResizeObserver?.disconnect?.();
+	});
 </script>
 
-<header class="tb-header-2 fixed top-0 left-0 right-0 z-50 bg-gray-900 text-white">
+<header bind:this={headerEl} class="tb-header-2 fixed top-0 left-0 right-0 z-50 bg-gray-900 text-white">
 	<!-- Top Bar -->
 	<div class="bg-gray-950 border-b border-gray-800">
 		<div class="container mx-auto px-4 md:px-8">
@@ -253,7 +280,7 @@
 </header>
 
 <!-- Spacer to prevent content from going under fixed header -->
-<div class="tb-header-2-spacer" style="height: 140px;"></div>
+<div class="tb-header-2-spacer" style={`height: ${headerSpacerHeight}px;`}></div>
 
 <style>
 	/* Responsive adjustments using container queries */
