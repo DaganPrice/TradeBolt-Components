@@ -86,12 +86,16 @@
 		container-type: inline-size;
 	}
 
-	.tb-embed :global(nav) {
-		position: sticky;
+	.tb-embed :global(nav),
+	.tb-embed :global(.tb-header-2) {
+		position: sticky !important;
 		top: 0;
+		left: auto !important;
+		right: auto !important;
 	}
 
-	.tb-embed :global(.tb-nav-spacer) {
-		display: none;
+	.tb-embed :global(.tb-nav-spacer),
+	.tb-embed :global(.tb-header-2-spacer) {
+		display: none !important;
 	}
 </style>
