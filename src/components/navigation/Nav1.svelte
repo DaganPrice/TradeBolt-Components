@@ -39,6 +39,19 @@
 			? data.contact_cta_label.trim()
 			: getSectionLabel('contact');
 
+	$: showCtaButton = data?.show_cta_button === true;
+	$: ctaLabel =
+		data && typeof data.cta_label === 'string' && data.cta_label.trim()
+			? data.cta_label.trim()
+			: 'Get a Quote';
+
+	$: contactPage =
+		pages.find((p) => p.is_visible && p.slug === 'contact') ||
+		pages.find((p) => p.is_visible && (p.title || '').toLowerCase().includes('contact')) ||
+		null;
+
+	$: ctaHref = isMultiPage ? (contactPage ? `/${contactPage.slug}` : '/contact') : '#contact';
+
 	function toggleMobileMenu() {
 		mobileMenuOpen = !mobileMenuOpen;
 	}
@@ -58,6 +71,18 @@
 			event.preventDefault();
 			scrollToSection(page.slug.replace('-', ''));
 		}
+		mobileMenuOpen = false;
+	}
+
+	function handleCtaClick(event) {
+		if (!showCtaButton) return;
+
+		const isOnContactPage = !!(contactPage && currentPage && contactPage.id === currentPage.id);
+		if (!isMultiPage || isOnContactPage) {
+			event.preventDefault();
+			scrollToSection('contact');
+		}
+
 		mobileMenuOpen = false;
 	}
 
@@ -159,7 +184,7 @@
 					<!-- Single-page navigation: Jump links within page -->
 					{#each sectionTypes as sectionType}
 						{#if sectionType !== 'header' && sectionType !== 'hero' && sectionType !== 'footer'}
-							{#if sectionType === 'contact'}
+							{#if sectionType === 'contact' && !showCtaButton}
 								<a
 									href="#{sectionType}"
 									on:click|preventDefault={() => scrollToSection(sectionType)}
@@ -173,7 +198,7 @@
 									on:click|preventDefault={() => scrollToSection(sectionType)}
 									class="text-gray-700 {colors.hover} font-medium transition-colors"
 								>
-									{getSectionLabel(sectionType)}
+									{sectionType === 'contact' ? contactCtaLabel : getSectionLabel(sectionType)}
 								</a>
 							{/if}
 						{/if}
@@ -181,38 +206,70 @@
 				{/if}
 			</div>
 
-			<!-- Mobile Menu Button -->
-			<button
-				on:click={toggleMobileMenu}
-				class="tb-nav-mobile rounded-lg p-2 transition-colors hover:bg-gray-100"
-				aria-label="Toggle menu"
-			>
-				{#if mobileMenuOpen}
-					<svg class="h-6 w-6 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M6 18L18 6M6 6l12 12"
-						/>
-					</svg>
-				{:else}
-					<svg class="h-6 w-6 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M4 6h16M4 12h16M4 18h16"
-						/>
-					</svg>
+			<div class="flex items-center gap-3">
+				{#if showCtaButton}
+					<a
+						href={ctaHref}
+						on:click={handleCtaClick}
+						class="tb-nav-cta px-5 py-2 {colors.bg} {colors.hoverBg} rounded-lg font-semibold text-white transition-colors"
+					>
+						{ctaLabel}
+					</a>
 				{/if}
-			</button>
+
+				<!-- Mobile Menu Button -->
+				<button
+					on:click={toggleMobileMenu}
+					class="tb-nav-mobile rounded-lg p-2 transition-colors hover:bg-gray-100"
+					aria-label="Toggle menu"
+				>
+					{#if mobileMenuOpen}
+						<svg
+							class="h-6 w-6 text-gray-900"
+							fill="none"
+							stroke="currentColor"
+							viewBox="0 0 24 24"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M6 18L18 6M6 6l12 12"
+							/>
+						</svg>
+					{:else}
+						<svg
+							class="h-6 w-6 text-gray-900"
+							fill="none"
+							stroke="currentColor"
+							viewBox="0 0 24 24"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M4 6h16M4 12h16M4 18h16"
+							/>
+						</svg>
+					{/if}
+				</button>
+			</div>
 		</div>
 
 		<!-- Mobile Menu -->
 		{#if mobileMenuOpen}
 			<div class="tb-nav-mobile-menu border-t border-gray-200 py-4">
 				<div class="flex flex-col space-y-4">
+					{#if showCtaButton}
+						<a
+							href={ctaHref}
+							on:click={handleCtaClick}
+							class="px-6 py-2 {colors.bg} {colors.hoverBg} rounded-lg text-center font-semibold text-white transition-colors"
+						>
+							{ctaLabel}
+						</a>
+					{/if}
+
 					{#if isMultiPage}
 						<!-- Multi-page mobile navigation -->
 						{#each navPages as page}
@@ -231,7 +288,7 @@
 						<!-- Single-page mobile navigation: Jump links -->
 						{#each sectionTypes as sectionType}
 							{#if sectionType !== 'header' && sectionType !== 'hero' && sectionType !== 'footer'}
-								{#if sectionType === 'contact'}
+								{#if sectionType === 'contact' && !showCtaButton}
 									<a
 										href="#{sectionType}"
 										on:click|preventDefault={() => scrollToSection(sectionType)}
@@ -245,7 +302,7 @@
 										on:click|preventDefault={() => scrollToSection(sectionType)}
 										class="text-gray-700 {colors.hover} px-2 font-medium transition-colors"
 									>
-										{getSectionLabel(sectionType)}
+										{sectionType === 'contact' ? contactCtaLabel : getSectionLabel(sectionType)}
 									</a>
 								{/if}
 							{/if}
@@ -270,6 +327,10 @@
 		display: inline-flex;
 	}
 
+	.tb-nav-cta {
+		display: none;
+	}
+
 	@container (min-width: 768px) {
 		.tb-nav-desktop {
 			display: flex;
@@ -281,6 +342,10 @@
 
 		.tb-nav-mobile-menu {
 			display: none;
+		}
+
+		.tb-nav-cta {
+			display: inline-flex;
 		}
 	}
 </style>
