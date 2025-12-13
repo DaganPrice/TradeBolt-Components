@@ -13,8 +13,24 @@
 		logoUrl = pb.files.getURL(website, website.logo);
 	}
 
+	function getOrderedNavPages(allPages, orderKeys) {
+		const visible = (allPages || []).filter((p) => p?.is_visible && !p?.is_home);
+		const order = Array.isArray(orderKeys) ? orderKeys : [];
+		if (order.length === 0) return visible;
+
+		const byId = new Map(visible.map((p) => [p.id, p]));
+		const bySlug = new Map(visible.map((p) => [p.slug, p]));
+
+		const ordered = order
+			.map((key) => byId.get(key) || bySlug.get(key))
+			.filter(Boolean);
+		const orderedIds = new Set(ordered.map((p) => p.id));
+		const remaining = visible.filter((p) => !orderedIds.has(p.id));
+		return [...ordered, ...remaining];
+	}
+
 	// Get visible pages for navigation
-	$: navPages = pages.filter((p) => p.is_visible && !p.is_home);
+	$: navPages = getOrderedNavPages(pages, data?.page_nav_order);
 
 	// Determine if this is a multi-page site
 	$: isMultiPage = navPages.length > 0;
