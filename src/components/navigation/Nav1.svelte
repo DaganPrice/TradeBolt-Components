@@ -4,6 +4,7 @@
 	export let pages = []; // Array of pages for multi-page navigation
 	export let currentPage = null; // Current page being viewed
 	export let sections = []; // Sections on the current page (for jump links)
+	export let data = {}; // Optional header section data
 
 	let logoUrl = null;
 	let mobileMenuOpen = false;
@@ -32,6 +33,10 @@
 		};
 		return labels[sectionType] || sectionType.charAt(0).toUpperCase() + sectionType.slice(1);
 	}
+
+	$: contactCtaLabel = (data && typeof data.contact_cta_label === 'string' && data.contact_cta_label.trim())
+		? data.contact_cta_label.trim()
+		: getSectionLabel('contact');
 
 	function toggleMobileMenu() {
 		mobileMenuOpen = !mobileMenuOpen;
@@ -102,14 +107,14 @@
 				{:else}
 					<!-- Single-page navigation: Jump links within page -->
 					{#each sectionTypes as sectionType}
-						{#if sectionType !== 'hero' && sectionType !== 'footer'}
+						{#if sectionType !== 'header' && sectionType !== 'hero' && sectionType !== 'footer'}
 							{#if sectionType === 'contact'}
 								<a
 									href="#{sectionType}"
 									on:click|preventDefault={() => scrollToSection(sectionType)}
 									class="px-6 py-2 {colors.bg} {colors.hoverBg} text-white font-semibold rounded-lg transition-colors"
 								>
-									{getSectionLabel(sectionType)}
+									{contactCtaLabel}
 								</a>
 							{:else}
 								<a
@@ -160,15 +165,15 @@
 						{/each}
 					{:else}
 						<!-- Single-page mobile navigation: Jump links -->
-						{#each sectionTypes as sectionType}
-							{#if sectionType !== 'hero' && sectionType !== 'footer'}
+					{#each sectionTypes as sectionType}
+							{#if sectionType !== 'header' && sectionType !== 'hero' && sectionType !== 'footer'}
 								{#if sectionType === 'contact'}
 									<a
 										href="#{sectionType}"
 										on:click|preventDefault={() => scrollToSection(sectionType)}
 										class="px-6 py-2 {colors.bg} {colors.hoverBg} text-white font-semibold rounded-lg transition-colors text-center"
 									>
-										{getSectionLabel(sectionType)}
+										{contactCtaLabel}
 									</a>
 								{:else}
 									<a

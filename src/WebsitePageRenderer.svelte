@@ -1,5 +1,4 @@
 <script>
-	import Navigation from './components/navigation/Nav1.svelte';
 	import Hero1 from './components/heroes/Hero1.svelte';
 	import Hero2 from './components/heroes/Hero2.svelte';
 	import About1 from './components/about/About1.svelte';
@@ -8,6 +7,7 @@
 	import Contact1 from './components/contact/Contact1.svelte';
 	import Contact2 from './components/contact/Contact2.svelte';
 	import Gallery1 from './components/gallery/Gallery1.svelte';
+	import Header1 from './components/navigation/Nav1.svelte';
 	import Footer1 from './components/footers/Footer1.svelte';
 	import Footer2 from './components/footers/Footer2.svelte';
 
@@ -18,7 +18,11 @@
 	export let pb;
 	export let embed = false;
 
+	const emptyHeaderData = {};
+	const emptyFooterData = {};
+
 	const componentMap = {
+		header: { Header1 },
 		hero: { Hero1, Hero2 },
 		about: { About1 },
 		services: { Services1 },
@@ -43,19 +47,30 @@
 
 		return Component;
 	}
+
+	$: hasHeaderSection = sections?.some((s) => s.section_type === 'header');
+	$: hasFooterSection = sections?.some((s) => s.section_type === 'footer');
 </script>
 
 <div class="min-h-screen bg-white tb-cq" class:tb-embed={embed}>
-	<Navigation {website} {pages} {currentPage} {sections} {pb} />
+	{#if !hasHeaderSection}
+		<Header1 {website} {pb} {pages} {currentPage} {sections} data={emptyHeaderData} />
+	{/if}
 
 	{#each sections as section (section.id)}
 		{@const Component = getComponent(section)}
 		{#if Component}
 			<div id={section.section_type}>
-				<svelte:component this={Component} {website} data={section.data} {pb} {sections} />
+				<svelte:component this={Component} {website} data={section.data} {pb} {sections} {pages} {currentPage} />
 			</div>
 		{/if}
 	{/each}
+
+	{#if !hasFooterSection}
+		<div id="footer">
+			<Footer1 {website} {pb} data={emptyFooterData} {sections} {pages} {currentPage} />
+		</div>
+	{/if}
 </div>
 
 <style>
