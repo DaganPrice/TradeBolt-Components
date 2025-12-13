@@ -9,6 +9,7 @@
 	import Contact2 from './components/contact/Contact2.svelte';
 	import Gallery1 from './components/gallery/Gallery1.svelte';
 	import Footer1 from './components/footers/Footer1.svelte';
+	import Footer2 from './components/footers/Footer2.svelte';
 
 	export let website;
 	export let pages = [];
@@ -24,7 +25,7 @@
 		locations: { Locations1 },
 		contact: { Contact1, Contact2 },
 		gallery: { Gallery1, Gallery2: Gallery1 },
-		footer: { Footer1 }
+		footer: { Footer1, Footer2 }
 	};
 
 	function getComponent(section) {

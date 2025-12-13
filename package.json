@@ -16,6 +16,7 @@
 		"./components/gallery/Gallery1.svelte": "./src/components/gallery/Gallery1.svelte",
 		"./components/gallery/Gallery2.svelte": "./src/components/gallery/Gallery2.svelte",
 		"./components/footers/Footer1.svelte": "./src/components/footers/Footer1.svelte",
+		"./components/footers/Footer2.svelte": "./src/components/footers/Footer2.svelte",
 		"./components/navigation/Nav1.svelte": "./src/components/navigation/Nav1.svelte"
 	},
 	"peerDependencies": {
