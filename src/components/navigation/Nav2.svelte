@@ -107,7 +107,7 @@
 	<!-- Top Bar -->
 	<div class="bg-gray-950 border-b border-gray-800">
 		<div class="container mx-auto px-4 md:px-8">
-			<div class="tb-top-bar-content flex flex-col md:flex-row md:justify-between md:items-center py-3 gap-3 md:gap-0">
+			<div class="tb-top-bar-content flex flex-col md:flex-row md:justify-between md:items-center py-3 gap-6 md:gap-0">
 				<!-- Logo Section -->
 				<a href="/" class="flex items-center gap-4">
 					{#if logoUrl}
@@ -145,10 +145,10 @@
 	<!-- Navigation Bar -->
 	<div class="bg-gray-900">
 		<div class="container mx-auto px-4 md:px-8">
-			<div class="tb-nav-content flex flex-col md:flex-row md:justify-between md:items-center py-0 gap-3 md:gap-0">
+			<div class="tb-nav-content flex flex-row justify-between items-center py-3 md:py-0">
 				<!-- Desktop Navigation -->
 				<nav class="tb-desktop-nav">
-					<ul class="flex flex-wrap justify-center md:justify-start gap-4 md:gap-8 py-3 md:py-0">
+					<ul class="flex flex-wrap justify-start gap-4 md:gap-8">
 						<li>
 							<a
 								href="/"
@@ -170,11 +170,11 @@
 					</ul>
 				</nav>
 
-				<!-- Right Section: Social + CTA -->
-				<div class="tb-nav-right flex items-center justify-center md:justify-end gap-6 py-3 md:py-0">
-					<!-- Social Icons (if provided in website data) -->
+				<!-- Right Section: Social + CTA + Hamburger -->
+				<div class="tb-nav-right flex items-center gap-4 md:gap-6">
+					<!-- Social Icons (desktop only) -->
 					{#if website?.contact_details?.social_media}
-						<div class="flex gap-4">
+						<div class="tb-social-icons flex gap-4">
 							{#each website.contact_details.social_media.split(',') as social}
 								<a href={social.trim()} target="_blank" rel="noopener" class="text-white {colors.hoverTextAccent} transition-colors text-base">
 									<i class="fab fa-{social.toLowerCase().includes('facebook') ? 'facebook-f' : social.toLowerCase().includes('instagram') ? 'instagram' : social.toLowerCase().includes('twitter') ? 'twitter' : social.toLowerCase().includes('linkedin') ? 'linkedin-in' : 'link'}"></i>
@@ -188,13 +188,71 @@
 						<a
 							href={ctaHref}
 							on:click={handleCtaClick}
-							class="tb-cta-button {colors.accent} {colors.accentHover} px-7 py-3 text-xs font-bold tracking-wider uppercase transition-colors"
+							class="tb-cta-button {colors.accent} {colors.accentHover} px-5 md:px-7 py-2 md:py-3 text-xs font-bold tracking-wider uppercase transition-colors"
 						>
 							{ctaLabel}
 						</a>
 					{/if}
+
+					<!-- Mobile Menu Button -->
+					<button
+						on:click={toggleMobileMenu}
+						class="tb-mobile-menu-btn text-white p-2 hover:bg-gray-800 rounded transition-colors"
+						aria-label="Toggle menu"
+					>
+						{#if mobileMenuOpen}
+							<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+							</svg>
+						{:else}
+							<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+							</svg>
+						{/if}
+					</button>
 				</div>
 			</div>
+
+			<!-- Mobile Menu -->
+			{#if mobileMenuOpen}
+				<div class="tb-mobile-menu border-t border-gray-800 py-4">
+					<nav>
+						<ul class="flex flex-col gap-2">
+							<li>
+								<a
+									href="/"
+									on:click={toggleMobileMenu}
+									class="block px-4 py-3 text-sm font-medium transition-colors {currentPage?.is_home ? colors.textAccent : `text-white ${colors.hoverTextAccent}`}"
+								>
+									Home
+								</a>
+							</li>
+							{#each navPages as page}
+								<li>
+									<a
+										href="/{page.slug}"
+										on:click={toggleMobileMenu}
+										class="block px-4 py-3 text-sm font-medium transition-colors {currentPage && currentPage.id === page.id ? colors.textAccent : `text-white ${colors.hoverTextAccent}`}"
+									>
+										{page.title}
+									</a>
+								</li>
+							{/each}
+						</ul>
+
+						<!-- Mobile Social Icons -->
+						{#if website?.contact_details?.social_media}
+							<div class="flex justify-center gap-6 mt-6 pt-4 border-t border-gray-800">
+								{#each website.contact_details.social_media.split(',') as social}
+									<a href={social.trim()} target="_blank" rel="noopener" class="text-white {colors.hoverTextAccent} transition-colors text-lg">
+										<i class="fab fa-{social.toLowerCase().includes('facebook') ? 'facebook-f' : social.toLowerCase().includes('instagram') ? 'instagram' : social.toLowerCase().includes('twitter') ? 'twitter' : social.toLowerCase().includes('linkedin') ? 'linkedin-in' : 'link'}"></i>
+									</a>
+								{/each}
+							</div>
+						{/if}
+					</nav>
+				</div>
+			{/if}
 		</div>
 	</div>
 </header>
@@ -203,23 +261,41 @@
 <div class="tb-header-2-spacer" style={`height: ${headerSpacerHeight}px;`}></div>
 
 <style>
-	/* Responsive adjustments using container queries */
+	/* Mobile: Hide desktop navigation and social icons */
 	@container (max-width: 768px) {
-		.tb-top-bar-content {
-			flex-direction: column;
-			text-align: center;
+		.tb-desktop-nav {
+			display: none;
 		}
 
-		.tb-contact-info {
-			text-align: center !important;
+		.tb-social-icons {
+			display: none;
 		}
 
-		.tb-nav-content {
-			flex-direction: column;
+		.tb-mobile-menu-btn {
+			display: block;
 		}
 
-		.tb-desktop-nav ul {
-			justify-content: center;
+		.tb-mobile-menu {
+			display: block;
+		}
+	}
+
+	/* Desktop: Show desktop nav, hide mobile menu button */
+	@container (min-width: 769px) {
+		.tb-desktop-nav {
+			display: block;
+		}
+
+		.tb-social-icons {
+			display: flex;
+		}
+
+		.tb-mobile-menu-btn {
+			display: none;
+		}
+
+		.tb-mobile-menu {
+			display: none !important;
 		}
 	}
 
