@@ -175,63 +175,172 @@
 
 	$: email = website?.contact_details?.email || '';
 	$: phone = website?.contact_details?.phone || '';
+
+	function getTheme(colorScheme = 'orange') {
+		const map = {
+			orange: {
+				topBg: 'bg-orange-950',
+				mainBg: 'bg-orange-900',
+				border: 'border-orange-800',
+				accent: 'bg-orange-500 text-white',
+				accentHover: 'hover:bg-orange-600',
+				hoverTextAccent: 'hover:text-orange-200',
+				textAccent: 'text-orange-200'
+			},
+			red: {
+				topBg: 'bg-red-950',
+				mainBg: 'bg-red-900',
+				border: 'border-red-800',
+				accent: 'bg-red-500 text-white',
+				accentHover: 'hover:bg-red-600',
+				hoverTextAccent: 'hover:text-red-200',
+				textAccent: 'text-red-200'
+			},
+			blue: {
+				topBg: 'bg-blue-950',
+				mainBg: 'bg-blue-900',
+				border: 'border-blue-800',
+				accent: 'bg-blue-500 text-white',
+				accentHover: 'hover:bg-blue-600',
+				hoverTextAccent: 'hover:text-blue-200',
+				textAccent: 'text-blue-200'
+			},
+			green: {
+				topBg: 'bg-emerald-950',
+				mainBg: 'bg-emerald-900',
+				border: 'border-emerald-800',
+				accent: 'bg-emerald-500 text-white',
+				accentHover: 'hover:bg-emerald-600',
+				hoverTextAccent: 'hover:text-emerald-200',
+				textAccent: 'text-emerald-200'
+			},
+			yellow: {
+				topBg: 'bg-yellow-950',
+				mainBg: 'bg-yellow-900',
+				border: 'border-yellow-800',
+				accent: 'bg-yellow-400 text-black',
+				accentHover: 'hover:bg-yellow-500',
+				hoverTextAccent: 'hover:text-yellow-200',
+				textAccent: 'text-yellow-200'
+			},
+			purple: {
+				topBg: 'bg-purple-950',
+				mainBg: 'bg-purple-900',
+				border: 'border-purple-800',
+				accent: 'bg-purple-500 text-white',
+				accentHover: 'hover:bg-purple-600',
+				hoverTextAccent: 'hover:text-purple-200',
+				textAccent: 'text-purple-200'
+			},
+			pink: {
+				topBg: 'bg-pink-950',
+				mainBg: 'bg-pink-900',
+				border: 'border-pink-800',
+				accent: 'bg-pink-500 text-white',
+				accentHover: 'hover:bg-pink-600',
+				hoverTextAccent: 'hover:text-pink-200',
+				textAccent: 'text-pink-200'
+			},
+			gray: {
+				topBg: 'bg-gray-950',
+				mainBg: 'bg-gray-900',
+				border: 'border-gray-800',
+				accent: 'bg-gray-200 text-gray-900',
+				accentHover: 'hover:bg-white',
+				hoverTextAccent: 'hover:text-white',
+				textAccent: 'text-gray-100'
+			}
+		};
+
+		return map[colorScheme] || map.orange;
+	}
+
+	$: theme = getTheme(website?.color_scheme);
 </script>
 
-<!-- Header3: dark header with logo, nav, contact details, CTA, and mobile hamburger -->
-<nav class="tb-header-3 bg-slate-900 text-white shadow-md">
-	<div class="mx-auto max-w-7xl px-6">
-		<div class="flex items-center justify-between gap-4 py-5">
-			<!-- Logo Section -->
-			<a
-				href={isMultiPage ? '/' : '#hero'}
-				on:click={isMultiPage
-					? closeMobileMenu
-					: (e) => {
-							e.preventDefault();
-							scrollToSection('hero');
-						}}
-				class="flex min-w-0 items-center gap-4"
-			>
-				{#if logoUrl}
-					<div class="rounded-lg bg-slate-800 p-3">
+<!-- Header3: top contact bar + main nav (logo, links, CTA, hamburger) -->
+<header class="tb-header-3 text-white shadow-md">
+	<!-- Top Bar -->
+	<div class={`tb-header3-top ${theme.topBg} border-b ${theme.border}`}>
+		<div class="mx-auto max-w-7xl px-6">
+			<div class="flex flex-col gap-2 py-2 tb-header3-top-inner">
+				<div class="flex flex-wrap items-center justify-between gap-3">
+					<div class="flex flex-wrap items-center gap-4 text-xs text-white/90">
+						{#if email}
+							<a
+								href="mailto:{email}"
+								class={`flex items-center gap-2 transition ${theme.hoverTextAccent}`}
+							>
+								<i class="far fa-envelope"></i>
+								<span class="min-w-0 truncate">{email}</span>
+							</a>
+						{/if}
+						{#if phone}
+							<a
+								href="tel:{phone}"
+								class={`flex items-center gap-2 transition ${theme.hoverTextAccent}`}
+							>
+								<i class="fas fa-phone"></i>
+								<span class="whitespace-nowrap">{phone}</span>
+							</a>
+						{/if}
+					</div>
+					<div class="hidden tb-header3-top-right items-center gap-3 text-xs text-white/80">
+						{#if website?.contact_details?.address}
+							<span class="max-w-96 truncate">
+								<i class="fa-solid fa-location-dot mr-1"></i>{website.contact_details.address}
+							</span>
+						{/if}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Main Bar -->
+	<nav class={`tb-header3-main ${theme.mainBg}`}>
+		<div class="mx-auto max-w-7xl px-6">
+			<div class="flex items-center justify-between gap-4 py-4">
+				<!-- Logo -->
+				<a
+					href={isMultiPage ? '/' : '#hero'}
+					on:click={isMultiPage
+						? closeMobileMenu
+						: (e) => {
+								e.preventDefault();
+								scrollToSection('hero');
+							}}
+					class="inline-flex items-center"
+					aria-label="Go to homepage"
+				>
+					{#if logoUrl}
 						<img
 							src={logoUrl}
 							srcset={logoSrcSet}
 							sizes="56px"
 							alt="{website.business_name} logo"
-							class="h-14 w-auto object-contain"
+							class="tb-header3-logo h-14 w-auto object-contain"
 							loading="eager"
 							decoding="async"
 						/>
-					</div>
-				{:else}
-					<div
-						class={`flex h-16 w-16 items-center justify-center rounded-lg bg-slate-800 text-2xl font-bold ${colors.textAccent}`}
-					>
-						{website?.business_name?.charAt(0) || 'T'}
-					</div>
-				{/if}
-				<div class="min-w-0">
-					<div class="truncate text-xl font-bold leading-tight text-white">
-						{website.business_name}
-					</div>
-					<div class="truncate text-sm font-medium text-slate-300">
-						Professional services
-					</div>
-				</div>
-			</a>
+					{:else}
+						<div class="tb-header3-logo-fallback h-14 w-14 rounded-lg bg-white/10 flex items-center justify-center">
+							<span class={`text-2xl font-bold ${theme.textAccent}`}>
+								{website?.business_name?.charAt(0) || 'T'}
+							</span>
+						</div>
+					{/if}
+				</a>
 
-			<!-- Navigation and Contact Section -->
-			<div class="flex items-center gap-3">
-				<div class="tb-header3-desktop items-center gap-8">
-					<!-- Navigation Menu -->
+				<!-- Desktop nav + CTA -->
+				<div class="tb-header3-desktop items-center justify-end gap-8">
 					<ul class="flex items-center gap-8">
 						{#if isMultiPage}
 							<li>
 								<a
 									href="/"
 									class={`text-[15px] font-medium transition ${
-										currentPage?.is_home ? colors.textAccent : `text-white ${colors.hoverTextAccent}`
+										currentPage?.is_home ? theme.textAccent : `text-white ${theme.hoverTextAccent}`
 									}`}
 								>
 									Home
@@ -243,8 +352,8 @@
 										href="/{page.slug}"
 										class={`text-[15px] font-medium transition ${
 											currentPage && currentPage.id === page.id
-												? colors.textAccent
-												: `text-white ${colors.hoverTextAccent}`
+												? theme.textAccent
+												: `text-white ${theme.hoverTextAccent}`
 										}`}
 									>
 										{page.title}
@@ -258,7 +367,7 @@
 										<a
 											href="#{sectionType}"
 											on:click|preventDefault={() => scrollToSection(sectionType)}
-											class={`text-[15px] font-medium text-white transition ${colors.hoverTextAccent}`}
+											class={`text-[15px] font-medium text-white transition ${theme.hoverTextAccent}`}
 										>
 											{sectionType === 'contact' ? contactCtaLabel : getSectionLabel(sectionType)}
 										</a>
@@ -268,120 +377,111 @@
 						{/if}
 					</ul>
 
-					<!-- Contact Information -->
-					<div class="tb-header3-contact items-center gap-6">
-						{#if email}
-							<a
-								href="mailto:{email}"
-								class={`flex items-center gap-2 text-sm text-white transition ${colors.hoverTextAccent}`}
-							>
-								<i class="far fa-envelope"></i>
-								<span class="max-w-48 truncate">{email}</span>
-							</a>
-						{/if}
-						{#if phone}
-							<a
-								href="tel:{phone}"
-								class={`flex items-center gap-2 text-sm text-white transition ${colors.hoverTextAccent}`}
-							>
-								<i class="fas fa-phone"></i>
-								<span class="whitespace-nowrap">{phone}</span>
-							</a>
-						{/if}
-					</div>
+					{#if showCtaButton}
+						<a
+							href={ctaHref}
+							on:click={handleCtaClick}
+							class={`tb-header3-cta ${theme.accent} ${theme.accentHover}`}
+						>
+							<i class="far fa-envelope"></i>
+							{ctaLabel}
+						</a>
+					{/if}
 				</div>
 
-				<!-- CTA Button -->
-				{#if showCtaButton}
-					<a
-						href={ctaHref}
-						on:click={handleCtaClick}
-						class={`tb-header3-cta ${colors.accent} ${colors.accentHover} shadow-lg px-6 py-3 rounded-lg font-semibold text-sm transition flex items-center gap-2`}
-					>
-						<i class="far fa-envelope"></i>
-						{ctaLabel}
-					</a>
-				{/if}
-
-				<!-- Mobile Menu Button -->
-				<button
-					type="button"
-					class="tb-header3-burger inline-flex items-center justify-center rounded-lg border border-white/15 bg-white/5 px-3 py-3 text-white transition hover:bg-white/10"
-					aria-label="Toggle menu"
-					on:click={toggleMobileMenu}
-				>
-					<i class={`fas ${mobileMenuOpen ? 'fa-xmark' : 'fa-bars'} text-xl`}></i>
-				</button>
-			</div>
-		</div>
-
-		{#if mobileMenuOpen}
-			<div class="tb-header3-mobile border-t border-white/10 pb-6">
-				<div class="flex flex-col gap-3 pt-4">
-					{#if isMultiPage}
+				<!-- Mobile CTA + Hamburger -->
+				<div class="tb-header3-mobile-actions flex items-center gap-2">
+					{#if showCtaButton}
 						<a
-							href="/"
-							on:click={closeMobileMenu}
-							class={`rounded-lg px-3 py-2 text-sm font-medium transition ${
-								currentPage?.is_home ? `bg-white/10 ${colors.textAccent}` : `text-white hover:bg-white/5`
-							}`}
+							href={ctaHref}
+							on:click={handleCtaClick}
+							class={`tb-header3-cta ${theme.accent} ${theme.accentHover}`}
 						>
-							Home
+							<i class="far fa-envelope"></i>
+							{ctaLabel}
 						</a>
-						{#each navPages as page}
+					{/if}
+					<button
+						type="button"
+						class="tb-header3-burger"
+						aria-label="Toggle menu"
+						on:click={toggleMobileMenu}
+					>
+						<i class={`fas ${mobileMenuOpen ? 'fa-xmark' : 'fa-bars'} text-xl`}></i>
+					</button>
+				</div>
+			</div>
+
+			{#if mobileMenuOpen}
+				<div class={`tb-header3-mobile border-t ${theme.border}`}>
+					<div class="flex flex-col gap-2 py-4">
+						{#if isMultiPage}
 							<a
-								href="/{page.slug}"
+								href="/"
 								on:click={closeMobileMenu}
 								class={`rounded-lg px-3 py-2 text-sm font-medium transition ${
-									currentPage && currentPage.id === page.id
-										? `bg-white/10 ${colors.textAccent}`
-										: 'text-white hover:bg-white/5'
+									currentPage?.is_home ? `bg-white/10 ${theme.textAccent}` : `text-white hover:bg-white/5`
 								}`}
 							>
-								{page.title}
+								Home
 							</a>
-						{/each}
-					{:else}
-						{#each sectionTypes as sectionType}
-							{#if sectionType !== 'header' && sectionType !== 'hero' && sectionType !== 'footer'}
+							{#each navPages as page}
 								<a
-									href="#{sectionType}"
-									on:click|preventDefault={() => scrollToSection(sectionType)}
-									class="rounded-lg px-3 py-2 text-sm font-medium text-white transition hover:bg-white/5"
+									href="/{page.slug}"
+									on:click={closeMobileMenu}
+									class={`rounded-lg px-3 py-2 text-sm font-medium transition ${
+										currentPage && currentPage.id === page.id
+											? `bg-white/10 ${theme.textAccent}`
+											: 'text-white hover:bg-white/5'
+									}`}
 								>
-									{sectionType === 'contact' ? contactCtaLabel : getSectionLabel(sectionType)}
+									{page.title}
 								</a>
-							{/if}
-						{/each}
-					{/if}
-
-					<div class="mt-2 grid gap-2">
-						{#if email}
-							<a
-								href="mailto:{email}"
-								on:click={closeMobileMenu}
-								class="flex items-center gap-2 rounded-lg bg-white/5 px-3 py-2 text-sm text-white transition hover:bg-white/10"
-							>
-								<i class="far fa-envelope"></i>
-								<span class="min-w-0 truncate">{email}</span>
-							</a>
+							{/each}
+						{:else}
+							{#each sectionTypes as sectionType}
+								{#if sectionType !== 'header' && sectionType !== 'hero' && sectionType !== 'footer'}
+									<a
+										href="#{sectionType}"
+										on:click|preventDefault={() => scrollToSection(sectionType)}
+										class="rounded-lg px-3 py-2 text-sm font-medium text-white transition hover:bg-white/5"
+									>
+										{sectionType === 'contact' ? contactCtaLabel : getSectionLabel(sectionType)}
+									</a>
+								{/if}
+							{/each}
 						{/if}
-						{#if phone}
-							<a
-								href="tel:{phone}"
-								on:click={closeMobileMenu}
-								class="flex items-center gap-2 rounded-lg bg-white/5 px-3 py-2 text-sm text-white transition hover:bg-white/10"
-							>
-								<i class="fas fa-phone"></i>
-								<span class="whitespace-nowrap">{phone}</span>
-							</a>
+
+						{#if email || phone}
+							<div class="mt-3 grid gap-2">
+								{#if email}
+									<a
+										href="mailto:{email}"
+										on:click={closeMobileMenu}
+										class="flex items-center gap-2 rounded-lg bg-white/5 px-3 py-2 text-sm text-white transition hover:bg-white/10"
+									>
+										<i class="far fa-envelope"></i>
+										<span class="min-w-0 truncate">{email}</span>
+									</a>
+								{/if}
+								{#if phone}
+									<a
+										href="tel:{phone}"
+										on:click={closeMobileMenu}
+										class="flex items-center gap-2 rounded-lg bg-white/5 px-3 py-2 text-sm text-white transition hover:bg-white/10"
+									>
+										<i class="fas fa-phone"></i>
+										<span class="whitespace-nowrap">{phone}</span>
+									</a>
+								{/if}
+							</div>
 						{/if}
 					</div>
 				</div>
-			</div>
-		{/if}
-	</div>
-</nav>
+			{/if}
+		</div>
+	</nav>
+</header>
 
 <style>
 	/* Container-query responsive behavior (builder device preview friendly). */
@@ -389,16 +489,16 @@
 		display: none;
 	}
 
-	.tb-header3-contact {
+	.tb-header3-top-right {
 		display: none;
 	}
 
-	@container (min-width: 1024px) {
+	@container (min-width: 900px) {
 		.tb-header3-desktop {
 			display: flex;
 		}
 
-		.tb-header3-contact {
+		.tb-header3-top-right {
 			display: flex;
 		}
 
@@ -406,8 +506,37 @@
 			display: none;
 		}
 
-		.tb-header3-mobile {
-			display: none !important;
+		.tb-header3-mobile-actions {
+			display: none;
 		}
+	}
+
+	.tb-header3-cta {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		padding: 0.75rem 1.25rem;
+		border-radius: 0.75rem;
+		font-weight: 700;
+		font-size: 0.875rem;
+		white-space: nowrap;
+		box-shadow: 0 10px 22px rgba(0, 0, 0, 0.25);
+	}
+
+	.tb-header3-burger {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.75rem;
+		border-radius: 0.75rem;
+		border: 1px solid rgba(255, 255, 255, 0.15);
+		background: rgba(255, 255, 255, 0.05);
+		color: white;
+		transition: background 0.15s ease;
+	}
+
+	.tb-header3-burger:hover {
+		background: rgba(255, 255, 255, 0.1);
 	}
 </style>
