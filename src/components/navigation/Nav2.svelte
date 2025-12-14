@@ -140,6 +140,8 @@
 	}
 
 	onMount(() => {
+		const win = typeof globalThis !== 'undefined' ? globalThis.window : undefined;
+
 		updateHeaderSpacer();
 
 		if (typeof ResizeObserver !== 'undefined') {
@@ -147,15 +149,12 @@
 			if (headerEl) headerResizeObserver.observe(headerEl);
 		}
 
-		if (typeof window !== 'undefined') {
-			window.addEventListener('resize', updateHeaderSpacer);
-		}
+		win?.addEventListener?.('resize', updateHeaderSpacer);
 	});
 
 	onDestroy(() => {
-		if (typeof window !== 'undefined') {
-			window.removeEventListener('resize', updateHeaderSpacer);
-		}
+		const win = typeof globalThis !== 'undefined' ? globalThis.window : undefined;
+		win?.removeEventListener?.('resize', updateHeaderSpacer);
 		headerResizeObserver?.disconnect?.();
 	});
 </script>
