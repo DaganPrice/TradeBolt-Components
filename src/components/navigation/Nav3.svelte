@@ -215,7 +215,19 @@
 								href="mailto:{email}"
 								class={`flex items-center gap-2 transition ${theme.topHover}`}
 							>
-								<i class="far fa-envelope"></i>
+								<svg
+									viewBox="0 0 24 24"
+									aria-hidden="true"
+									class="h-4 w-4 text-white/80"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								>
+									<path d="M4 4h16v16H4z" />
+									<path d="m4 6 8 7 8-7" />
+								</svg>
 								<span class="min-w-0 truncate">{email}</span>
 							</a>
 						{/if}
@@ -224,7 +236,20 @@
 								href="tel:{phone}"
 								class={`flex items-center gap-2 transition ${theme.topHover}`}
 							>
-								<i class="fas fa-phone"></i>
+								<svg
+									viewBox="0 0 24 24"
+									aria-hidden="true"
+									class="h-4 w-4 text-white/80"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								>
+									<path
+										d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.86 19.86 0 0 1 2.08 4.18 2 2 0 0 1 4.06 2h3a2 2 0 0 1 2 1.72c.12.86.3 1.7.54 2.5a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.58-1.06a2 2 0 0 1 2.11-.45c.8.24 1.64.42 2.5.54A2 2 0 0 1 22 16.92z"
+									/>
+								</svg>
 								<span class="whitespace-nowrap">{phone}</span>
 							</a>
 						{/if}
@@ -232,7 +257,19 @@
 					<div class="hidden tb-header3-top-right items-center gap-3 text-xs text-white/80">
 						{#if website?.contact_details?.address}
 							<span class="max-w-96 truncate">
-								<i class="fa-solid fa-location-dot mr-1"></i>{website.contact_details.address}
+								<svg
+									viewBox="0 0 24 24"
+									aria-hidden="true"
+									class="mr-1 inline-block h-4 w-4 align-text-bottom text-white/70"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								>
+									<path d="M12 21s-7-4.5-7-11a7 7 0 0 1 14 0c0 6.5-7 11-7 11z" />
+									<circle cx="12" cy="10" r="2.5" />
+								</svg>{website.contact_details.address}
 							</span>
 						{/if}
 					</div>
