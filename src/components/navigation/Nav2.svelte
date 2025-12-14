@@ -107,9 +107,9 @@
 	<!-- Top Bar -->
 	<div class="bg-gray-950 border-b border-gray-800">
 		<div class="container mx-auto px-4 md:px-8">
-			<div class="tb-top-bar-content flex flex-col md:flex-row md:justify-between md:items-center py-3 gap-6 md:gap-0">
+			<div class="tb-top-bar-content py-3 gap-6">
 				<!-- Logo Section -->
-				<a href="/" class="flex items-center gap-4">
+				<a href="/" class="tb-logo-link flex items-center gap-4">
 					{#if logoUrl}
 						<img src={logoUrl} alt="{website.business_name} logo" class="h-12 w-auto" />
 					{:else}
@@ -126,13 +126,13 @@
 
 				<!-- Contact Info -->
 				{#if phoneNumber}
-					<div class="tb-contact-info text-center md:text-right">
+					<div class="tb-contact-info">
 						<a href="tel:{phoneNumber}" class="flex items-center justify-center md:justify-end gap-2 text-xl md:text-2xl font-bold {colors.hoverTextAccent} transition-colors">
 							<i class="fas fa-phone text-base"></i>
 							{phoneNumber}
 						</a>
 						{#if businessHours}
-							<div class="{colors.textAccent} text-xs md:text-sm mt-1">
+							<div class="{colors.textAccent} text-xs md:text-sm mt-1 text-center md:text-right">
 								{businessHours}
 							</div>
 						{/if}
@@ -145,7 +145,7 @@
 	<!-- Navigation Bar -->
 	<div class="bg-gray-900">
 		<div class="container mx-auto px-4 md:px-8">
-			<div class="tb-nav-content flex flex-row justify-between items-center py-3 md:py-0">
+			<div class="tb-nav-content py-3 md:py-0">
 				<!-- Desktop Navigation -->
 				<nav class="tb-desktop-nav">
 					<ul class="flex flex-wrap justify-start gap-4 md:gap-8">
@@ -170,8 +170,8 @@
 					</ul>
 				</nav>
 
-				<!-- Right Section: Social + CTA + Hamburger -->
-				<div class="tb-nav-right flex items-center gap-4 md:gap-6">
+				<!-- Right Section: Social + CTA (Desktop) -->
+				<div class="tb-nav-right-desktop flex items-center gap-6">
 					<!-- Social Icons (desktop only) -->
 					{#if website?.contact_details?.social_media}
 						<div class="tb-social-icons flex gap-4">
@@ -183,12 +183,26 @@
 						</div>
 					{/if}
 
-					<!-- CTA Button -->
+					<!-- CTA Button (Desktop) -->
 					{#if showCtaButton}
 						<a
 							href={ctaHref}
 							on:click={handleCtaClick}
-							class="tb-cta-button {colors.accent} {colors.accentHover} px-5 md:px-7 py-2 md:py-3 text-xs font-bold tracking-wider uppercase transition-colors"
+							class="tb-cta-button {colors.accent} {colors.accentHover} px-7 py-3 text-xs font-bold tracking-wider uppercase transition-colors"
+						>
+							{ctaLabel}
+						</a>
+					{/if}
+				</div>
+
+				<!-- Mobile: CTA + Hamburger -->
+				<div class="tb-nav-mobile flex items-center justify-between gap-3">
+					<!-- CTA Button (Mobile - Full Width) -->
+					{#if showCtaButton}
+						<a
+							href={ctaHref}
+							on:click={handleCtaClick}
+							class="tb-cta-button-mobile flex-1 {colors.accent} {colors.accentHover} px-5 py-2.5 text-xs font-bold tracking-wider uppercase transition-colors text-center"
 						>
 							{ctaLabel}
 						</a>
@@ -197,7 +211,7 @@
 					<!-- Mobile Menu Button -->
 					<button
 						on:click={toggleMobileMenu}
-						class="tb-mobile-menu-btn text-white p-2 hover:bg-gray-800 rounded transition-colors"
+						class="tb-mobile-menu-btn text-white p-2 hover:bg-gray-800 rounded transition-colors flex-shrink-0"
 						aria-label="Toggle menu"
 					>
 						{#if mobileMenuOpen}
@@ -261,45 +275,87 @@
 <div class="tb-header-2-spacer" style={`height: ${headerSpacerHeight}px;`}></div>
 
 <style>
-	/* Mobile: Hide desktop navigation and social icons */
+	/* Mobile Layout */
 	@container (max-width: 768px) {
+		/* Top bar: Center logo and contact info */
+		.tb-top-bar-content {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			text-align: center;
+		}
+
+		.tb-logo-link {
+			justify-content: center;
+		}
+
+		.tb-contact-info {
+			text-align: center;
+		}
+
+		/* Nav bar: Hide desktop elements */
 		.tb-desktop-nav {
 			display: none;
 		}
 
-		.tb-social-icons {
+		.tb-nav-right-desktop {
 			display: none;
 		}
 
-		.tb-mobile-menu-btn {
-			display: block;
-		}
-
-		.tb-mobile-menu {
-			display: block;
-		}
-	}
-
-	/* Desktop: Show desktop nav, hide mobile menu button */
-	@container (min-width: 769px) {
-		.tb-desktop-nav {
-			display: block;
-		}
-
-		.tb-social-icons {
+		/* Nav bar: Show mobile elements */
+		.tb-nav-mobile {
 			display: flex;
 		}
 
-		.tb-mobile-menu-btn {
+		.tb-nav-content {
+			display: flex;
+			flex-direction: column;
+		}
+	}
+
+	/* Desktop Layout */
+	@container (min-width: 769px) {
+		/* Top bar: Flex row layout */
+		.tb-top-bar-content {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: center;
+		}
+
+		.tb-contact-info {
+			text-align: right;
+		}
+
+		/* Nav bar: Show desktop elements */
+		.tb-desktop-nav {
+			display: block;
+		}
+
+		.tb-nav-right-desktop {
+			display: flex;
+		}
+
+		/* Nav bar: Hide mobile elements */
+		.tb-nav-mobile {
 			display: none;
 		}
 
 		.tb-mobile-menu {
 			display: none !important;
 		}
+
+		.tb-nav-content {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: center;
+		}
 	}
 
-	.tb-cta-button {
+	/* Common styles */
+	.tb-cta-button,
+	.tb-cta-button-mobile {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
