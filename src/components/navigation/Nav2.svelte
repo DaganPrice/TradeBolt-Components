@@ -9,13 +9,22 @@
 	export let data = {};
 
 	let logoUrl = null;
+	let logoSrcSet = '';
 	let mobileMenuOpen = false;
 	let headerEl = null;
 	let headerSpacerHeight = 140;
 	let headerResizeObserver = null;
 
-	if (website.logo) {
-		logoUrl = pb.files.getURL(website, website.logo);
+	$: {
+		if (website?.logo) {
+			const src1x = pb.files.getURL(website, website.logo, { thumb: '256x256' });
+			const src2x = pb.files.getURL(website, website.logo, { thumb: '512x512' });
+			logoUrl = src1x;
+			logoSrcSet = `${src1x} 1x, ${src2x} 2x`;
+		} else {
+			logoUrl = null;
+			logoSrcSet = '';
+		}
 	}
 
 	function getOrderedNavPages(allPages, orderKeys) {
@@ -111,7 +120,15 @@
 				<!-- Logo Section -->
 				<a href="/" class="tb-logo-link flex items-center gap-4">
 					{#if logoUrl}
-						<img src={logoUrl} alt="{website.business_name} logo" class="h-12 w-auto" />
+						<img
+							src={logoUrl}
+							srcset={logoSrcSet}
+							sizes="48px"
+							alt="{website.business_name} logo"
+							class="h-12 w-auto object-contain"
+							loading="eager"
+							decoding="async"
+						/>
 					{:else}
 						<div class="flex items-center gap-3">
 							<div class="{colors.accent} w-16 h-12 flex items-center justify-center text-2xl font-bold italic">

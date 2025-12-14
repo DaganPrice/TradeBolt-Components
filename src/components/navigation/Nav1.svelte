@@ -7,10 +7,19 @@
 	export let data = {}; // Optional header section data
 
 	let logoUrl = null;
+	let logoSrcSet = '';
 	let mobileMenuOpen = false;
 
-	if (website.logo) {
-		logoUrl = pb.files.getURL(website, website.logo);
+	$: {
+		if (website?.logo) {
+			const src1x = pb.files.getURL(website, website.logo, { thumb: '256x256' });
+			const src2x = pb.files.getURL(website, website.logo, { thumb: '512x512' });
+			logoUrl = src1x;
+			logoSrcSet = `${src1x} 1x, ${src2x} 2x`;
+		} else {
+			logoUrl = null;
+			logoSrcSet = '';
+		}
 	}
 
 	function getOrderedNavPages(allPages, orderKeys) {
@@ -117,7 +126,15 @@
 			<!-- Logo / Business Name -->
 			<a href="/" class="flex flex-shrink-0 items-center space-x-3">
 				{#if logoUrl}
-					<img src={logoUrl} alt="{website.business_name} logo" class="h-10 w-auto" />
+					<img
+						src={logoUrl}
+						srcset={logoSrcSet}
+						sizes="40px"
+						alt="{website.business_name} logo"
+						class="h-10 w-auto object-contain"
+						loading="eager"
+						decoding="async"
+					/>
 				{:else}
 					<span class="text-xl font-bold text-gray-900">{website.business_name}</span>
 				{/if}

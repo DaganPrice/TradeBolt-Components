@@ -9,6 +9,7 @@
 	import Gallery1 from './components/gallery/Gallery1.svelte';
 	import Header1 from './components/navigation/Nav1.svelte';
 	import Header2 from './components/navigation/Nav2.svelte';
+	import Header3 from './components/navigation/Nav3.svelte';
 	import Footer1 from './components/footers/Footer1.svelte';
 
 	export let website;
@@ -22,7 +23,7 @@
 	const emptyFooterData = {};
 
 	const componentMap = {
-		header: { Header1, Header2 },
+		header: { Header1, Header2, Header3 },
 		hero: { Hero1, Hero2 },
 		about: { About1 },
 		services: { Services1 },
