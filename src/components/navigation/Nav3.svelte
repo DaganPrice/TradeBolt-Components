@@ -117,62 +117,6 @@
 		closeMobileMenu();
 	}
 
-	function getColorClasses(colorScheme = 'orange') {
-		const colorMap = {
-			orange: {
-				accent: 'bg-orange-500 text-white',
-				accentHover: 'hover:bg-orange-600',
-				textAccent: 'text-orange-400',
-				hoverTextAccent: 'hover:text-orange-300'
-			},
-			red: {
-				accent: 'bg-red-500 text-white',
-				accentHover: 'hover:bg-red-600',
-				textAccent: 'text-red-400',
-				hoverTextAccent: 'hover:text-red-300'
-			},
-			blue: {
-				accent: 'bg-blue-500 text-white',
-				accentHover: 'hover:bg-blue-600',
-				textAccent: 'text-blue-400',
-				hoverTextAccent: 'hover:text-blue-300'
-			},
-			green: {
-				accent: 'bg-green-500 text-white',
-				accentHover: 'hover:bg-green-600',
-				textAccent: 'text-green-400',
-				hoverTextAccent: 'hover:text-green-300'
-			},
-			yellow: {
-				accent: 'bg-yellow-500 text-black',
-				accentHover: 'hover:bg-yellow-600',
-				textAccent: 'text-yellow-400',
-				hoverTextAccent: 'hover:text-yellow-300'
-			},
-			purple: {
-				accent: 'bg-purple-500 text-white',
-				accentHover: 'hover:bg-purple-600',
-				textAccent: 'text-purple-400',
-				hoverTextAccent: 'hover:text-purple-300'
-			},
-			pink: {
-				accent: 'bg-pink-500 text-white',
-				accentHover: 'hover:bg-pink-600',
-				textAccent: 'text-pink-400',
-				hoverTextAccent: 'hover:text-pink-300'
-			},
-			gray: {
-				accent: 'bg-gray-500 text-white',
-				accentHover: 'hover:bg-gray-600',
-				textAccent: 'text-gray-300',
-				hoverTextAccent: 'hover:text-white'
-			}
-		};
-		return colorMap[colorScheme] || colorMap.orange;
-	}
-
-	$: colors = getColorClasses(website?.color_scheme);
-
 	$: email = website?.contact_details?.email || '';
 	$: phone = website?.contact_details?.phone || '';
 
@@ -180,75 +124,75 @@
 		const map = {
 			orange: {
 				topBg: 'bg-orange-950',
-				mainBg: 'bg-orange-900',
-				border: 'border-orange-800',
+				topBorder: 'border-orange-800',
 				accent: 'bg-orange-500 text-white',
 				accentHover: 'hover:bg-orange-600',
-				hoverTextAccent: 'hover:text-orange-200',
-				textAccent: 'text-orange-200'
+				topHover: 'hover:text-orange-200',
+				linkActive: 'text-orange-600',
+				linkHover: 'hover:text-orange-600'
 			},
 			red: {
 				topBg: 'bg-red-950',
-				mainBg: 'bg-red-900',
-				border: 'border-red-800',
+				topBorder: 'border-red-800',
 				accent: 'bg-red-500 text-white',
 				accentHover: 'hover:bg-red-600',
-				hoverTextAccent: 'hover:text-red-200',
-				textAccent: 'text-red-200'
+				topHover: 'hover:text-red-200',
+				linkActive: 'text-red-600',
+				linkHover: 'hover:text-red-600'
 			},
 			blue: {
 				topBg: 'bg-blue-950',
-				mainBg: 'bg-blue-900',
-				border: 'border-blue-800',
+				topBorder: 'border-blue-800',
 				accent: 'bg-blue-500 text-white',
 				accentHover: 'hover:bg-blue-600',
-				hoverTextAccent: 'hover:text-blue-200',
-				textAccent: 'text-blue-200'
+				topHover: 'hover:text-blue-200',
+				linkActive: 'text-blue-600',
+				linkHover: 'hover:text-blue-600'
 			},
 			green: {
 				topBg: 'bg-emerald-950',
-				mainBg: 'bg-emerald-900',
-				border: 'border-emerald-800',
+				topBorder: 'border-emerald-800',
 				accent: 'bg-emerald-500 text-white',
 				accentHover: 'hover:bg-emerald-600',
-				hoverTextAccent: 'hover:text-emerald-200',
-				textAccent: 'text-emerald-200'
+				topHover: 'hover:text-emerald-200',
+				linkActive: 'text-emerald-600',
+				linkHover: 'hover:text-emerald-600'
 			},
 			yellow: {
 				topBg: 'bg-yellow-950',
-				mainBg: 'bg-yellow-900',
-				border: 'border-yellow-800',
+				topBorder: 'border-yellow-800',
 				accent: 'bg-yellow-400 text-black',
 				accentHover: 'hover:bg-yellow-500',
-				hoverTextAccent: 'hover:text-yellow-200',
-				textAccent: 'text-yellow-200'
+				topHover: 'hover:text-yellow-200',
+				linkActive: 'text-yellow-700',
+				linkHover: 'hover:text-yellow-700'
 			},
 			purple: {
 				topBg: 'bg-purple-950',
-				mainBg: 'bg-purple-900',
-				border: 'border-purple-800',
+				topBorder: 'border-purple-800',
 				accent: 'bg-purple-500 text-white',
 				accentHover: 'hover:bg-purple-600',
-				hoverTextAccent: 'hover:text-purple-200',
-				textAccent: 'text-purple-200'
+				topHover: 'hover:text-purple-200',
+				linkActive: 'text-purple-600',
+				linkHover: 'hover:text-purple-600'
 			},
 			pink: {
 				topBg: 'bg-pink-950',
-				mainBg: 'bg-pink-900',
-				border: 'border-pink-800',
+				topBorder: 'border-pink-800',
 				accent: 'bg-pink-500 text-white',
 				accentHover: 'hover:bg-pink-600',
-				hoverTextAccent: 'hover:text-pink-200',
-				textAccent: 'text-pink-200'
+				topHover: 'hover:text-pink-200',
+				linkActive: 'text-pink-600',
+				linkHover: 'hover:text-pink-600'
 			},
 			gray: {
 				topBg: 'bg-gray-950',
-				mainBg: 'bg-gray-900',
-				border: 'border-gray-800',
+				topBorder: 'border-gray-800',
 				accent: 'bg-gray-200 text-gray-900',
 				accentHover: 'hover:bg-white',
-				hoverTextAccent: 'hover:text-white',
-				textAccent: 'text-gray-100'
+				topHover: 'hover:text-white',
+				linkActive: 'text-gray-900',
+				linkHover: 'hover:text-gray-900'
 			}
 		};
 
@@ -261,7 +205,7 @@
 <!-- Header3: top contact bar + main nav (logo, links, CTA, hamburger) -->
 <header class="tb-header-3 text-white shadow-md">
 	<!-- Top Bar -->
-	<div class={`tb-header3-top ${theme.topBg} border-b ${theme.border}`}>
+	<div class={`tb-header3-top ${theme.topBg} border-b ${theme.topBorder}`}>
 		<div class="mx-auto max-w-7xl px-6">
 			<div class="flex flex-col gap-2 py-2 tb-header3-top-inner">
 				<div class="flex flex-wrap items-center justify-between gap-3">
@@ -269,7 +213,7 @@
 						{#if email}
 							<a
 								href="mailto:{email}"
-								class={`flex items-center gap-2 transition ${theme.hoverTextAccent}`}
+								class={`flex items-center gap-2 transition ${theme.topHover}`}
 							>
 								<i class="far fa-envelope"></i>
 								<span class="min-w-0 truncate">{email}</span>
@@ -278,7 +222,7 @@
 						{#if phone}
 							<a
 								href="tel:{phone}"
-								class={`flex items-center gap-2 transition ${theme.hoverTextAccent}`}
+								class={`flex items-center gap-2 transition ${theme.topHover}`}
 							>
 								<i class="fas fa-phone"></i>
 								<span class="whitespace-nowrap">{phone}</span>
@@ -298,7 +242,7 @@
 	</div>
 
 	<!-- Main Bar -->
-	<nav class={`tb-header3-main ${theme.mainBg}`}>
+	<nav class="tb-header3-main bg-white text-gray-900">
 		<div class="mx-auto max-w-7xl px-6">
 			<div class="flex items-center justify-between gap-4 py-4">
 				<!-- Logo -->
@@ -325,7 +269,7 @@
 						/>
 					{:else}
 						<div class="tb-header3-logo-fallback h-14 w-14 rounded-lg bg-white/10 flex items-center justify-center">
-							<span class={`text-2xl font-bold ${theme.textAccent}`}>
+							<span class="text-2xl font-bold text-gray-900">
 								{website?.business_name?.charAt(0) || 'T'}
 							</span>
 						</div>
@@ -339,8 +283,8 @@
 							<li>
 								<a
 									href="/"
-									class={`text-[15px] font-medium transition ${
-										currentPage?.is_home ? theme.textAccent : `text-white ${theme.hoverTextAccent}`
+									class={`text-[15px] font-medium transition text-gray-700 ${
+										currentPage?.is_home ? theme.linkActive : theme.linkHover
 									}`}
 								>
 									Home
@@ -350,10 +294,10 @@
 								<li>
 									<a
 										href="/{page.slug}"
-										class={`text-[15px] font-medium transition ${
+										class={`text-[15px] font-medium transition text-gray-700 ${
 											currentPage && currentPage.id === page.id
-												? theme.textAccent
-												: `text-white ${theme.hoverTextAccent}`
+												? theme.linkActive
+												: theme.linkHover
 										}`}
 									>
 										{page.title}
@@ -367,7 +311,7 @@
 										<a
 											href="#{sectionType}"
 											on:click|preventDefault={() => scrollToSection(sectionType)}
-											class={`text-[15px] font-medium text-white transition ${theme.hoverTextAccent}`}
+											class={`text-[15px] font-medium text-gray-700 transition ${theme.linkHover}`}
 										>
 											{sectionType === 'contact' ? contactCtaLabel : getSectionLabel(sectionType)}
 										</a>
@@ -413,15 +357,15 @@
 			</div>
 
 			{#if mobileMenuOpen}
-				<div class={`tb-header3-mobile border-t ${theme.border}`}>
+				<div class="tb-header3-mobile border-t border-gray-200 bg-white">
 					<div class="flex flex-col gap-2 py-4">
 						{#if isMultiPage}
 							<a
 								href="/"
 								on:click={closeMobileMenu}
-								class={`rounded-lg px-3 py-2 text-sm font-medium transition ${
-									currentPage?.is_home ? `bg-white/10 ${theme.textAccent}` : `text-white hover:bg-white/5`
-								}`}
+								class={`rounded-lg px-3 py-2 text-sm font-medium transition text-gray-900 ${
+									currentPage?.is_home ? 'bg-gray-100' : 'hover:bg-gray-50'
+								} ${currentPage?.is_home ? theme.linkActive : ''}`}
 							>
 								Home
 							</a>
@@ -429,10 +373,10 @@
 								<a
 									href="/{page.slug}"
 									on:click={closeMobileMenu}
-									class={`rounded-lg px-3 py-2 text-sm font-medium transition ${
+									class={`rounded-lg px-3 py-2 text-sm font-medium transition text-gray-900 ${
 										currentPage && currentPage.id === page.id
-											? `bg-white/10 ${theme.textAccent}`
-											: 'text-white hover:bg-white/5'
+											? 'bg-gray-100'
+											: 'hover:bg-gray-50'
 									}`}
 								>
 									{page.title}
@@ -444,7 +388,7 @@
 									<a
 										href="#{sectionType}"
 										on:click|preventDefault={() => scrollToSection(sectionType)}
-										class="rounded-lg px-3 py-2 text-sm font-medium text-white transition hover:bg-white/5"
+										class="rounded-lg px-3 py-2 text-sm font-medium text-gray-900 transition hover:bg-gray-50"
 									>
 										{sectionType === 'contact' ? contactCtaLabel : getSectionLabel(sectionType)}
 									</a>
@@ -458,7 +402,7 @@
 									<a
 										href="mailto:{email}"
 										on:click={closeMobileMenu}
-										class="flex items-center gap-2 rounded-lg bg-white/5 px-3 py-2 text-sm text-white transition hover:bg-white/10"
+										class="flex items-center gap-2 rounded-lg bg-gray-50 px-3 py-2 text-sm text-gray-900 transition hover:bg-gray-100"
 									>
 										<i class="far fa-envelope"></i>
 										<span class="min-w-0 truncate">{email}</span>
@@ -468,7 +412,7 @@
 									<a
 										href="tel:{phone}"
 										on:click={closeMobileMenu}
-										class="flex items-center gap-2 rounded-lg bg-white/5 px-3 py-2 text-sm text-white transition hover:bg-white/10"
+										class="flex items-center gap-2 rounded-lg bg-gray-50 px-3 py-2 text-sm text-gray-900 transition hover:bg-gray-100"
 									>
 										<i class="fas fa-phone"></i>
 										<span class="whitespace-nowrap">{phone}</span>
@@ -484,30 +428,30 @@
 </header>
 
 <style>
-	/* Container-query responsive behavior (builder device preview friendly). */
+	/* Match Header2 builder breakpoints (container width <= 768px is "mobile"). */
 	.tb-header3-desktop {
-		display: none;
+		display: flex;
 	}
 
 	.tb-header3-top-right {
+		display: flex;
+	}
+
+	.tb-header3-mobile-actions {
 		display: none;
 	}
 
-	@container (min-width: 900px) {
+	@container (max-width: 768px) {
 		.tb-header3-desktop {
-			display: flex;
+			display: none;
 		}
 
 		.tb-header3-top-right {
-			display: flex;
-		}
-
-		.tb-header3-burger {
 			display: none;
 		}
 
 		.tb-header3-mobile-actions {
-			display: none;
+			display: flex;
 		}
 	}
 
@@ -530,13 +474,13 @@
 		justify-content: center;
 		padding: 0.75rem;
 		border-radius: 0.75rem;
-		border: 1px solid rgba(255, 255, 255, 0.15);
-		background: rgba(255, 255, 255, 0.05);
-		color: white;
+		border: 1px solid rgba(17, 24, 39, 0.12);
+		background: rgba(17, 24, 39, 0.04);
+		color: rgb(17 24 39);
 		transition: background 0.15s ease;
 	}
 
 	.tb-header3-burger:hover {
-		background: rgba(255, 255, 255, 0.1);
+		background: rgba(17, 24, 39, 0.08);
 	}
 </style>
