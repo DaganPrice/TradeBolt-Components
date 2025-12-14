@@ -147,11 +147,15 @@
 			if (headerEl) headerResizeObserver.observe(headerEl);
 		}
 
-		window.addEventListener('resize', updateHeaderSpacer);
+		if (typeof window !== 'undefined') {
+			window.addEventListener('resize', updateHeaderSpacer);
+		}
 	});
 
 	onDestroy(() => {
-		window.removeEventListener('resize', updateHeaderSpacer);
+		if (typeof window !== 'undefined') {
+			window.removeEventListener('resize', updateHeaderSpacer);
+		}
 		headerResizeObserver?.disconnect?.();
 	});
 </script>
