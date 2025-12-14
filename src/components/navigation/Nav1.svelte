@@ -32,40 +32,6 @@
 	// Get visible pages for navigation (excluding home, which goes in logo)
 	$: navPages = getOrderedNavPages(pages, data?.page_nav_order);
 
-	// Determine if this is a multi-page site (more than just the home page)
-	$: isMultiPage = navPages.length > 0;
-
-	// Get unique section types on the current page for jump links
-	$: allSectionTypes = [...new Set(sections.filter((s) => s.is_visible).map((s) => s.section_type))];
-
-	// Apply custom order if specified in header data, otherwise use default order
-	$: sectionTypes = (() => {
-		const navOrder = data?.nav_order;
-		if (navOrder && Array.isArray(navOrder) && navOrder.length > 0) {
-			// Use custom order, but only include sections that actually exist
-			return navOrder.filter((type) => allSectionTypes.includes(type));
-		}
-		// Default order: all visible sections
-		return allSectionTypes;
-	})();
-
-	// Map section types to readable labels
-	function getSectionLabel(sectionType) {
-		const labels = {
-			about: 'About',
-			services: 'Services',
-			locations: 'Locations',
-			contact: 'Contact',
-			gallery: 'Gallery'
-		};
-		return labels[sectionType] || sectionType.charAt(0).toUpperCase() + sectionType.slice(1);
-	}
-
-	$: contactCtaLabel =
-		data && typeof data.contact_cta_label === 'string' && data.contact_cta_label.trim()
-			? data.contact_cta_label.trim()
-			: getSectionLabel('contact');
-
 	$: showCtaButton = data?.show_cta_button !== false;
 	$: ctaLabel =
 		data && typeof data.cta_label === 'string' && data.cta_label.trim()
@@ -77,39 +43,13 @@
 		pages.find((p) => p.is_visible && (p.title || '').toLowerCase().includes('contact')) ||
 		null;
 
-	$: ctaHref = isMultiPage ? (contactPage ? `/${contactPage.slug}` : '/contact') : '#contact';
+	$: ctaHref = contactPage ? `/${contactPage.slug}` : '/contact';
 
 	function toggleMobileMenu() {
 		mobileMenuOpen = !mobileMenuOpen;
 	}
 
-	function scrollToSection(sectionId) {
-		const element = document.getElementById(sectionId);
-		if (element) {
-			element.scrollIntoView({ behavior: 'smooth' });
-			mobileMenuOpen = false;
-		}
-	}
-
-	function handleNavClick(event, page) {
-		// For multi-page sites, let the browser handle the navigation
-		// For single-page sites, use smooth scroll
-		if (!isMultiPage) {
-			event.preventDefault();
-			scrollToSection(page.slug.replace('-', ''));
-		}
-		mobileMenuOpen = false;
-	}
-
-	function handleCtaClick(event) {
-		if (!showCtaButton) return;
-
-		const isOnContactPage = !!(contactPage && currentPage && contactPage.id === currentPage.id);
-		if (!isMultiPage || isOnContactPage) {
-			event.preventDefault();
-			scrollToSection('contact');
-		}
-
+	function handleCtaClick() {
 		mobileMenuOpen = false;
 	}
 
@@ -175,16 +115,7 @@
 	<div class="container mx-auto px-4">
 		<div class="flex h-16 items-center justify-between">
 			<!-- Logo / Business Name -->
-			<a
-				href={isMultiPage ? '/' : '#hero'}
-				on:click={isMultiPage
-					? null
-					: (e) => {
-							e.preventDefault();
-							scrollToSection('hero');
-						}}
-				class="flex flex-shrink-0 items-center space-x-3"
-			>
+			<a href="/" class="flex flex-shrink-0 items-center space-x-3">
 				{#if logoUrl}
 					<img src={logoUrl} alt="{website.business_name} logo" class="h-10 w-auto" />
 				{:else}
@@ -195,43 +126,17 @@
 			<div class="flex items-center gap-8">
 				<!-- Desktop Navigation -->
 				<div class="tb-nav-desktop items-center gap-8">
-					{#if isMultiPage}
-						<!-- Multi-page navigation: Link to actual pages -->
-						{#each navPages as page}
-							<a
-								href="/{page.slug}"
-								class="text-gray-700 {colors.hover} font-medium transition-colors {currentPage &&
-								currentPage.id === page.id
-									? 'font-bold ' + colors.text
-									: ''}"
-							>
-								{page.title}
-							</a>
-						{/each}
-					{:else}
-						<!-- Single-page navigation: Jump links within page -->
-						{#each sectionTypes as sectionType}
-							{#if sectionType !== 'header' && sectionType !== 'hero' && sectionType !== 'footer'}
-								{#if sectionType === 'contact' && !showCtaButton}
-									<a
-										href="#{sectionType}"
-										on:click|preventDefault={() => scrollToSection(sectionType)}
-										class="px-6 py-2 {colors.bg} {colors.hoverBg} rounded-lg font-semibold text-white transition-colors"
-									>
-										{contactCtaLabel}
-									</a>
-								{:else}
-									<a
-										href="#{sectionType}"
-										on:click|preventDefault={() => scrollToSection(sectionType)}
-										class="text-gray-700 {colors.hover} font-medium transition-colors"
-									>
-										{sectionType === 'contact' ? contactCtaLabel : getSectionLabel(sectionType)}
-									</a>
-								{/if}
-							{/if}
-						{/each}
-					{/if}
+					{#each navPages as page}
+						<a
+							href="/{page.slug}"
+							class="text-gray-700 {colors.hover} font-medium transition-colors {currentPage &&
+							currentPage.id === page.id
+								? 'font-bold ' + colors.text
+								: ''}"
+						>
+							{page.title}
+						</a>
+					{/each}
 				</div>
 
 				{#if showCtaButton}
@@ -297,44 +202,18 @@
 						</a>
 					{/if}
 
-					{#if isMultiPage}
-						<!-- Multi-page mobile navigation -->
-						{#each navPages as page}
-							<a
-								href="/{page.slug}"
-								on:click={() => (mobileMenuOpen = false)}
-								class="text-gray-700 {colors.hover} px-2 font-medium transition-colors {currentPage &&
-								currentPage.id === page.id
-									? 'font-bold ' + colors.text
-									: ''}"
-							>
-								{page.title}
-							</a>
-						{/each}
-					{:else}
-						<!-- Single-page mobile navigation: Jump links -->
-						{#each sectionTypes as sectionType}
-							{#if sectionType !== 'header' && sectionType !== 'hero' && sectionType !== 'footer'}
-								{#if sectionType === 'contact' && !showCtaButton}
-									<a
-										href="#{sectionType}"
-										on:click|preventDefault={() => scrollToSection(sectionType)}
-										class="px-6 py-2 {colors.bg} {colors.hoverBg} rounded-lg text-center font-semibold text-white transition-colors"
-									>
-										{contactCtaLabel}
-									</a>
-								{:else}
-									<a
-										href="#{sectionType}"
-										on:click|preventDefault={() => scrollToSection(sectionType)}
-										class="text-gray-700 {colors.hover} px-2 font-medium transition-colors"
-									>
-										{sectionType === 'contact' ? contactCtaLabel : getSectionLabel(sectionType)}
-									</a>
-								{/if}
-							{/if}
-						{/each}
-					{/if}
+					{#each navPages as page}
+						<a
+							href="/{page.slug}"
+							on:click={() => (mobileMenuOpen = false)}
+							class="text-gray-700 {colors.hover} px-2 font-medium transition-colors {currentPage &&
+							currentPage.id === page.id
+								? 'font-bold ' + colors.text
+								: ''}"
+						>
+							{page.title}
+						</a>
+					{/each}
 				</div>
 			</div>
 		{/if}
