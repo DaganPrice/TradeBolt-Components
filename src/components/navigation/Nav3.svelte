@@ -351,7 +351,36 @@
 						aria-label="Toggle menu"
 						on:click={toggleMobileMenu}
 					>
-						<i class={`fas ${mobileMenuOpen ? 'fa-xmark' : 'fa-bars'} text-xl`}></i>
+						{#if mobileMenuOpen}
+							<svg
+								viewBox="0 0 24 24"
+								aria-hidden="true"
+								class="tb-header3-burger-icon"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							>
+								<path d="M18 6 6 18" />
+								<path d="M6 6l12 12" />
+							</svg>
+						{:else}
+							<svg
+								viewBox="0 0 24 24"
+								aria-hidden="true"
+								class="tb-header3-burger-icon"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							>
+								<path d="M4 6h16" />
+								<path d="M4 12h16" />
+								<path d="M4 18h16" />
+							</svg>
+						{/if}
 					</button>
 				</div>
 			</div>
@@ -472,7 +501,9 @@
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		padding: 0.75rem;
+		width: 44px;
+		height: 44px;
+		padding: 0;
 		border-radius: 0.75rem;
 		border: 1px solid rgba(17, 24, 39, 0.12);
 		background: rgba(17, 24, 39, 0.04);
@@ -482,5 +513,11 @@
 
 	.tb-header3-burger:hover {
 		background: rgba(17, 24, 39, 0.08);
+	}
+
+	.tb-header3-burger-icon {
+		width: 22px;
+		height: 22px;
+		display: block;
 	}
 </style>
