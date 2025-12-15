@@ -339,8 +339,9 @@
 											class="block px-4 py-3 text-sm font-medium transition-colors {currentPage && currentPage.id === page.id ? colors.textAccent : `text-white ${colors.hoverTextAccent}`}"
 										>
 											{page.title}
-									</a>
-								</li>
+										</a>
+									</li>
+								{/if}
 							{/each}
 						</ul>
 
