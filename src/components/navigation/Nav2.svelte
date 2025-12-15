@@ -12,6 +12,7 @@
 	let logoSrcSet = '';
 	let mobileMenuOpen = false;
 	let openDropdown = null;
+	let closeDropdownTimeout = null;
 	let headerEl = null;
 	let headerSpacerHeight = 140;
 	let headerResizeObserver = null;
@@ -58,7 +59,20 @@
 	}, {});
 
 	function toggleDropdown(pageId) {
-		openDropdown = openDropdown === pageId ? null : pageId;
+		// Clear any pending close timeout
+		if (closeDropdownTimeout) {
+			clearTimeout(closeDropdownTimeout);
+			closeDropdownTimeout = null;
+		}
+
+		if (pageId === null) {
+			// Delay closing to allow mouse to move to dropdown
+			closeDropdownTimeout = setTimeout(() => {
+				openDropdown = null;
+			}, 150);
+		} else {
+			openDropdown = pageId;
+		}
 	}
 
 	$: showCtaButton = data?.show_cta_button !== false;
