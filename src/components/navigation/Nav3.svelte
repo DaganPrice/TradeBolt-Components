@@ -9,6 +9,7 @@
 	let logoUrl = null;
 	let logoSrcSet = '';
 	let mobileMenuOpen = false;
+	let openDropdown = null;
 
 	$: {
 		if (website?.logo) {
@@ -30,6 +31,10 @@
 		mobileMenuOpen = false;
 	}
 
+	function toggleDropdown(pageId) {
+		openDropdown = openDropdown === pageId ? null : pageId;
+	}
+
 	function getOrderedNavPages(allPages, orderKeys) {
 		const visible = (allPages || []).filter((p) => p?.is_visible && !p?.is_home);
 		const order = Array.isArray(orderKeys) ? orderKeys : [];
@@ -46,7 +51,18 @@
 		return [...ordered, ...remaining];
 	}
 
-	$: navPages = getOrderedNavPages(pages, data?.page_nav_order);
+	// Get visible parent pages (no parent_id) for navigation
+	$: allNavPages = getOrderedNavPages(pages, data?.page_nav_order);
+	$: navPages = allNavPages.filter(p => !p.parent_id);
+
+	// Group child pages by parent_id
+	$: childrenByParentId = allNavPages.reduce((acc, page) => {
+		if (page.parent_id) {
+			if (!acc[page.parent_id]) acc[page.parent_id] = [];
+			acc[page.parent_id].push(page);
+		}
+		return acc;
+	}, {});
 	$: isMultiPage = navPages.length > 0;
 
 	$: allSectionTypes = [...new Set(sections.filter((s) => s.is_visible).map((s) => s.section_type))];
@@ -328,18 +344,59 @@
 								</a>
 							</li>
 							{#each navPages as page}
-								<li>
-									<a
-										href="/{page.slug}"
-										class={`text-[15px] font-medium transition text-gray-700 ${
-											currentPage && currentPage.id === page.id
-												? theme.linkActive
-												: theme.linkHover
-										}`}
-									>
-										{page.title}
-									</a>
-								</li>
+								{@const hasChildren = childrenByParentId[page.id]?.length > 0}
+								{#if hasChildren}
+									<li class="relative tb-dropdown-container">
+										<button
+											on:mouseenter={() => toggleDropdown(page.id)}
+											on:mouseleave={() => toggleDropdown(null)}
+											class={`flex items-center gap-1 text-[15px] font-medium transition text-gray-700 ${
+												currentPage && currentPage.id === page.id
+													? theme.linkActive
+													: theme.linkHover
+											}`}
+										>
+											{page.title}
+											<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+											</svg>
+										</button>
+
+										{#if openDropdown === page.id}
+											<div
+												on:mouseenter={() => toggleDropdown(page.id)}
+												on:mouseleave={() => toggleDropdown(null)}
+												class="absolute left-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50"
+											>
+												{#each childrenByParentId[page.id] as childPage}
+													<a
+														href="/{childPage.slug}"
+														class={`block px-4 py-2 text-sm transition text-gray-700 ${
+															currentPage && currentPage.id === childPage.id
+																? theme.linkActive
+																: theme.linkHover
+														}`}
+													>
+														{childPage.title}
+													</a>
+												{/each}
+											</div>
+										{/if}
+									</li>
+								{:else}
+									<li>
+										<a
+											href="/{page.slug}"
+											class={`text-[15px] font-medium transition text-gray-700 ${
+												currentPage && currentPage.id === page.id
+													? theme.linkActive
+													: theme.linkHover
+											}`}
+										>
+											{page.title}
+										</a>
+									</li>
+								{/if}
 							{/each}
 						{:else}
 							{#each sectionTypes as sectionType}
@@ -436,17 +493,49 @@
 								Home
 							</a>
 							{#each navPages as page}
-								<a
-									href="/{page.slug}"
-									on:click={closeMobileMenu}
-									class={`rounded-lg px-3 py-2 text-sm font-medium transition text-gray-900 ${
-										currentPage && currentPage.id === page.id
-											? 'bg-gray-100'
-											: 'hover:bg-gray-50'
-									}`}
-								>
-									{page.title}
-								</a>
+								{@const hasChildren = childrenByParentId[page.id]?.length > 0}
+								{#if hasChildren}
+									<div class="border-b border-gray-100 pb-2 mb-2">
+										<a
+											href="/{page.slug}"
+											on:click={closeMobileMenu}
+											class={`rounded-lg px-3 py-2 text-sm font-semibold transition text-gray-900 block ${
+												currentPage && currentPage.id === page.id
+													? 'bg-gray-100'
+													: 'hover:bg-gray-50'
+											} ${currentPage && currentPage.id === page.id ? theme.linkActive : ''}`}
+										>
+											{page.title}
+										</a>
+										<div class="ml-4 mt-1 space-y-1">
+											{#each childrenByParentId[page.id] as childPage}
+												<a
+													href="/{childPage.slug}"
+													on:click={closeMobileMenu}
+													class={`rounded-lg px-3 py-2 text-xs font-medium transition text-gray-700 block ${
+														currentPage && currentPage.id === childPage.id
+															? 'bg-gray-100'
+															: 'hover:bg-gray-50'
+													} ${currentPage && currentPage.id === childPage.id ? theme.linkActive : ''}`}
+												>
+													{childPage.title}
+												</a>
+											{/each}
+										</div>
+									</div>
+								{:else}
+									<a
+										href="/{page.slug}"
+										on:click={closeMobileMenu}
+										class={`rounded-lg px-3 py-2 text-sm font-medium transition text-gray-900 ${
+											currentPage && currentPage.id === page.id
+												? 'bg-gray-100'
+												: 'hover:bg-gray-50'
+										}`}
+									>
+										{page.title}
+									</a>
+								{/if}
 							{/each}
 						{:else}
 							{#each sectionTypes as sectionType}

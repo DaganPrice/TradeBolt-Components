@@ -9,6 +9,7 @@
 	let logoUrl = null;
 	let logoSrcSet = '';
 	let mobileMenuOpen = false;
+	let openDropdown = null;
 
 	$: {
 		if (website?.logo) {
@@ -38,8 +39,22 @@
 		return [...ordered, ...remaining];
 	}
 
-	// Get visible pages for navigation (excluding home, which goes in logo)
-	$: navPages = getOrderedNavPages(pages, data?.page_nav_order);
+	// Get visible parent pages (no parent_id) for navigation
+	$: allNavPages = getOrderedNavPages(pages, data?.page_nav_order);
+	$: navPages = allNavPages.filter(p => !p.parent_id);
+
+	// Group child pages by parent_id
+	$: childrenByParentId = allNavPages.reduce((acc, page) => {
+		if (page.parent_id) {
+			if (!acc[page.parent_id]) acc[page.parent_id] = [];
+			acc[page.parent_id].push(page);
+		}
+		return acc;
+	}, {});
+
+	function toggleDropdown(pageId) {
+		openDropdown = openDropdown === pageId ? null : pageId;
+	}
 
 	$: showCtaButton = data?.show_cta_button !== false;
 	$: ctaLabel =
@@ -144,15 +159,56 @@
 				<!-- Desktop Navigation -->
 				<div class="tb-nav-desktop items-center gap-8">
 					{#each navPages as page}
-						<a
-							href="/{page.slug}"
-							class="text-gray-700 {colors.hover} font-medium transition-colors {currentPage &&
-							currentPage.id === page.id
-								? 'font-bold ' + colors.text
-								: ''}"
-						>
-							{page.title}
-						</a>
+						{@const hasChildren = childrenByParentId[page.id]?.length > 0}
+						{#if hasChildren}
+							<!-- Parent page with dropdown -->
+							<div class="relative tb-dropdown-container">
+								<button
+									on:mouseenter={() => toggleDropdown(page.id)}
+									on:mouseleave={() => toggleDropdown(null)}
+									class="flex items-center gap-1 text-gray-700 {colors.hover} font-medium transition-colors {currentPage &&
+									currentPage.id === page.id
+										? 'font-bold ' + colors.text
+										: ''}"
+								>
+									{page.title}
+									<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+									</svg>
+								</button>
+
+								{#if openDropdown === page.id}
+									<div
+										on:mouseenter={() => toggleDropdown(page.id)}
+										on:mouseleave={() => toggleDropdown(null)}
+										class="absolute left-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50"
+									>
+										{#each childrenByParentId[page.id] as childPage}
+											<a
+												href="/{childPage.slug}"
+												class="block px-4 py-2 text-gray-700 {colors.hover} transition-colors {currentPage &&
+												currentPage.id === childPage.id
+													? 'font-bold ' + colors.text
+													: ''}"
+											>
+												{childPage.title}
+											</a>
+										{/each}
+									</div>
+								{/if}
+							</div>
+						{:else}
+							<!-- Regular page link -->
+							<a
+								href="/{page.slug}"
+								class="text-gray-700 {colors.hover} font-medium transition-colors {currentPage &&
+								currentPage.id === page.id
+									? 'font-bold ' + colors.text
+									: ''}"
+							>
+								{page.title}
+							</a>
+						{/if}
 					{/each}
 				</div>
 
@@ -220,16 +276,48 @@
 					{/if}
 
 					{#each navPages as page}
-						<a
-							href="/{page.slug}"
-							on:click={() => (mobileMenuOpen = false)}
-							class="text-gray-700 {colors.hover} px-2 font-medium transition-colors {currentPage &&
-							currentPage.id === page.id
-								? 'font-bold ' + colors.text
-								: ''}"
-						>
-							{page.title}
-						</a>
+						{@const hasChildren = childrenByParentId[page.id]?.length > 0}
+						{#if hasChildren}
+							<!-- Parent with children -->
+							<div class="border-b border-gray-100 pb-2">
+								<a
+									href="/{page.slug}"
+									on:click={() => (mobileMenuOpen = false)}
+									class="text-gray-700 {colors.hover} px-2 font-semibold transition-colors block mb-2 {currentPage &&
+									currentPage.id === page.id
+										? 'font-bold ' + colors.text
+										: ''}"
+								>
+									{page.title}
+								</a>
+								<div class="ml-4 space-y-2">
+									{#each childrenByParentId[page.id] as childPage}
+										<a
+											href="/{childPage.slug}"
+											on:click={() => (mobileMenuOpen = false)}
+											class="text-gray-600 {colors.hover} px-2 text-sm font-medium transition-colors block {currentPage &&
+											currentPage.id === childPage.id
+												? 'font-bold ' + colors.text
+												: ''}"
+										>
+											{childPage.title}
+										</a>
+									{/each}
+								</div>
+							</div>
+						{:else}
+							<!-- Regular link -->
+							<a
+								href="/{page.slug}"
+								on:click={() => (mobileMenuOpen = false)}
+								class="text-gray-700 {colors.hover} px-2 font-medium transition-colors {currentPage &&
+								currentPage.id === page.id
+									? 'font-bold ' + colors.text
+									: ''}"
+							>
+								{page.title}
+							</a>
+						{/if}
 					{/each}
 				</div>
 			</div>

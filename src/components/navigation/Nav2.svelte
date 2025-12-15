@@ -11,6 +11,7 @@
 	let logoUrl = null;
 	let logoSrcSet = '';
 	let mobileMenuOpen = false;
+	let openDropdown = null;
 	let headerEl = null;
 	let headerSpacerHeight = 140;
 	let headerResizeObserver = null;
@@ -43,8 +44,22 @@
 		return [...ordered, ...remaining];
 	}
 
-	// Get visible pages for navigation
-	$: navPages = getOrderedNavPages(pages, data?.page_nav_order);
+	// Get visible parent pages (no parent_id) for navigation
+	$: allNavPages = getOrderedNavPages(pages, data?.page_nav_order);
+	$: navPages = allNavPages.filter(p => !p.parent_id);
+
+	// Group child pages by parent_id
+	$: childrenByParentId = allNavPages.reduce((acc, page) => {
+		if (page.parent_id) {
+			if (!acc[page.parent_id]) acc[page.parent_id] = [];
+			acc[page.parent_id].push(page);
+		}
+		return acc;
+	}, {});
+
+	function toggleDropdown(pageId) {
+		openDropdown = openDropdown === pageId ? null : pageId;
+	}
 
 	$: showCtaButton = data?.show_cta_button !== false;
 	$: ctaLabel =
@@ -175,14 +190,47 @@
 							</a>
 						</li>
 						{#each navPages as page}
-							<li>
-								<a
-									href="/{page.slug}"
-									class="block py-4 text-sm font-medium transition-colors {currentPage && currentPage.id === page.id ? colors.textAccent : `text-white ${colors.hoverTextAccent}`}"
-								>
-									{page.title}
-								</a>
-							</li>
+							{@const hasChildren = childrenByParentId[page.id]?.length > 0}
+							{#if hasChildren}
+								<li class="relative tb-dropdown-container">
+									<button
+										on:mouseenter={() => toggleDropdown(page.id)}
+										on:mouseleave={() => toggleDropdown(null)}
+										class="flex items-center gap-1 py-4 text-sm font-medium transition-colors {currentPage && currentPage.id === page.id ? colors.textAccent : `text-white ${colors.hoverTextAccent}`}"
+									>
+										{page.title}
+										<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+										</svg>
+									</button>
+
+									{#if openDropdown === page.id}
+										<div
+											on:mouseenter={() => toggleDropdown(page.id)}
+											on:mouseleave={() => toggleDropdown(null)}
+											class="absolute left-0 top-full mt-0 w-48 bg-gray-800 rounded-b-lg shadow-lg border border-gray-700 py-2 z-50"
+										>
+											{#each childrenByParentId[page.id] as childPage}
+												<a
+													href="/{childPage.slug}"
+													class="block px-4 py-2 text-sm text-white {colors.hoverTextAccent} transition-colors {currentPage && currentPage.id === childPage.id ? colors.textAccent : ''}"
+												>
+													{childPage.title}
+												</a>
+											{/each}
+										</div>
+									{/if}
+								</li>
+							{:else}
+								<li>
+									<a
+										href="/{page.slug}"
+										class="block py-4 text-sm font-medium transition-colors {currentPage && currentPage.id === page.id ? colors.textAccent : `text-white ${colors.hoverTextAccent}`}"
+									>
+										{page.title}
+									</a>
+								</li>
+							{/if}
 						{/each}
 					</ul>
 				</nav>
@@ -259,13 +307,38 @@
 								</a>
 							</li>
 							{#each navPages as page}
-								<li>
-									<a
-										href="/{page.slug}"
-										on:click={toggleMobileMenu}
-										class="block px-4 py-3 text-sm font-medium transition-colors {currentPage && currentPage.id === page.id ? colors.textAccent : `text-white ${colors.hoverTextAccent}`}"
-									>
-										{page.title}
+								{@const hasChildren = childrenByParentId[page.id]?.length > 0}
+								{#if hasChildren}
+									<li class="border-b border-gray-800 pb-2">
+										<a
+											href="/{page.slug}"
+											on:click={toggleMobileMenu}
+											class="block px-4 py-3 text-sm font-semibold transition-colors {currentPage && currentPage.id === page.id ? colors.textAccent : `text-white ${colors.hoverTextAccent}`}"
+										>
+											{page.title}
+										</a>
+										<ul class="ml-6 mt-1 space-y-1">
+											{#each childrenByParentId[page.id] as childPage}
+												<li>
+													<a
+														href="/{childPage.slug}"
+														on:click={toggleMobileMenu}
+														class="block px-4 py-2 text-xs font-medium transition-colors {currentPage && currentPage.id === childPage.id ? colors.textAccent : `text-gray-300 ${colors.hoverTextAccent}`}"
+													>
+														{childPage.title}
+													</a>
+												</li>
+											{/each}
+										</ul>
+									</li>
+								{:else}
+									<li>
+										<a
+											href="/{page.slug}"
+											on:click={toggleMobileMenu}
+											class="block px-4 py-3 text-sm font-medium transition-colors {currentPage && currentPage.id === page.id ? colors.textAccent : `text-white ${colors.hoverTextAccent}`}"
+										>
+											{page.title}
 									</a>
 								</li>
 							{/each}
