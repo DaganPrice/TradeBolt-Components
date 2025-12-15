@@ -43,36 +43,43 @@
 	$: colors = getColorClasses(website.color_scheme);
 	$: backgroundType = data.background_type || 'gradient';
 	$: backgroundStyle = getBackgroundStyle(backgroundType, data.background_image, data.overlay_opacity);
+
+	// Get background classes based on background type
+	$: backgroundClasses = backgroundType === 'gradient'
+		? `bg-gradient-to-br ${colors.gradient}`
+		: backgroundType === 'color'
+			? colors.bg
+			: '';
 </script>
 
 <section
-	class="relative text-white {backgroundType === 'gradient' ? `bg-gradient-to-br ${colors.gradient}` : ''}"
+	class="relative text-white {backgroundClasses}"
 	style={backgroundStyle}
 >
 	<div class="tb-hero-pad container mx-auto px-4 py-20">
 		<div class="max-w-4xl mx-auto text-center">
-			<!-- Business Name -->
+			<!-- Page Heading -->
 			<h1 class="tb-hero-title text-5xl font-bold mb-6">
-				{website.business_name}
+				{data.heading || website.business_name}
 			</h1>
 
-			<!-- Tagline / Short Description -->
-			{#if data.tagline}
+			<!-- Subheading -->
+			{#if data.subheading}
 				<p class="tb-hero-tagline text-xl {colors.textLight} mb-10 max-w-2xl mx-auto font-medium">
-					{data.tagline}
+					{data.subheading}
 				</p>
 			{/if}
 
 			<!-- CTA Buttons -->
 			<div class="tb-hero-cta flex flex-col gap-4 justify-center">
 				<a
-					href="#contact"
+					href={data.cta_link || '#contact'}
 					class="inline-flex items-center justify-center px-8 py-4 bg-white {colors.text} font-bold rounded-lg hover:bg-gray-50 transition-colors shadow-lg"
 				>
 					<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
 					</svg>
-					Get in Touch
+					{data.cta_text || 'Get in Touch'}
 				</a>
 
 				{#if data.show_phone_button && phone}
