@@ -55,7 +55,7 @@
 
 <div class="tb-cq min-h-screen bg-white" class:tb-embed={embed}>
 	{#if !hasHeaderSection}
-		<Header1 {website} {pb} {pages} {currentPage} {sections} data={emptyHeaderData} />
+		<Header1 {website} {pb} {pages} {currentPage} {sections} data={emptyHeaderData} {embed} />
 	{/if}
 
 	{#each sections as section (section.id)}
@@ -70,6 +70,7 @@
 					{sections}
 					{pages}
 					{currentPage}
+					{embed}
 				/>
 			</div>
 		{/if}
@@ -77,7 +78,7 @@
 
 	{#if !hasFooterSection}
 		<div id="footer">
-			<Footer1 {website} {pb} data={emptyFooterData} {sections} {pages} {currentPage} />
+			<Footer1 {website} {pb} data={emptyFooterData} {sections} {pages} {currentPage} {embed} />
 		</div>
 	{/if}
 </div>

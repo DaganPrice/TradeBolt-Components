@@ -7,6 +7,7 @@
 	export let currentPage = null;
 	export let sections = [];
 	export let data = {};
+	export let embed = false;
 
 	let logoUrl = null;
 	let logoSrcSet = '';
@@ -16,6 +17,19 @@
 	let headerEl = null;
 	let headerSpacerHeight = 140;
 	let headerResizeObserver = null;
+
+	function handleLinkClick(e) {
+		if (embed) {
+			e.preventDefault();
+		}
+	}
+
+	function handleMobileLinkClick(e) {
+		mobileMenuOpen = false;
+		if (embed) {
+			e.preventDefault();
+		}
+	}
 
 	$: {
 		if (website?.logo) {
@@ -147,7 +161,7 @@
 		<div class="container mx-auto px-4 md:px-8">
 			<div class="tb-top-bar-content py-3 gap-6">
 				<!-- Logo Section -->
-				<a href="/" class="tb-logo-link flex items-center gap-4">
+				<a href="/" on:click={handleLinkClick} class="tb-logo-link flex items-center gap-4">
 					{#if logoUrl}
 						<img
 							src={logoUrl}
@@ -209,6 +223,7 @@
 								<li class="relative tb-dropdown-container">
 									<a
 										href="/{page.slug}"
+										on:click={handleLinkClick}
 										on:mouseenter={() => toggleDropdown(page.id)}
 										on:mouseleave={() => toggleDropdown(null)}
 										class="flex items-center gap-1 py-4 text-sm font-medium transition-colors {currentPage && currentPage.id === page.id ? colors.textAccent : `text-white ${colors.hoverTextAccent}`}"
@@ -228,6 +243,7 @@
 											{#each childrenByParentId[page.id] as childPage}
 												<a
 													href="/{childPage.slug}"
+													on:click={handleLinkClick}
 													class="block px-4 py-2 text-sm text-white {colors.hoverTextAccent} transition-colors {currentPage && currentPage.id === childPage.id ? colors.textAccent : ''}"
 												>
 													{childPage.title}
@@ -240,6 +256,7 @@
 								<li>
 									<a
 										href="/{page.slug}"
+										on:click={handleLinkClick}
 										class="block py-4 text-sm font-medium transition-colors {currentPage && currentPage.id === page.id ? colors.textAccent : `text-white ${colors.hoverTextAccent}`}"
 									>
 										{page.title}
@@ -290,7 +307,7 @@
 
 					<!-- Mobile Menu Button -->
 					<button
-						on:click={toggleMobileMenu}
+						on:click={handleMobileLinkClick}
 						class="tb-mobile-menu-btn text-white p-2 hover:bg-zinc-800 rounded transition-colors flex-shrink-0"
 						aria-label="Toggle menu"
 					>
@@ -315,7 +332,7 @@
 							<li>
 								<a
 									href="/"
-									on:click={toggleMobileMenu}
+									on:click={handleMobileLinkClick}
 									class="block px-4 py-3 text-sm font-medium transition-colors {currentPage?.is_home ? colors.textAccent : `text-white ${colors.hoverTextAccent}`}"
 								>
 									Home
@@ -327,7 +344,7 @@
 									<li class="border-b border-zinc-700 pb-2">
 										<a
 											href="/{page.slug}"
-											on:click={toggleMobileMenu}
+											on:click={handleMobileLinkClick}
 											class="block px-4 py-3 text-sm font-semibold transition-colors {currentPage && currentPage.id === page.id ? colors.textAccent : `text-white ${colors.hoverTextAccent}`}"
 										>
 											{page.title}
@@ -337,7 +354,7 @@
 												<li>
 													<a
 														href="/{childPage.slug}"
-														on:click={toggleMobileMenu}
+														on:click={handleMobileLinkClick}
 														class="block px-4 py-2 text-xs font-medium transition-colors {currentPage && currentPage.id === childPage.id ? colors.textAccent : `text-gray-300 ${colors.hoverTextAccent}`}"
 													>
 														{childPage.title}
@@ -350,7 +367,7 @@
 									<li>
 										<a
 											href="/{page.slug}"
-											on:click={toggleMobileMenu}
+											on:click={handleMobileLinkClick}
 											class="block px-4 py-3 text-sm font-medium transition-colors {currentPage && currentPage.id === page.id ? colors.textAccent : `text-white ${colors.hoverTextAccent}`}"
 										>
 											{page.title}

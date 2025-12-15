@@ -5,12 +5,26 @@
 	export let currentPage = null; // Current page being viewed
 	export let sections = []; // Sections on the current page (for jump links)
 	export let data = {}; // Optional header section data
+	export let embed = false; // Whether this is rendered in preview/embed mode
 
 	let logoUrl = null;
 	let logoSrcSet = '';
 	let mobileMenuOpen = false;
 	let openDropdown = null;
 	let closeDropdownTimeout = null;
+
+	function handleLinkClick(e) {
+		if (embed) {
+			e.preventDefault();
+		}
+	}
+
+	function handleMobileLinkClick(e) {
+		mobileMenuOpen = false;
+		if (embed) {
+			e.preventDefault();
+		}
+	}
 
 	$: {
 		if (website?.logo) {
@@ -153,7 +167,7 @@
 	<div class="container mx-auto px-4">
 		<div class="flex h-16 items-center justify-between">
 			<!-- Logo / Business Name -->
-			<a href="/" class="flex flex-shrink-0 items-center space-x-3">
+			<a href="/" class="flex flex-shrink-0 items-center space-x-3" on:click={handleLinkClick}>
 				{#if logoUrl}
 					<img
 						src={logoUrl}
@@ -179,6 +193,7 @@
 							<div class="relative tb-dropdown-container">
 								<a
 									href="/{page.slug}"
+									on:click={handleLinkClick}
 									on:mouseenter={() => toggleDropdown(page.id)}
 									on:mouseleave={() => toggleDropdown(null)}
 									class="flex items-center gap-1 text-gray-700 {colors.hover} font-medium transition-colors {currentPage &&
@@ -201,6 +216,7 @@
 										{#each childrenByParentId[page.id] as childPage}
 											<a
 												href="/{childPage.slug}"
+												on:click={handleLinkClick}
 												class="block px-4 py-2 text-gray-700 {colors.hover} transition-colors {currentPage &&
 												currentPage.id === childPage.id
 													? 'font-bold ' + colors.text
@@ -216,6 +232,7 @@
 							<!-- Regular page link -->
 							<a
 								href="/{page.slug}"
+								on:click={handleLinkClick}
 								class="text-gray-700 {colors.hover} font-medium transition-colors {currentPage &&
 								currentPage.id === page.id
 									? 'font-bold ' + colors.text
@@ -297,7 +314,7 @@
 							<div class="border-b border-gray-100 pb-2">
 								<a
 									href="/{page.slug}"
-									on:click={() => (mobileMenuOpen = false)}
+									on:click={handleMobileLinkClick}
 									class="text-gray-700 {colors.hover} px-2 font-semibold transition-colors block mb-2 {currentPage &&
 									currentPage.id === page.id
 										? 'font-bold ' + colors.text
@@ -309,7 +326,7 @@
 									{#each childrenByParentId[page.id] as childPage}
 										<a
 											href="/{childPage.slug}"
-											on:click={() => (mobileMenuOpen = false)}
+											on:click={handleMobileLinkClick}
 											class="text-gray-600 {colors.hover} px-2 text-sm font-medium transition-colors block {currentPage &&
 											currentPage.id === childPage.id
 												? 'font-bold ' + colors.text
@@ -324,7 +341,7 @@
 							<!-- Regular link -->
 							<a
 								href="/{page.slug}"
-								on:click={() => (mobileMenuOpen = false)}
+								on:click={handleMobileLinkClick}
 								class="text-gray-700 {colors.hover} px-2 font-medium transition-colors {currentPage &&
 								currentPage.id === page.id
 									? 'font-bold ' + colors.text

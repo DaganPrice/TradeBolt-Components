@@ -5,12 +5,26 @@
 	export let currentPage = null;
 	export let sections = [];
 	export let data = {};
+	export let embed = false;
 
 	let logoUrl = null;
 	let logoSrcSet = '';
 	let mobileMenuOpen = false;
 	let openDropdown = null;
 	let closeDropdownTimeout = null;
+
+	function handleLinkClick(e) {
+		if (embed) {
+			e.preventDefault();
+		}
+	}
+
+	function handleMobileLinkClick(e) {
+		mobileMenuOpen = false;
+		if (embed) {
+			e.preventDefault();
+		}
+	}
 
 	$: {
 		if (website?.logo) {
@@ -362,7 +376,7 @@
 								{#if hasChildren}
 									<li class="relative tb-dropdown-container">
 										<a
-											href="/{page.slug}"
+											href="/{page.slug}" on:click={handleLinkClick}
 											on:mouseenter={() => toggleDropdown(page.id)}
 											on:mouseleave={() => toggleDropdown(null)}
 											class={`flex items-center gap-1 text-[15px] font-medium transition text-gray-700 ${
@@ -385,7 +399,7 @@
 											>
 												{#each childrenByParentId[page.id] as childPage}
 													<a
-														href="/{childPage.slug}"
+														href="/{childPage.slug}" on:click={handleLinkClick}
 														class={`block px-4 py-2 text-sm transition text-gray-700 ${
 															currentPage && currentPage.id === childPage.id
 																? theme.linkActive
@@ -401,7 +415,7 @@
 								{:else}
 									<li>
 										<a
-											href="/{page.slug}"
+											href="/{page.slug}" on:click={handleLinkClick}
 											class={`text-[15px] font-medium transition text-gray-700 ${
 												currentPage && currentPage.id === page.id
 													? theme.linkActive
@@ -500,7 +514,7 @@
 						{#if isMultiPage}
 							<a
 								href="/"
-								on:click={closeMobileMenu}
+								on:click={handleMobileLinkClick}
 								class={`rounded-lg px-3 py-2 text-sm font-medium transition text-gray-900 ${
 									currentPage?.is_home ? 'bg-gray-100' : 'hover:bg-gray-50'
 								} ${currentPage?.is_home ? theme.linkActive : ''}`}
@@ -513,7 +527,7 @@
 									<div class="border-b border-gray-100 pb-2 mb-2">
 										<a
 											href="/{page.slug}"
-											on:click={closeMobileMenu}
+											on:click={handleMobileLinkClick}
 											class={`rounded-lg px-3 py-2 text-sm font-semibold transition text-gray-900 block ${
 												currentPage && currentPage.id === page.id
 													? 'bg-gray-100'
@@ -526,7 +540,7 @@
 											{#each childrenByParentId[page.id] as childPage}
 												<a
 													href="/{childPage.slug}"
-													on:click={closeMobileMenu}
+													on:click={handleMobileLinkClick}
 													class={`rounded-lg px-3 py-2 text-xs font-medium transition text-gray-700 block ${
 														currentPage && currentPage.id === childPage.id
 															? 'bg-gray-100'
@@ -540,8 +554,7 @@
 									</div>
 								{:else}
 									<a
-										href="/{page.slug}"
-										on:click={closeMobileMenu}
+										href="/{page.slug}" on:click={handleMobileLinkClick}
 										class={`rounded-lg px-3 py-2 text-sm font-medium transition text-gray-900 ${
 											currentPage && currentPage.id === page.id
 												? 'bg-gray-100'
@@ -571,7 +584,7 @@
 								{#if email}
 									<a
 										href="mailto:{email}"
-										on:click={closeMobileMenu}
+										on:click={handleMobileLinkClick}
 										class="flex items-center gap-2 rounded-lg bg-gray-50 px-3 py-2 text-sm text-gray-900 transition hover:bg-gray-100"
 									>
 										<i class="far fa-envelope"></i>
@@ -581,7 +594,7 @@
 								{#if phone}
 									<a
 										href="tel:{phone}"
-										on:click={closeMobileMenu}
+										on:click={handleMobileLinkClick}
 										class="flex items-center gap-2 rounded-lg bg-gray-50 px-3 py-2 text-sm text-gray-900 transition hover:bg-gray-100"
 									>
 										<i class="fas fa-phone"></i>
