@@ -141,9 +141,9 @@
 	});
 </script>
 
-<header bind:this={headerEl} class="tb-header-2 fixed top-0 left-0 right-0 z-50 bg-gray-900 text-white">
+<header bind:this={headerEl} class="tb-header-2 fixed top-0 left-0 right-0 z-50 bg-zinc-900 text-white">
 	<!-- Top Bar -->
-	<div class="bg-gray-950 border-b border-gray-800">
+	<div class="bg-zinc-950 border-b border-zinc-700">
 		<div class="container mx-auto px-4 md:px-8">
 			<div class="tb-top-bar-content py-3 gap-6">
 				<!-- Logo Section -->
@@ -189,7 +189,7 @@
 	</div>
 
 	<!-- Navigation Bar -->
-	<div class="bg-gray-900">
+	<div class="bg-zinc-900">
 		<div class="container mx-auto px-4 md:px-8">
 			<div class="tb-nav-content py-3 md:py-0">
 				<!-- Desktop Navigation -->
@@ -223,7 +223,7 @@
 										<div
 											on:mouseenter={() => toggleDropdown(page.id)}
 											on:mouseleave={() => toggleDropdown(null)}
-											class="absolute left-0 top-full mt-0 w-48 bg-gray-800 rounded-b-lg shadow-lg border border-gray-700 py-2 z-50"
+											class="absolute left-0 top-full mt-0 w-48 bg-zinc-800 rounded-b-lg shadow-lg border border-zinc-600 py-2 z-50"
 										>
 											{#each childrenByParentId[page.id] as childPage}
 												<a
@@ -291,7 +291,7 @@
 					<!-- Mobile Menu Button -->
 					<button
 						on:click={toggleMobileMenu}
-						class="tb-mobile-menu-btn text-white p-2 hover:bg-gray-800 rounded transition-colors flex-shrink-0"
+						class="tb-mobile-menu-btn text-white p-2 hover:bg-zinc-800 rounded transition-colors flex-shrink-0"
 						aria-label="Toggle menu"
 					>
 						{#if mobileMenuOpen}
@@ -309,7 +309,7 @@
 
 			<!-- Mobile Menu -->
 			{#if mobileMenuOpen}
-				<div class="tb-mobile-menu border-t border-gray-800 py-4">
+				<div class="tb-mobile-menu border-t border-zinc-700 py-4">
 					<nav>
 						<ul class="flex flex-col gap-2">
 							<li>
@@ -324,7 +324,7 @@
 							{#each navPages as page}
 								{@const hasChildren = childrenByParentId[page.id]?.length > 0}
 								{#if hasChildren}
-									<li class="border-b border-gray-800 pb-2">
+									<li class="border-b border-zinc-700 pb-2">
 										<a
 											href="/{page.slug}"
 											on:click={toggleMobileMenu}
