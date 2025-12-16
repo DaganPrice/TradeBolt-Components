@@ -148,7 +148,7 @@
 			<h2 class="text-4xl font-bold mb-12 text-center">{data.heading || 'Contact Us'}</h2>
 
 			{#if data.description}
-				<p class="text-center text-gray-400 text-lg mb-12">{data.description}</p>
+				<p class="text-center text-gray-400 text-lg mb-12 tb-content-with-links">{@html data.description}</p>
 			{/if}
 
 			<div class="tb-contact2-grid grid grid-cols-1 gap-12">
@@ -334,5 +334,16 @@
 		.tb-contact2-grid {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
 		}
+	}
+
+	:global(.tb-content-with-links a) {
+		color: currentColor;
+		text-decoration: underline;
+		text-underline-offset: 2px;
+		transition: opacity 0.2s;
+	}
+
+	:global(.tb-content-with-links a:hover) {
+		opacity: 0.7;
 	}
 </style>

@@ -25,10 +25,23 @@
 		<div class="max-w-3xl mx-auto">
 			<h2 class="text-4xl font-bold {colors.text} mb-8 text-center">{data.heading || 'About Us'}</h2>
 			<div class="prose prose-lg max-w-none">
-				<p class="text-gray-700 text-lg leading-relaxed whitespace-pre-wrap">
-					{data.content || ''}
+				<p class="text-gray-700 text-lg leading-relaxed whitespace-pre-wrap tb-content-with-links">
+					{@html data.content || ''}
 				</p>
 			</div>
 		</div>
 	</div>
 </section>
+
+<style>
+	:global(.tb-content-with-links a) {
+		color: currentColor;
+		text-decoration: underline;
+		text-underline-offset: 2px;
+		transition: opacity 0.2s;
+	}
+
+	:global(.tb-content-with-links a:hover) {
+		opacity: 0.7;
+	}
+</style>
