@@ -172,9 +172,9 @@
 					<img
 						src={logoUrl}
 						srcset={logoSrcSet}
-						sizes="40px"
+						sizes="56px"
 						alt="{website.business_name} logo"
-						class="h-10 w-auto object-contain"
+						class="h-14 w-auto object-contain"
 						loading="eager"
 						decoding="async"
 					/>
