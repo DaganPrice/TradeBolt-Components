@@ -116,15 +116,34 @@
 		success = false;
 
 		try {
-			await pb.collection('enquiries').create({
-				website_id: website.id,
-				user_id: website.user_id,
-				name: formData.name,
-				email: formData.email,
-				phone: formData.phone || '',
-				message: formData.message,
-				status: 'new'
-			});
+			// Prefer server endpoint (so the renderer can email the website owner).
+			try {
+				const resp = await fetch('/api/enquiries', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({
+						website_id: website.id,
+						name: formData.name,
+						email: formData.email,
+						phone: formData.phone || '',
+						message: formData.message
+					})
+				});
+
+				const result = await resp.json().catch(() => ({}));
+				if (!resp.ok) throw new Error(result?.error || 'Failed to submit enquiry');
+			} catch (serverErr) {
+				// Fallback to direct PocketBase write (local dev / older renderer).
+				await pb.collection('enquiries').create({
+					website_id: website.id,
+					user_id: website.user_id,
+					name: formData.name,
+					email: formData.email,
+					phone: formData.phone || '',
+					message: formData.message,
+					status: 'new'
+				});
+			}
 
 			success = true;
 			formData = { name: '', email: '', phone: '', message: '' };
