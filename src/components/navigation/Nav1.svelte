@@ -165,16 +165,16 @@
 
 <nav class="fixed top-0 right-0 left-0 z-50 bg-white shadow-md">
 	<div class="container mx-auto px-4">
-		<div class="flex h-16 items-center justify-between">
+		<div class="flex h-24 items-center justify-between">
 			<!-- Logo / Business Name -->
 			<a href="/" class="flex flex-shrink-0 items-center space-x-3" on:click={handleLinkClick}>
 				{#if logoUrl}
 					<img
 						src={logoUrl}
 						srcset={logoSrcSet}
-						sizes="56px"
+						sizes="96px"
 						alt="{website.business_name} logo"
-						class="h-14 w-auto object-contain"
+						class="h-24 w-auto object-contain"
 						loading="eager"
 						decoding="async"
 					/>
