@@ -7,14 +7,14 @@
 	// Get color scheme classes based on the selected color
 	function getColorClasses(colorScheme = 'orange') {
 		const colorMap = {
-			orange: { text: 'text-orange-600' },
-			red: { text: 'text-red-600' },
-			blue: { text: 'text-blue-600' },
-			green: { text: 'text-green-600' },
-			yellow: { text: 'text-yellow-600' },
-			purple: { text: 'text-purple-600' },
-			pink: { text: 'text-pink-600' },
-			gray: { text: 'text-gray-600' }
+			orange: { text: 'text-orange-600', bg: 'bg-orange-600', hoverBg: 'hover:bg-orange-700' },
+			red: { text: 'text-red-600', bg: 'bg-red-600', hoverBg: 'hover:bg-red-700' },
+			blue: { text: 'text-blue-600', bg: 'bg-blue-600', hoverBg: 'hover:bg-blue-700' },
+			green: { text: 'text-green-600', bg: 'bg-green-600', hoverBg: 'hover:bg-green-700' },
+			yellow: { text: 'text-yellow-600', bg: 'bg-yellow-600', hoverBg: 'hover:bg-yellow-700' },
+			purple: { text: 'text-purple-600', bg: 'bg-purple-600', hoverBg: 'hover:bg-purple-700' },
+			pink: { text: 'text-pink-600', bg: 'bg-pink-600', hoverBg: 'hover:bg-pink-700' },
+			gray: { text: 'text-gray-600', bg: 'bg-gray-800', hoverBg: 'hover:bg-gray-900' }
 		};
 		return colorMap[colorScheme] || colorMap.orange;
 	}
@@ -36,6 +36,20 @@
 	}
 
 	$: imageUrl = getImageUrl(data?.image);
+
+	$: hasCtaConfig =
+		(data && typeof data.cta_label === 'string' && data.cta_label.trim()) ||
+		(data && typeof data.cta_href === 'string' && data.cta_href.trim()) ||
+		data?.show_cta_button === true;
+	$: showCta = hasCtaConfig && data?.show_cta_button !== false;
+	$: ctaLabel =
+		data && typeof data.cta_label === 'string' && data.cta_label.trim()
+			? data.cta_label.trim()
+			: 'Contact Us';
+	$: ctaHref =
+		data && typeof data.cta_href === 'string' && data.cta_href.trim()
+			? data.cta_href.trim()
+			: '/contact';
 </script>
 
 <section id="about" class="py-20 bg-white">
@@ -51,6 +65,17 @@
 							{@html data.content || ''}
 						</p>
 					</div>
+
+					{#if showCta}
+						<div class="mt-8 flex justify-center md:justify-start">
+							<a
+								href={ctaHref}
+								class="inline-flex items-center justify-center rounded-lg px-6 py-3 font-semibold text-white shadow-sm transition-colors {colors.bg} {colors.hoverBg}"
+							>
+								{ctaLabel}
+							</a>
+						</div>
+					{/if}
 				</div>
 
 				<div class="flex justify-center md:justify-end">

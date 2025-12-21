@@ -38,8 +38,18 @@
 		}
 	}
 
+	function sortPagesByOrder(list) {
+		const items = Array.isArray(list) ? [...list] : [];
+		return items.sort((a, b) => {
+			const ao = Number(a?.order ?? 0);
+			const bo = Number(b?.order ?? 0);
+			if (ao !== bo) return ao - bo;
+			return String(a?.title || '').localeCompare(String(b?.title || ''));
+		});
+	}
+
 	function getOrderedNavPages(allPages, orderKeys) {
-		const visible = (allPages || []).filter((p) => p?.is_visible && !p?.is_home);
+		const visible = sortPagesByOrder((allPages || []).filter((p) => p?.is_visible && !p?.is_home));
 		const order = Array.isArray(orderKeys) ? orderKeys : [];
 		if (order.length === 0) return visible;
 
@@ -66,6 +76,13 @@
 		}
 		return acc;
 	}, {});
+	$: {
+		for (const parentId in childrenByParentId) {
+			childrenByParentId[parentId] = sortPagesByOrder(childrenByParentId[parentId]);
+		}
+	}
+
+	$: isHomeActive = Boolean(currentPage?.is_home);
 
 	function toggleDropdown(pageId) {
 		// Clear any pending close timeout
@@ -186,6 +203,13 @@
 			<div class="flex items-center gap-8">
 				<!-- Desktop Navigation -->
 				<div class="tb-nav-desktop items-center gap-8">
+					<a
+						href="/"
+						on:click={handleLinkClick}
+						class="text-gray-700 {colors.hover} font-medium transition-colors {isHomeActive ? 'font-bold ' + colors.text : ''}"
+					>
+						Home
+					</a>
 					{#each navPages as page}
 						{@const hasChildren = childrenByParentId[page.id]?.length > 0}
 						{#if hasChildren}
@@ -306,6 +330,14 @@
 							{ctaLabel}
 						</a>
 					{/if}
+
+					<a
+						href="/"
+						on:click={handleMobileLinkClick}
+						class="text-gray-700 {colors.hover} px-2 font-medium transition-colors {isHomeActive ? 'font-bold ' + colors.text : ''}"
+					>
+						Home
+					</a>
 
 					{#each navPages as page}
 						{@const hasChildren = childrenByParentId[page.id]?.length > 0}
