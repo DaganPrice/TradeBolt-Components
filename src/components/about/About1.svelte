@@ -37,19 +37,23 @@
 
 	$: imageUrl = getImageUrl(data?.image);
 
-	$: hasCtaConfig =
+	$: legacyHasCtaConfig =
 		(data && typeof data.cta_label === 'string' && data.cta_label.trim()) ||
 		(data && typeof data.cta_href === 'string' && data.cta_href.trim()) ||
 		data?.show_cta_button === true;
-	$: showCta = hasCtaConfig && data?.show_cta_button !== false;
-	$: ctaLabel =
-		data && typeof data.cta_label === 'string' && data.cta_label.trim()
-			? data.cta_label.trim()
-			: 'Contact Us';
-	$: ctaHref =
-		data && typeof data.cta_href === 'string' && data.cta_href.trim()
-			? data.cta_href.trim()
-			: '/contact';
+
+	$: showCta =
+		(typeof data?.show_contact_button === 'boolean' ? data.show_contact_button : legacyHasCtaConfig) &&
+		data?.show_cta_button !== false;
+
+	const ctaLabel = 'Contact Us';
+	const ctaHref = '/contact';
+
+	function handleCtaClick(e) {
+		if (embed) {
+			e.preventDefault();
+		}
+	}
 </script>
 
 <section id="about" class="py-20 bg-white">
@@ -70,6 +74,7 @@
 						<div class="mt-8 flex justify-center md:justify-start">
 							<a
 								href={ctaHref}
+								on:click={handleCtaClick}
 								class="inline-flex items-center justify-center rounded-lg px-6 py-3 font-semibold text-white shadow-sm transition-colors {colors.bg} {colors.hoverBg}"
 							>
 								{ctaLabel}
