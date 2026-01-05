@@ -1,4 +1,5 @@
 <script>
+	import { createEventDispatcher } from 'svelte';
 	import Hero1 from './components/heroes/Hero1.svelte';
 	import Hero2 from './components/heroes/Hero2.svelte';
 	import About1 from './components/about/About1.svelte';
@@ -18,9 +19,14 @@
 	export let sections = [];
 	export let pb;
 	export let embed = false;
+	export let editor = false;
+	export let selectedSectionId = null;
 
 	const emptyHeaderData = {};
 	const emptyFooterData = {};
+
+	const dispatch = createEventDispatcher();
+	let hoveredSectionId = null;
 
 	const componentMap = {
 		header: { Header1, Header2, Header3 },
@@ -51,6 +57,23 @@
 
 	$: hasHeaderSection = sections?.some((s) => s.section_type === 'header');
 	$: hasFooterSection = sections?.some((s) => s.section_type === 'footer');
+
+	function handleSectionClick(event, section) {
+		if (!editor || !section?.id) return;
+		event?.preventDefault?.();
+		event?.stopPropagation?.();
+		dispatch('sectionSelect', { sectionId: section.id });
+	}
+
+	function handleSectionMouseEnter(section) {
+		if (!editor || !section?.id) return;
+		hoveredSectionId = section.id;
+	}
+
+	function handleSectionMouseLeave(section) {
+		if (!editor || !section?.id) return;
+		if (hoveredSectionId === section.id) hoveredSectionId = null;
+	}
 </script>
 
 <div class="tb-cq min-h-screen bg-white" class:tb-embed={embed}>
@@ -61,7 +84,22 @@
 	{#each sections as section (section.id)}
 		{@const Component = getComponent(section)}
 		{#if Component}
-			<div id={section.section_type}>
+			<div
+				id={section.section_type}
+				data-builder-section-id={section.id}
+				data-builder-section-type={section.section_type}
+				class:tb-builder-section={editor}
+				class:tb-builder-hover={editor && hoveredSectionId === section.id && selectedSectionId !== section.id}
+				class:tb-builder-selected={editor && selectedSectionId === section.id}
+				on:mouseenter={() => handleSectionMouseEnter(section)}
+				on:mouseleave={() => handleSectionMouseLeave(section)}
+				on:click={(e) => handleSectionClick(e, section)}
+			>
+				{#if editor && (hoveredSectionId === section.id || selectedSectionId === section.id)}
+					<div class="tb-builder-badge">
+						{section.section_type}{#if section.variant} · {section.variant}{/if}
+					</div>
+				{/if}
 				<svelte:component
 					this={Component}
 					{website}
@@ -99,5 +137,42 @@
 	.tb-embed :global(.tb-nav-spacer),
 	.tb-embed :global(.tb-header-2-spacer) {
 		display: none !important;
+	}
+
+	.tb-builder-section {
+		position: relative;
+		scroll-margin-top: 96px;
+	}
+
+	.tb-builder-hover {
+		outline: 1px dashed rgba(255, 107, 0, 0.85);
+		outline-offset: -1px;
+	}
+
+	.tb-builder-selected {
+		outline: 2px solid rgba(255, 107, 0, 1);
+		outline-offset: -2px;
+		box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+	}
+
+	.tb-builder-hover :global(nav),
+	.tb-builder-selected :global(nav) {
+		outline: inherit;
+		outline-offset: inherit;
+	}
+
+	.tb-builder-badge {
+		position: absolute;
+		top: 10px;
+		left: 10px;
+		z-index: 50;
+		pointer-events: none;
+		border-radius: 999px;
+		background: rgba(17, 24, 39, 0.92);
+		color: white;
+		padding: 4px 10px;
+		font-size: 12px;
+		font-weight: 600;
+		letter-spacing: 0.01em;
 	}
 </style>
