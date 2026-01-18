@@ -9,6 +9,7 @@
 		"./components/heroes/Hero1.svelte": "./src/components/heroes/Hero1.svelte",
 		"./components/heroes/Hero2.svelte": "./src/components/heroes/Hero2.svelte",
 		"./components/about/About1.svelte": "./src/components/about/About1.svelte",
+		"./components/about/About2.svelte": "./src/components/about/About2.svelte",
 		"./components/services/Services1.svelte": "./src/components/services/Services1.svelte",
 		"./components/locations/Locations1.svelte": "./src/components/locations/Locations1.svelte",
 		"./components/contact/Contact1.svelte": "./src/components/contact/Contact1.svelte",

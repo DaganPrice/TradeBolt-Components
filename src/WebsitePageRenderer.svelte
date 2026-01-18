@@ -3,6 +3,7 @@
 	import Hero1 from './components/heroes/Hero1.svelte';
 	import Hero2 from './components/heroes/Hero2.svelte';
 	import About1 from './components/about/About1.svelte';
+	import About2 from './components/about/About2.svelte';
 	import Services1 from './components/services/Services1.svelte';
 	import Locations1 from './components/locations/Locations1.svelte';
 	import Contact1 from './components/contact/Contact1.svelte';
@@ -31,7 +32,7 @@
 	const componentMap = {
 		header: { Header1, Header2, Header3 },
 		hero: { Hero1, Hero2 },
-		about: { About1 },
+		about: { About1, About2 },
 		services: { Services1 },
 		locations: { Locations1 },
 		contact: { Contact1, Contact2 },
