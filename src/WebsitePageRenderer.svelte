@@ -9,6 +9,7 @@
 	import Locations1 from './components/locations/Locations1.svelte';
 	import Contact1 from './components/contact/Contact1.svelte';
 	import Contact2 from './components/contact/Contact2.svelte';
+	import Faq1 from './components/faq/Faq1.svelte';
 	import Gallery1 from './components/gallery/Gallery1.svelte';
 	import Header1 from './components/navigation/Nav1.svelte';
 	import Header2 from './components/navigation/Nav2.svelte';
@@ -37,6 +38,7 @@
 		services: { Services1 },
 		locations: { Locations1 },
 		contact: { Contact1, Contact2 },
+		faq: { Faq1 },
 		gallery: { Gallery1, Gallery2: Gallery1 },
 		footer: { Footer1 }
 	};

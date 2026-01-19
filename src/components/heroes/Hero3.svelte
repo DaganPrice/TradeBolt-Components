@@ -58,12 +58,18 @@
 	$: colors = getColorClasses(website?.color_scheme);
 	$: backgroundType = data?.background_type || 'image';
 	$: backgroundStyle = getBackgroundStyle(backgroundType, data?.background_image, data?.overlay_opacity);
-	$: heading = safeText(data?.heading, 'This is what your website could look like');
+	$: trade = safeText(website?.business_industry || website?.industry, '').trim();
+	$: heading = safeText(
+		data?.heading,
+		trade ? `Professional ${trade} services` : 'Professional trade services'
+	);
 	$: contentHtml =
 		safeText(data?.content) ||
-		"Scroll down to see a fully-functioning demo. Every feature you see - services section, testimonials, contact forms - is exactly what we'll build for your business.";
+		(trade
+			? `Need a reliable ${trade}? Get fast callouts, honest pricing, and quality workmanship. Contact us today for a free quote.`
+			: 'Need a reliable tradesperson? Get fast callouts, honest pricing, and quality workmanship. Contact us today for a free quote.');
 
-	$: badgeText = safeText(data?.subheading || data?.badge_text, "You're viewing a demo website");
+	$: badgeText = safeText(data?.subheading || data?.badge_text, 'Get a free quote today');
 
 	$: phone = safeText(website?.contact_details?.phone, '').trim();
 	$: contactHref = '/contact';
@@ -148,7 +154,7 @@
 	style={backgroundStyle}
 >
 	<div class="container mx-auto px-4 py-20">
-		<div class="mx-auto grid max-w-6xl grid-cols-1 items-start gap-12 lg:grid-cols-2 lg:items-center">
+		<div class="mx-auto grid max-w-6xl grid-cols-1 items-start gap-12 lg:grid-cols-[3fr_2fr] lg:items-center">
 			<div>
 				{#if badgeText}
 					<div
@@ -193,8 +199,20 @@
 					<div class="mt-7 flex flex-wrap gap-2">
 						{#each chips as chip}
 							<span
-								class="rounded-full bg-white px-3 py-1 text-xs font-medium text-gray-900"
+								class="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-xs font-medium text-gray-900"
 							>
+								<svg
+									class="h-4 w-4 {colors.text}"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									aria-hidden="true"
+								>
+									<path d="M20 6L9 17l-5-5" />
+								</svg>
 								{chip}
 							</span>
 						{/each}
@@ -204,7 +222,7 @@
 
 			<div class="rounded-xl bg-white p-6">
 				<div class="mb-4">
-					<h2 class="text-xl font-semibold text-gray-900">Get your website started</h2>
+					<h2 class="text-xl font-semibold text-gray-900">Request a free quote</h2>
 					<p class="mt-1 text-sm text-gray-600">Send us a message and we'll get back to you.</p>
 				</div>
 				{#if success}

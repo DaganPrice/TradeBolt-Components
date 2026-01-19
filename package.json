@@ -15,6 +15,7 @@
 		"./components/locations/Locations1.svelte": "./src/components/locations/Locations1.svelte",
 		"./components/contact/Contact1.svelte": "./src/components/contact/Contact1.svelte",
 		"./components/contact/Contact2.svelte": "./src/components/contact/Contact2.svelte",
+		"./components/faq/Faq1.svelte": "./src/components/faq/Faq1.svelte",
 		"./components/gallery/Gallery1.svelte": "./src/components/gallery/Gallery1.svelte",
 		"./components/gallery/Gallery2.svelte": "./src/components/gallery/Gallery2.svelte",
 		"./components/footers/Footer1.svelte": "./src/components/footers/Footer1.svelte",
