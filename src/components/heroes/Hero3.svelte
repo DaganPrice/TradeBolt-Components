@@ -9,8 +9,6 @@
 		name: '',
 		phone: '',
 		email: '',
-		service: '',
-		location: '',
 		message: ''
 	};
 
@@ -63,9 +61,9 @@
 	$: heading = safeText(data?.heading, 'This is what your website could look like');
 	$: contentHtml =
 		safeText(data?.content) ||
-		'Scroll down to see a fully-functioning demo. Every feature you see — services section, testimonials, contact forms — is exactly what we’ll build for your business.';
+		"Scroll down to see a fully-functioning demo. Every feature you see - services section, testimonials, contact forms - is exactly what we'll build for your business.";
 
-	$: badgeText = safeText(data?.badge_text, "You're viewing a demo website");
+	$: badgeText = safeText(data?.subheading || data?.badge_text, "You're viewing a demo website");
 
 	$: phone = safeText(website?.contact_details?.phone, '').trim();
 	$: contactHref = '/contact';
@@ -73,20 +71,11 @@
 
 	$: chips = (Array.isArray(data?.chips)
 		? data.chips
-		: ['Fast turnaround', 'Hosting included', 'From £500']
+		: ['24/7 Callouts', 'Free Quotes', 'Fully Insured']
 	)
 		.map((v) => safeText(v).trim())
 		.filter(Boolean)
 		.slice(0, 4);
-
-	$: serviceOptions = (
-		Array.isArray(data?.service_options)
-			? data.service_options
-			: ['New Website', 'Website Redesign', 'SEO & Local Rankings', 'Google Ads']
-	)
-		.map((v) => safeText(v).trim())
-		.filter(Boolean)
-		.slice(0, 12);
 
 	const submitLabel = 'Submit enquiry';
 	const formNote =
@@ -97,14 +86,7 @@
 	}
 
 	function buildMessage() {
-		const parts = [];
-		const service = safeText(formData.service).trim();
-		const location = safeText(formData.location).trim();
-		const message = safeText(formData.message).trim();
-		if (service) parts.push(`Service: ${service}`);
-		if (location) parts.push(`Location: ${location}`);
-		if (message) parts.push(message);
-		return parts.join('\n');
+		return safeText(formData.message).trim();
 	}
 
 	async function handleSubmit(e) {
@@ -150,7 +132,7 @@
 			}
 
 			success = true;
-			formData = { name: '', phone: '', email: '', service: '', location: '', message: '' };
+			formData = { name: '', phone: '', email: '', message: '' };
 			setTimeout(() => (success = false), 5000);
 		} catch (err) {
 			console.error('Error submitting enquiry:', err);
@@ -200,7 +182,7 @@
 						<a
 							href={callHref}
 							on:click={handleLinkClick}
-							class="inline-flex items-center justify-center rounded-lg border border-white bg-white px-6 py-3 text-sm font-medium text-gray-900 transition-colors hover:bg-gray-100"
+							class="inline-flex items-center justify-center rounded-lg bg-white px-6 py-3 text-sm font-medium text-gray-900 transition-colors hover:bg-gray-100"
 						>
 							Call us
 						</a>
@@ -220,7 +202,11 @@
 				{/if}
 			</div>
 
-			<div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+			<div class="rounded-xl bg-white p-6">
+				<div class="mb-4">
+					<h2 class="text-xl font-semibold text-gray-900">Get your website started</h2>
+					<p class="mt-1 text-sm text-gray-600">Send us a message and we'll get back to you.</p>
+				</div>
 				{#if success}
 					<div class="mb-4 rounded-lg border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-800">
 						Thanks! Your message has been sent.
@@ -233,33 +219,31 @@
 				{/if}
 
 				<form on:submit={handleSubmit} class="space-y-4">
-					<div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-						<div>
-							<label for="tb-hero3-name" class="mb-1 block text-sm font-medium text-gray-900">
-								Name
-							</label>
-							<input
-								id="tb-hero3-name"
-								type="text"
-								placeholder="John Smith"
-								bind:value={formData.name}
-								required
-								class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-200"
-							/>
-						</div>
+					<div>
+						<label for="tb-hero3-name" class="mb-1 block text-sm font-medium text-gray-900">
+							Name
+						</label>
+						<input
+							id="tb-hero3-name"
+							type="text"
+							placeholder="John Smith"
+							bind:value={formData.name}
+							required
+							class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-200"
+						/>
+					</div>
 
-						<div>
-							<label for="tb-hero3-phone" class="mb-1 block text-sm font-medium text-gray-900">
-								Phone
-							</label>
-							<input
-								id="tb-hero3-phone"
-								type="tel"
-								placeholder="07xxx xxx xxx"
-								bind:value={formData.phone}
-								class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-200"
-							/>
-						</div>
+					<div>
+						<label for="tb-hero3-phone" class="mb-1 block text-sm font-medium text-gray-900">
+							Phone
+						</label>
+						<input
+							id="tb-hero3-phone"
+							type="tel"
+							placeholder="07xxx xxx xxx"
+							bind:value={formData.phone}
+							class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-200"
+						/>
 					</div>
 
 					<div>
@@ -276,37 +260,6 @@
 						/>
 					</div>
 
-					<div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-						<div>
-							<label for="tb-hero3-service" class="mb-1 block text-sm font-medium text-gray-900">
-								Service
-							</label>
-							<select
-								id="tb-hero3-service"
-								bind:value={formData.service}
-								class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-200"
-							>
-								<option value="">Select a service</option>
-								{#each serviceOptions as option}
-									<option value={option}>{option}</option>
-								{/each}
-							</select>
-						</div>
-
-						<div>
-							<label for="tb-hero3-location" class="mb-1 block text-sm font-medium text-gray-900">
-								Location
-							</label>
-							<input
-								id="tb-hero3-location"
-								type="text"
-								placeholder="Manchester"
-								bind:value={formData.location}
-								class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-200"
-							/>
-						</div>
-					</div>
-
 					<div>
 						<label for="tb-hero3-message" class="mb-1 block text-sm font-medium text-gray-900">
 							Message
@@ -316,6 +269,7 @@
 							rows="4"
 							placeholder="Tell us what you need..."
 							bind:value={formData.message}
+							required
 							class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-200"
 						></textarea>
 					</div>
