@@ -8,6 +8,7 @@
 		"./WebsitePageRenderer.svelte": "./src/WebsitePageRenderer.svelte",
 		"./components/heroes/Hero1.svelte": "./src/components/heroes/Hero1.svelte",
 		"./components/heroes/Hero2.svelte": "./src/components/heroes/Hero2.svelte",
+		"./components/heroes/Hero3.svelte": "./src/components/heroes/Hero3.svelte",
 		"./components/about/About1.svelte": "./src/components/about/About1.svelte",
 		"./components/about/About2.svelte": "./src/components/about/About2.svelte",
 		"./components/services/Services1.svelte": "./src/components/services/Services1.svelte",
@@ -18,7 +19,8 @@
 		"./components/gallery/Gallery2.svelte": "./src/components/gallery/Gallery2.svelte",
 		"./components/footers/Footer1.svelte": "./src/components/footers/Footer1.svelte",
 		"./components/navigation/Nav1.svelte": "./src/components/navigation/Nav1.svelte",
-		"./components/navigation/Nav2.svelte": "./src/components/navigation/Nav2.svelte"
+		"./components/navigation/Nav2.svelte": "./src/components/navigation/Nav2.svelte",
+		"./components/navigation/Nav3.svelte": "./src/components/navigation/Nav3.svelte"
 	},
 	"peerDependencies": {
 		"svelte": "^5.0.0"

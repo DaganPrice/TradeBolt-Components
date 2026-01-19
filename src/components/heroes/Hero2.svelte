@@ -38,6 +38,8 @@
 	$: colors = getColorClasses(website.color_scheme);
 	$: backgroundType = data.background_type || 'gradient';
 	$: backgroundStyle = getBackgroundStyle(backgroundType, data.background_image, data.overlay_opacity);
+	$: heading = data?.heading || data?.page_title || website?.business_name;
+	$: subheading = data?.subheading || data?.tagline || '';
 
 	// Get background classes based on background type
 	$: backgroundClasses = backgroundType === 'gradient'
@@ -54,11 +56,11 @@
 	<div class="tb-hero2-pad container mx-auto px-4 py-16">
 		<div class="max-w-4xl mx-auto text-center">
 			<h1 class="tb-hero2-title text-4xl font-bold mb-4">
-				{data.heading || website.business_name}
+				{heading}
 			</h1>
-			{#if data.subheading}
+			{#if subheading}
 				<p class="tb-hero2-subheading text-lg text-white/90 max-w-2xl mx-auto">
-					{data.subheading}
+					{subheading}
 				</p>
 			{/if}
 		</div>

@@ -2,6 +2,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import Hero1 from './components/heroes/Hero1.svelte';
 	import Hero2 from './components/heroes/Hero2.svelte';
+	import Hero3 from './components/heroes/Hero3.svelte';
 	import About1 from './components/about/About1.svelte';
 	import About2 from './components/about/About2.svelte';
 	import Services1 from './components/services/Services1.svelte';
@@ -31,7 +32,7 @@
 
 	const componentMap = {
 		header: { Header1, Header2, Header3 },
-		hero: { Hero1, Hero2 },
+		hero: { Hero1, Hero2, Hero3 },
 		about: { About1, About2 },
 		services: { Services1 },
 		locations: { Locations1 },

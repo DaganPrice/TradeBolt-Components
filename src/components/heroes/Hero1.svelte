@@ -44,6 +44,8 @@
 	$: colors = getColorClasses(website.color_scheme);
 	$: backgroundType = data.background_type || 'gradient';
 	$: backgroundStyle = getBackgroundStyle(backgroundType, data.background_image, data.overlay_opacity);
+	$: heading = data?.heading || data?.page_title || website?.business_name;
+	$: subheading = data?.subheading || data?.tagline || '';
 
 	// Get background classes based on background type
 	$: backgroundClasses = backgroundType === 'gradient'
@@ -61,13 +63,13 @@
 		<div class="max-w-4xl mx-auto text-center">
 			<!-- Page Heading -->
 			<h1 class="tb-hero-title text-5xl font-bold mb-6">
-				{data.heading || website.business_name}
+				{heading}
 			</h1>
 
 			<!-- Subheading -->
-			{#if data.subheading}
+			{#if subheading}
 				<p class="tb-hero-tagline text-xl {colors.textLight} mb-10 max-w-2xl mx-auto font-medium">
-					{data.subheading}
+					{subheading}
 				</p>
 			{/if}
 
