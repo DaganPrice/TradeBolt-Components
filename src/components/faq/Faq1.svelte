@@ -27,7 +27,7 @@
 	}
 
 	$: colors = getColorClasses(website?.color_scheme);
-	$: heading = safeText(data?.heading, 'Frequently asked questions');
+	$: heading = safeText(data?.heading, 'Frequently Asked Questions');
 	$: subheading = safeText(data?.subheading, '');
 	$: columns = data?.columns === 2 ? 2 : 1;
 
@@ -58,7 +58,7 @@
 <section class="py-20 bg-white text-gray-900">
 	<div class="container mx-auto px-4">
 		<div class="mx-auto max-w-4xl text-center">
-			<h2 class="text-4xl font-bold">{heading}</h2>
+			<h2 class="text-4xl font-bold {colors.text}">{heading}</h2>
 			{#if subheading}
 				<p class="mt-4 text-lg text-gray-600">{subheading}</p>
 			{/if}
@@ -69,10 +69,10 @@
 				<div class="grid grid-cols-1 gap-6 lg:gap-8 {columns === 2 ? 'lg:grid-cols-2' : ''}">
 					<div class="space-y-3">
 						{#each leftItems as item (item.idx)}
-							<div class="rounded-lg border border-gray-200 bg-white">
+							<div class="group rounded-lg border border-gray-200 bg-white transition-colors hover:border-gray-300">
 								<button
 									type="button"
-									class="flex w-full items-center justify-between gap-4 px-5 py-4 text-left"
+									class="flex w-full cursor-pointer items-center justify-between gap-4 px-5 py-4 text-left transition-colors hover:bg-gray-50"
 									aria-expanded={openIndex === item.idx}
 									on:click={() => handleToggle(item.idx)}
 								>
@@ -80,7 +80,7 @@
 										{item.question}
 									</span>
 									<svg
-										class="h-5 w-5 flex-none text-gray-500 transition-transform {openIndex === item.idx ? 'rotate-180' : ''}"
+										class="h-5 w-5 flex-none text-gray-500 transition-transform group-hover:text-gray-700 {openIndex === item.idx ? 'rotate-180' : ''}"
 										viewBox="0 0 24 24"
 										fill="none"
 										stroke="currentColor"
@@ -105,10 +105,10 @@
 					{#if columns === 2}
 						<div class="space-y-3">
 							{#each rightItems as item (item.idx)}
-								<div class="rounded-lg border border-gray-200 bg-white">
+								<div class="group rounded-lg border border-gray-200 bg-white transition-colors hover:border-gray-300">
 									<button
 										type="button"
-										class="flex w-full items-center justify-between gap-4 px-5 py-4 text-left"
+										class="flex w-full cursor-pointer items-center justify-between gap-4 px-5 py-4 text-left transition-colors hover:bg-gray-50"
 										aria-expanded={openIndex === item.idx}
 										on:click={() => handleToggle(item.idx)}
 									>
@@ -116,7 +116,7 @@
 											{item.question}
 										</span>
 										<svg
-											class="h-5 w-5 flex-none text-gray-500 transition-transform {openIndex === item.idx ? 'rotate-180' : ''}"
+											class="h-5 w-5 flex-none text-gray-500 transition-transform group-hover:text-gray-700 {openIndex === item.idx ? 'rotate-180' : ''}"
 											viewBox="0 0 24 24"
 											fill="none"
 											stroke="currentColor"

@@ -19,6 +19,7 @@
 	}
 
 	$: colors = getColorClasses(website?.color_scheme);
+	$: flipLayout = data?.flip_layout === true;
 
 	function getImageUrl(imageRef) {
 		if (!imageRef?.id || !imageRef?.file || !pb?.files?.getURL) return null;
@@ -76,7 +77,7 @@
 		<div class="mx-auto max-w-6xl">
 			<div class="overflow-hidden rounded-2xl border border-gray-200 shadow-[0_18px_50px_rgba(15,23,42,0.12)]">
 				<div class="grid grid-cols-1 lg:grid-cols-2">
-					<div class="relative bg-slate-50">
+					<div class="relative bg-slate-50 {flipLayout ? 'lg:order-2' : ''}">
 						{#if imageUrl}
 							<img
 								src={imageUrl}
@@ -103,7 +104,7 @@
 						{/if}
 					</div>
 
-					<div class="flex flex-col justify-center px-6 py-10 sm:px-10 sm:py-12">
+					<div class="flex flex-col justify-center px-6 py-10 sm:px-10 sm:py-12 {flipLayout ? 'lg:order-1' : ''}">
 						{#if data?.kicker}
 							<p class="mb-3 text-xs font-extrabold uppercase tracking-[0.12em] {colors.text}">
 								{data.kicker}

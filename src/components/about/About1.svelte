@@ -20,6 +20,7 @@
 	}
 
 	$: colors = getColorClasses(website.color_scheme);
+	$: flipLayout = data?.flip_layout === true;
 
 	function getImageUrl(imageRef) {
 		if (!imageRef?.id || !imageRef?.file || !pb?.files?.getURL) return null;
@@ -60,7 +61,7 @@
 	<div class="container mx-auto px-4">
 		<div class="max-w-6xl mx-auto">
 			<div class="grid grid-cols-1 gap-10 items-start md:grid-cols-2 md:items-center">
-				<div>
+				<div class="{flipLayout ? 'md:order-2' : ''}">
 					<h2 class="text-4xl font-bold {colors.text} mb-6 text-center md:text-left">
 						{data.heading || 'About Us'}
 					</h2>
@@ -83,7 +84,7 @@
 					{/if}
 				</div>
 
-				<div class="flex justify-center md:justify-end">
+				<div class="flex justify-center md:justify-end {flipLayout ? 'md:order-1' : ''}">
 					<div class="w-full max-w-md">
 						{#if imageUrl}
 							<img
