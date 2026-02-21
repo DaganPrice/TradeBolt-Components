@@ -429,7 +429,7 @@
 							{/each}
 						{:else}
 							{#each sectionTypes as sectionType}
-								{#if sectionType !== 'header' && sectionType !== 'hero' && sectionType !== 'footer'}
+								{#if sectionType !== 'header' && sectionType !== 'hero' && sectionType !== 'footer' && sectionType !== 'cta'}
 									<li>
 										<a
 											href="#{sectionType}"
@@ -567,7 +567,7 @@
 							{/each}
 						{:else}
 							{#each sectionTypes as sectionType}
-								{#if sectionType !== 'header' && sectionType !== 'hero' && sectionType !== 'footer'}
+								{#if sectionType !== 'header' && sectionType !== 'hero' && sectionType !== 'footer' && sectionType !== 'cta'}
 									<a
 										href="#{sectionType}"
 										on:click|preventDefault={() => scrollToSection(sectionType)}

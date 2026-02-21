@@ -3,18 +3,25 @@
 	import Hero1 from './components/heroes/Hero1.svelte';
 	import Hero2 from './components/heroes/Hero2.svelte';
 	import Hero3 from './components/heroes/Hero3.svelte';
+	import Hero4 from './components/heroes/Hero4.svelte';
 	import About1 from './components/about/About1.svelte';
 	import About2 from './components/about/About2.svelte';
+	import About3 from './components/about/About3.svelte';
 	import Services1 from './components/services/Services1.svelte';
+	import Services2 from './components/services/Services2.svelte';
 	import Locations1 from './components/locations/Locations1.svelte';
 	import Contact1 from './components/contact/Contact1.svelte';
 	import Contact2 from './components/contact/Contact2.svelte';
 	import Faq1 from './components/faq/Faq1.svelte';
 	import Gallery1 from './components/gallery/Gallery1.svelte';
+	import Gallery2 from './components/gallery/Gallery2.svelte';
 	import Header1 from './components/navigation/Nav1.svelte';
 	import Header2 from './components/navigation/Nav2.svelte';
 	import Header3 from './components/navigation/Nav3.svelte';
+	import Header4 from './components/navigation/Nav4.svelte';
 	import Footer1 from './components/footers/Footer1.svelte';
+	import Footer2 from './components/footers/Footer2.svelte';
+	import Cta1 from './components/cta/Cta1.svelte';
 
 	export let website;
 	export let pages = [];
@@ -33,15 +40,16 @@
 	let hoveredSectionId = null;
 
 	const componentMap = {
-		header: { Header1, Header2, Header3 },
-		hero: { Hero1, Hero2, Hero3 },
-		about: { About1, About2 },
-		services: { Services1 },
+		header: { Header1, Header2, Header3, Header4 },
+		hero: { Hero1, Hero2, Hero3, Hero4 },
+		about: { About1, About2, About3 },
+		services: { Services1, Services2 },
 		locations: { Locations1 },
 		contact: { Contact1, Contact2 },
 		faq: { Faq1 },
-		gallery: { Gallery1, Gallery2: Gallery1 },
-		footer: { Footer1 }
+		gallery: { Gallery1, Gallery2 },
+		footer: { Footer1, Footer2 },
+		cta: { Cta1 }
 	};
 
 	function getComponent(section) {
@@ -325,7 +333,8 @@
 	}
 
 	.tb-embed :global(nav),
-	.tb-embed :global(.tb-header-2) {
+	.tb-embed :global(.tb-header-2),
+	.tb-embed :global(.tb-header-4) {
 		position: sticky !important;
 		top: 0;
 		left: auto !important;
@@ -333,7 +342,8 @@
 	}
 
 	.tb-embed :global(.tb-nav-spacer),
-	.tb-embed :global(.tb-header-2-spacer) {
+	.tb-embed :global(.tb-header-2-spacer),
+	.tb-embed :global(.tb-header-4-spacer) {
 		display: none !important;
 	}
 
@@ -400,7 +410,9 @@
 	.tb-custom-bg[data-builder-section-type='header'] :global(.tb-header-3),
 	.tb-custom-bg[data-builder-section-type='header'] :global(.tb-header-3 .tb-header3-top),
 	.tb-custom-bg[data-builder-section-type='header'] :global(.tb-header-3 .tb-header3-main),
-	.tb-custom-bg[data-builder-section-type='header'] :global(.tb-header-3 .tb-header3-mobile) {
+	.tb-custom-bg[data-builder-section-type='header'] :global(.tb-header-3 .tb-header3-mobile),
+	.tb-custom-bg[data-builder-section-type='header'] :global(.tb-header-4),
+	.tb-custom-bg[data-builder-section-type='header'] :global(.tb-header-4 > div) {
 		background: var(--tb-section-bg) !important;
 	}
 

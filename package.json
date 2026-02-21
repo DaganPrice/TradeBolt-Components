@@ -9,9 +9,12 @@
 		"./components/heroes/Hero1.svelte": "./src/components/heroes/Hero1.svelte",
 		"./components/heroes/Hero2.svelte": "./src/components/heroes/Hero2.svelte",
 		"./components/heroes/Hero3.svelte": "./src/components/heroes/Hero3.svelte",
+		"./components/heroes/Hero4.svelte": "./src/components/heroes/Hero4.svelte",
 		"./components/about/About1.svelte": "./src/components/about/About1.svelte",
 		"./components/about/About2.svelte": "./src/components/about/About2.svelte",
+		"./components/about/About3.svelte": "./src/components/about/About3.svelte",
 		"./components/services/Services1.svelte": "./src/components/services/Services1.svelte",
+		"./components/services/Services2.svelte": "./src/components/services/Services2.svelte",
 		"./components/locations/Locations1.svelte": "./src/components/locations/Locations1.svelte",
 		"./components/contact/Contact1.svelte": "./src/components/contact/Contact1.svelte",
 		"./components/contact/Contact2.svelte": "./src/components/contact/Contact2.svelte",
@@ -19,9 +22,12 @@
 		"./components/gallery/Gallery1.svelte": "./src/components/gallery/Gallery1.svelte",
 		"./components/gallery/Gallery2.svelte": "./src/components/gallery/Gallery2.svelte",
 		"./components/footers/Footer1.svelte": "./src/components/footers/Footer1.svelte",
+		"./components/footers/Footer2.svelte": "./src/components/footers/Footer2.svelte",
 		"./components/navigation/Nav1.svelte": "./src/components/navigation/Nav1.svelte",
 		"./components/navigation/Nav2.svelte": "./src/components/navigation/Nav2.svelte",
-		"./components/navigation/Nav3.svelte": "./src/components/navigation/Nav3.svelte"
+		"./components/navigation/Nav3.svelte": "./src/components/navigation/Nav3.svelte",
+		"./components/navigation/Nav4.svelte": "./src/components/navigation/Nav4.svelte",
+		"./components/cta/Cta1.svelte": "./src/components/cta/Cta1.svelte"
 	},
 	"peerDependencies": {
 		"svelte": "^5.0.0"

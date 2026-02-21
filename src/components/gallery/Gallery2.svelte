@@ -1,45 +1,65 @@
 <script>
-	export let website;
 	export let pb;
 	export let data = {};
 
-	$: columns = data.columns || 3;
-	$: images = data.images || [];
+	function getImageUrl(imageRef, thumb = '1200x900') {
+		if (!imageRef?.id || !imageRef?.file || !pb?.files?.getURL) return '';
+		try {
+			return pb.files.getURL(
+				{ id: imageRef.id, collectionId: 'images', collectionName: 'images' },
+				imageRef.file,
+				{ thumb }
+			);
+		} catch (err) {
+			console.error('Error generating gallery image URL:', err);
+			return '';
+		}
+	}
+
+	function tileClass(index) {
+		const i = index % 10;
+		if (i === 0 || i === 1) return 'lg:col-span-1 lg:row-span-1 aspect-[4/3]';
+		if (i === 2) return 'lg:col-span-1 lg:row-span-1 aspect-[4/3]';
+		if (i === 3) return 'lg:col-span-1 lg:row-span-1 aspect-[4/3]';
+		if (i === 4) return 'lg:col-span-1 lg:row-span-1 aspect-[4/3]';
+		if (i === 5 || i === 6) return 'lg:col-span-1 lg:row-span-1 aspect-[3/2]';
+		if (i === 7) return 'lg:col-span-1 lg:row-span-1 aspect-[3/2]';
+		if (i === 8) return 'lg:col-span-1 lg:row-span-1 aspect-[3/2]';
+		return 'lg:col-span-1 lg:row-span-1 aspect-[3/2]';
+	}
+
+	$: kicker = (data?.kicker || '').toString().trim() || 'Gallery';
+	$: heading = (data?.heading || '').toString().trim() || 'Our Work';
+	$: images = Array.isArray(data?.images) ? data.images : [];
 </script>
 
-<section class="py-16 px-4 bg-gray-50">
-	<div class="container mx-auto">
-		{#if data.heading}
-			<h2 class="text-4xl font-bold text-center mb-4 text-gray-900">{data.heading}</h2>
-		{/if}
-		{#if data.subheading}
-			<p class="text-xl text-center text-gray-600 mb-12">{data.subheading}</p>
-		{/if}
+<section id="gallery" class="bg-[#f3f3f3] px-4 py-16 sm:py-20">
+	<div class="mx-auto max-w-7xl">
+		<div class="mb-8 text-center">
+			<p class="text-lg font-semibold text-yellow-500">{kicker}</p>
+			<h2 class="mt-1 text-4xl font-bold text-[#0F172A] sm:text-5xl">{heading}</h2>
+		</div>
 
 		{#if images.length > 0}
-			<div class="gap-6" style="column-count: {columns}; column-gap: 1.5rem;">
-				{#each images as image}
-					<div class="mb-6 break-inside-avoid group">
-						<div class="overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition-shadow">
+			<div class="tb-gallery2-grid grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
+				{#each images as image, i}
+					<div class={`overflow-hidden bg-gray-200 ${tileClass(i)}`}>
+						{#if getImageUrl(image)}
 							<img
-								src={pb.files.getURL({id: image.id, collectionId: 'images', collectionName: 'images'}, image.file)}
-								alt={image.alt_text || image.title}
-								class="w-full group-hover:scale-105 transition-transform duration-300"
+								src={getImageUrl(image)}
+								alt={image?.alt_text || image?.title || 'Gallery image'}
+								class="h-full w-full object-cover transition-transform duration-300 hover:scale-[1.03]"
 								loading="lazy"
+								decoding="async"
 							/>
-							{#if image.title}
-								<div class="bg-white p-3 border-t border-gray-200">
-									<p class="text-gray-800 font-medium text-sm">{image.title}</p>
-								</div>
-							{/if}
-						</div>
+						{:else}
+							<div class="h-full min-h-[140px] w-full bg-gray-300"></div>
+						{/if}
 					</div>
 				{/each}
 			</div>
 		{:else}
-			<div class="text-center py-12 text-gray-500">
-				<p>No images to display</p>
-			</div>
+			<p class="py-10 text-center text-slate-600">No images to display.</p>
 		{/if}
 	</div>
 </section>
