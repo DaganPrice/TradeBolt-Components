@@ -40,6 +40,15 @@
 		return `https://www.google.com/maps?q=${query}&output=embed`;
 	}
 
+	function getLogoUrl() {
+		if (!website?.logo || !pb?.files?.getURL) return '';
+		try {
+			return pb.files.getURL(website, website.logo, { thumb: '256x256' });
+		} catch {
+			return '';
+		}
+	}
+
 	$: logoUrl = getLogoUrl();
 	$: aboutText =
 		(data?.about_text || '').toString().trim() ||
@@ -168,11 +177,3 @@
 		<div class="mt-4 text-sm text-white/50">{copyrightText}</div>
 	</div>
 </footer>
-	function getLogoUrl() {
-		if (!website?.logo || !pb?.files?.getURL) return '';
-		try {
-			return pb.files.getURL(website, website.logo, { thumb: '256x256' });
-		} catch {
-			return '';
-		}
-	}
