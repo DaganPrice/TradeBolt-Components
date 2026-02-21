@@ -97,8 +97,13 @@
 					<ul class="mt-7 space-y-3">
 						{#each bulletPoints as point}
 							<li class="flex items-start gap-3 text-lg font-semibold text-slate-900">
-								<span class={`mt-1 inline-flex h-6 w-6 flex-none items-center justify-center rounded-full ${colors.accentText}`} aria-hidden="true">
-									<i class="fa-solid fa-check"></i>
+								<span
+									class={`mt-1 inline-flex h-6 w-6 flex-none items-center justify-center rounded-full ${colors.accentText}`}
+									aria-hidden="true"
+								>
+									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" class="h-4 w-4">
+										<path d="M20 6L9 17l-5-5" />
+									</svg>
 								</span>
 								<span>{point}</span>
 							</li>
@@ -114,7 +119,9 @@
 							class={`inline-flex items-center gap-2 rounded px-6 py-3 text-base font-semibold transition-colors ${colors.accentBg} ${colors.accentHover}`}
 						>
 							{ctaLabel}
-							<i class="fa-solid fa-arrow-right"></i>
+							<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<path d="M5 12h14M13 5l7 7-7 7" />
+							</svg>
 						</a>
 					</div>
 				{/if}

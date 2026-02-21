@@ -104,7 +104,9 @@
 						{#each services as service}
 							<p class="inline-flex items-center gap-2 text-lg font-semibold text-white">
 								<span class="text-yellow-400" aria-hidden="true">
-									<i class="fa-solid fa-chevron-right"></i>
+									<svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+										<path d="M9 6l6 6-6 6" />
+									</svg>
 								</span>
 								{service}
 							</p>
@@ -114,25 +116,35 @@
 					<div class="space-y-3">
 						{#if phone}
 							<a href={`tel:${phone}`} class="flex items-center gap-3 text-lg text-white transition hover:text-yellow-400">
-								<i class="fa-solid fa-phone text-yellow-400"></i>
+								<svg class="h-4 w-4 text-yellow-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+									<path d="M22 16.9v3a2 2 0 0 1-2.2 2A19.8 19.8 0 0 1 11.2 19a19.3 19.3 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.6a2 2 0 0 1-.5 2.1l-1.3 1.3a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.8.3 1.7.6 2.6.7A2 2 0 0 1 22 16.9z" />
+								</svg>
 								{phone}
 							</a>
 						{/if}
 						{#if email}
 							<a href={`mailto:${email}`} class="flex items-center gap-3 text-lg text-white transition hover:text-yellow-400">
-								<i class="fa-regular fa-envelope text-yellow-400"></i>
+								<svg class="h-4 w-4 text-yellow-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+									<path d="M4 6h16v12H4z" />
+									<path d="M22 7l-10 7L2 7" />
+								</svg>
 								{email}
 							</a>
 						{/if}
 						<div class="flex items-center gap-3 text-lg text-white">
-							<i class="fa-solid fa-location-dot text-yellow-400"></i>
+							<svg class="h-4 w-4 text-yellow-400" viewBox="0 0 24 24" fill="currentColor">
+								<path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z" />
+							</svg>
 							{location}
 						</div>
 						{#if openingHours.length > 0}
 							{#each openingHours as row, i}
 								<div class="flex items-center gap-3 text-lg text-white/90">
 									{#if i === 0}
-										<i class="fa-regular fa-clock text-yellow-400"></i>
+										<svg class="h-4 w-4 text-yellow-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+											<circle cx="12" cy="12" r="9" />
+											<path d="M12 7v5l3 3" />
+										</svg>
 									{:else}
 										<span class="inline-block w-[18px]"></span>
 									{/if}
@@ -147,7 +159,10 @@
 								rel="noopener noreferrer"
 								class="inline-flex items-center gap-3 text-lg text-white/80 transition hover:text-yellow-400"
 							>
-								<i class="fa-solid fa-globe text-yellow-400"></i>
+								<svg class="h-4 w-4 text-yellow-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+									<circle cx="12" cy="12" r="9" />
+									<path d="M3.5 9h17M3.5 15h17M12 3a15 15 0 0 1 0 18" />
+								</svg>
 								{website?.contact_details?.website}
 							</a>
 						{/if}

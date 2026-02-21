@@ -113,7 +113,9 @@
 					type="submit"
 					class="inline-flex h-12 items-center justify-center gap-2 rounded bg-[#0D1117] px-6 text-base font-semibold text-white transition-colors hover:bg-black"
 				>
-					<i class="fa-solid fa-phone"></i>
+					<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+						<path d="M22 16.9v3a2 2 0 0 1-2.2 2A19.8 19.8 0 0 1 11.2 19a19.3 19.3 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.6a2 2 0 0 1-.5 2.1l-1.3 1.3a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.8.3 1.7.6 2.6.7A2 2 0 0 1 22 16.9z" />
+					</svg>
 					{callbackLabel}
 				</button>
 			</form>

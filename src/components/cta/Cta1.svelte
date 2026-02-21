@@ -67,7 +67,9 @@
 					class="inline-flex items-center justify-center gap-2 rounded bg-yellow-400 px-6 py-3 text-base font-semibold text-black transition-colors hover:bg-yellow-300"
 				>
 					{primaryLabel}
-					<i class="fa-solid fa-comment"></i>
+					<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+						<path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z" />
+					</svg>
 				</a>
 				<a
 					href={secondaryHref}
@@ -75,7 +77,10 @@
 					class="inline-flex items-center justify-center gap-2 rounded bg-[#0F1117] px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-black"
 				>
 					{secondaryLabel}
-					<i class="fa-solid fa-user"></i>
+					<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+						<path d="M20 21a8 8 0 1 0-16 0" />
+						<circle cx="12" cy="7" r="4" />
+					</svg>
 				</a>
 			</div>
 		</div>

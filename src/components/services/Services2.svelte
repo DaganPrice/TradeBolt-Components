@@ -55,7 +55,9 @@
 				{#each services as service}
 					<article class="flex items-start gap-4">
 						<div class={`mt-1 text-4xl ${colors.accentText}`} aria-hidden="true">
-							<i class="fa-solid fa-bolt"></i>
+							<svg viewBox="0 0 24 24" fill="currentColor" class="h-10 w-10">
+								<path d="M13 2L5 14h6l-1 8 9-13h-6l1-7z"></path>
+							</svg>
 						</div>
 						<div>
 							<h3 class="text-2xl font-bold text-[#0F172A]">{service.title}</h3>

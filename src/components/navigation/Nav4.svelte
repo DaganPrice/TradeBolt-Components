@@ -177,10 +177,12 @@
 
 <header bind:this={headerEl} class="tb-header-4 fixed top-0 left-0 right-0 z-50 text-white">
 	<div class="border-b border-white/10 bg-[#0B0C10]">
-		<div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 text-sm md:px-6">
+		<div class="tb-header4-top mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 text-sm">
 			<div class="tb-header4-meta flex flex-wrap items-center gap-x-5 gap-y-2 text-white/90">
 				<span class="inline-flex items-center gap-2">
-					<i class="fa-solid fa-location-dot {colors.accentText}"></i>
+					<svg class={`h-4 w-4 ${colors.accentText}`} viewBox="0 0 24 24" fill="currentColor">
+						<path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z" />
+					</svg>
 					{locationLabel}
 				</span>
 				{#if email}
@@ -189,12 +191,18 @@
 						on:click={handleLinkClick}
 						class="inline-flex items-center gap-2 transition hover:text-white"
 					>
-						<i class="fa-regular fa-envelope {colors.accentText}"></i>
+						<svg class={`h-4 w-4 ${colors.accentText}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+							<path d="M4 6h16v12H4z" />
+							<path d="M22 7l-10 7L2 7" />
+						</svg>
 						{email}
 					</a>
 				{/if}
 				<span class="inline-flex items-center gap-2">
-					<i class="fa-regular fa-clock {colors.accentText}"></i>
+					<svg class={`h-4 w-4 ${colors.accentText}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+						<circle cx="12" cy="12" r="9" />
+						<path d="M12 7v5l3 3" />
+					</svg>
 					{businessHours}
 				</span>
 			</div>
@@ -203,9 +211,11 @@
 				<a
 					href={`tel:${phone}`}
 					on:click={handleLinkClick}
-					class="hidden items-center gap-2 text-lg font-semibold text-white transition hover:text-white/85 md:inline-flex"
+					class="tb-header4-phone hidden items-center gap-2 text-lg font-semibold text-white transition hover:text-white/85"
 				>
-					<i class="fa-solid fa-phone {colors.accentText}"></i>
+					<svg class={`h-4 w-4 ${colors.accentText}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+						<path d="M22 16.9v3a2 2 0 0 1-2.2 2A19.8 19.8 0 0 1 11.2 19a19.3 19.3 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.6a2 2 0 0 1-.5 2.1l-1.3 1.3a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.8.3 1.7.6 2.6.7A2 2 0 0 1 22 16.9z" />
+					</svg>
 					{phone}
 				</a>
 			{/if}
@@ -213,8 +223,8 @@
 	</div>
 
 	<div class="bg-gradient-to-r from-[#15171C] to-[#111317]">
-		<div class="mx-auto max-w-7xl px-4 md:px-6">
-			<div class="tb-header4-main flex items-center gap-5 py-4 md:py-5">
+		<div class="tb-header4-shell mx-auto max-w-7xl px-4">
+			<div class="tb-header4-main flex items-center gap-5 py-4">
 				<a href="/" on:click={handleLinkClick} class="flex items-center">
 					{#if logoUrl}
 						<img
@@ -222,7 +232,7 @@
 							srcset={logoSrcSet}
 							sizes="84px"
 							alt={`${website.business_name} logo`}
-							class="h-16 w-16 rounded-full border border-white/20 bg-white object-cover md:h-24 md:w-24"
+							class="tb-header4-logo h-16 w-16 rounded-full border border-white/20 bg-white object-cover"
 							loading="eager"
 							decoding="async"
 						/>
@@ -264,7 +274,9 @@
 										}`}
 									>
 										{page.title}
-										<i class="fa-solid fa-chevron-down text-[11px]"></i>
+										<svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+											<path d="M6 9l6 6 6-6" />
+										</svg>
 									</a>
 									{#if openDropdown === page.id}
 										<div
@@ -327,9 +339,13 @@
 						aria-label="Toggle navigation menu"
 					>
 						{#if mobileMenuOpen}
-							<i class="fa-solid fa-xmark text-lg"></i>
+							<svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<path d="M6 6l12 12M18 6L6 18" />
+							</svg>
 						{:else}
-							<i class="fa-solid fa-bars text-lg"></i>
+							<svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<path d="M4 7h16M4 12h16M4 17h16" />
+							</svg>
 						{/if}
 					</button>
 				</div>
@@ -405,7 +421,7 @@
 <div class="tb-header-4-spacer" style={`height: ${headerSpacerHeight}px;`}></div>
 
 <style>
-	@container (max-width: 1024px) {
+	@container (max-width: 768px) {
 		.tb-header4-meta {
 			font-size: 12px;
 		}
@@ -418,12 +434,33 @@
 		.tb-header4-mobile-toggle {
 			display: block;
 		}
+
+		.tb-header4-shell,
+		.tb-header4-top {
+			padding-left: 1rem;
+			padding-right: 1rem;
+		}
 	}
 
-	@container (min-width: 1025px) {
+	@container (min-width: 769px) {
 		.tb-header4-mobile-toggle,
 		.tb-header4-mobile-menu {
 			display: none;
+		}
+
+		.tb-header4-phone {
+			display: inline-flex;
+		}
+
+		.tb-header4-logo {
+			height: 6rem;
+			width: 6rem;
+		}
+
+		.tb-header4-shell,
+		.tb-header4-top {
+			padding-left: 1.5rem;
+			padding-right: 1.5rem;
 		}
 	}
 </style>
