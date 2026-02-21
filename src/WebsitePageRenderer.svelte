@@ -59,6 +59,43 @@
 		return Component;
 	}
 
+	const HEX_COLOR_PATTERN = /^#(?:[0-9a-f]{3}|[0-9a-f]{6})$/i;
+
+	function normalizeHexColor(value) {
+		const raw = (value || '').toString().trim();
+		if (!raw) return '';
+		return HEX_COLOR_PATTERN.test(raw) ? raw.toLowerCase() : '';
+	}
+
+	function getSectionStyleConfig(section) {
+		const style = section?.data?.component_style;
+		if (!style || typeof style !== 'object' || Array.isArray(style)) return null;
+
+		const backgroundColor = normalizeHexColor(style.backgroundColor);
+		const textColor = normalizeHexColor(style.textColor);
+		if (!backgroundColor && !textColor) return null;
+
+		return { backgroundColor, textColor };
+	}
+
+	function getSectionInlineStyle(section) {
+		const style = getSectionStyleConfig(section);
+		if (!style) return '';
+
+		const vars = [];
+		if (style.backgroundColor) vars.push(`--tb-section-bg:${style.backgroundColor}`);
+		if (style.textColor) vars.push(`--tb-section-text:${style.textColor}`);
+		return vars.join(';');
+	}
+
+	function hasSectionBackgroundColor(section) {
+		return Boolean(getSectionStyleConfig(section)?.backgroundColor);
+	}
+
+	function hasSectionTextColor(section) {
+		return Boolean(getSectionStyleConfig(section)?.textColor);
+	}
+
 	$: hasHeaderSection = sections?.some((s) => s.section_type === 'header');
 	$: hasFooterSection = sections?.some((s) => s.section_type === 'footer');
 
@@ -95,6 +132,9 @@
 				class:tb-builder-section={editor}
 				class:tb-builder-hover={editor && hoveredSectionId === section.id && selectedSectionId !== section.id}
 				class:tb-builder-selected={editor && selectedSectionId === section.id}
+				class:tb-custom-bg={hasSectionBackgroundColor(section)}
+				class:tb-custom-text={hasSectionTextColor(section)}
+				style={getSectionInlineStyle(section)}
 				on:mouseenter={() => handleSectionMouseEnter(section)}
 				on:mouseleave={() => handleSectionMouseLeave(section)}
 				on:click={(e) => handleSectionClick(e, section)}
@@ -104,16 +144,18 @@
 						{section.section_type}{#if section.variant} · {section.variant}{/if}
 					</div>
 				{/if}
-				<svelte:component
-					this={Component}
-					{website}
-					data={section.data}
-					{pb}
-					{sections}
-					{pages}
-					{currentPage}
-					{embed}
-				/>
+				<div class="tb-section-content">
+					<svelte:component
+						this={Component}
+						{website}
+						data={section.data}
+						{pb}
+						{sections}
+						{pages}
+						{currentPage}
+						{embed}
+					/>
+				</div>
 			</div>
 		{/if}
 	{/each}
@@ -178,5 +220,30 @@
 		font-size: 12px;
 		font-weight: 600;
 		letter-spacing: 0.01em;
+	}
+
+	.tb-custom-bg > .tb-section-content > :global(*) {
+		background: var(--tb-section-bg) !important;
+	}
+
+	.tb-custom-text {
+		color: var(--tb-section-text);
+	}
+
+	.tb-custom-text :global(h1),
+	.tb-custom-text :global(h2),
+	.tb-custom-text :global(h3),
+	.tb-custom-text :global(h4),
+	.tb-custom-text :global(h5),
+	.tb-custom-text :global(h6),
+	.tb-custom-text :global(p),
+	.tb-custom-text :global(span),
+	.tb-custom-text :global(li),
+	.tb-custom-text :global(a),
+	.tb-custom-text :global(label),
+	.tb-custom-text :global(strong),
+	.tb-custom-text :global(em),
+	.tb-custom-text :global(small) {
+		color: var(--tb-section-text) !important;
 	}
 </style>
