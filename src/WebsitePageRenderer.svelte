@@ -24,6 +24,7 @@
 	export let embed = false;
 	export let editor = false;
 	export let selectedSectionId = null;
+	export let selectedEditableElement = null;
 
 	const emptyHeaderData = {};
 	const emptyFooterData = {};
@@ -96,14 +97,164 @@
 		return Boolean(getSectionStyleConfig(section)?.textColor);
 	}
 
+	const EDITABLE_SELECTOR = 'h1,h2,h3,h4,h5,h6,p,li,a,button,img';
+
+	function getDomPath(el, root) {
+		const path = [];
+		let current = el;
+		while (current && current !== root) {
+			const parent = current.parentElement;
+			if (!parent) break;
+			const index = Array.prototype.indexOf.call(parent.children, current);
+			path.unshift(index);
+			current = parent;
+		}
+		return path.join('-');
+	}
+
+	function getEditableId(el, root) {
+		return `${el.tagName.toLowerCase()}-${getDomPath(el, root)}`;
+	}
+
+	function isButtonLike(el) {
+		if (!el) return false;
+		const tag = (el.tagName || '').toLowerCase();
+		if (tag === 'button') return true;
+		const role = (el.getAttribute('role') || '').toLowerCase();
+		if (role === 'button') return true;
+		const className = (el.className || '').toString().toLowerCase();
+		return className.includes('btn') || className.includes('button') || className.includes('cta');
+	}
+
+	function getEditableKind(el) {
+		const tag = (el?.tagName || '').toLowerCase();
+		if (tag === 'img') return 'image';
+		if (isButtonLike(el)) return 'button';
+		return 'text';
+	}
+
+	function getEditableLabel(el, kind) {
+		if (!el) return kind === 'image' ? 'Image' : kind === 'button' ? 'Button' : 'Text';
+		if (kind === 'image') {
+			const alt = (el.getAttribute('alt') || '').trim();
+			return alt || 'Image';
+		}
+		const text = (el.textContent || '').replace(/\s+/g, ' ').trim();
+		if (text) return text.length > 60 ? `${text.slice(0, 57)}...` : text;
+		return kind === 'button' ? 'Button' : 'Text';
+	}
+
+	function getElementStylesMap(section) {
+		const raw = section?.data?.element_styles;
+		if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return {};
+
+		const map = {};
+		for (const [id, config] of Object.entries(raw)) {
+			if (!config || typeof config !== 'object' || Array.isArray(config)) continue;
+			const textColor = normalizeHexColor(config.textColor);
+			const backgroundColor = normalizeHexColor(config.backgroundColor);
+			if (!textColor && !backgroundColor) continue;
+			map[id] = { textColor, backgroundColor };
+		}
+		return map;
+	}
+
+	function clearEditableDecoration(el) {
+		if (!el) return;
+		el.removeAttribute('data-tb-editable');
+		el.removeAttribute('data-tb-edit-id');
+		el.removeAttribute('data-tb-edit-kind');
+		el.removeAttribute('data-tb-edit-label');
+		el.removeAttribute('data-tb-edit-selected');
+		el.style.removeProperty('--tb-edit-text');
+		el.style.removeProperty('--tb-edit-bg');
+		el.classList.remove('tb-edit-custom-text');
+		el.classList.remove('tb-edit-custom-bg');
+	}
+
+	function decorateEditableElements(node, section, selected) {
+		if (!node || !section) return;
+		const contentRoot = node.querySelector('.tb-section-content');
+		if (!contentRoot) return;
+
+		const styleMap = getElementStylesMap(section);
+		const selectedEditId = selected?.sectionId === section.id ? (selected?.editId || '') : '';
+		const candidates = Array.from(contentRoot.querySelectorAll(EDITABLE_SELECTOR));
+		const kept = new Set();
+
+		for (const el of candidates) {
+			const editId = getEditableId(el, contentRoot);
+			const kind = getEditableKind(el);
+			const label = getEditableLabel(el, kind);
+			kept.add(el);
+
+			el.setAttribute('data-tb-editable', '1');
+			el.setAttribute('data-tb-edit-id', editId);
+			el.setAttribute('data-tb-edit-kind', kind);
+			el.setAttribute('data-tb-edit-label', label);
+
+			if (selectedEditId && selectedEditId === editId) {
+				el.setAttribute('data-tb-edit-selected', '1');
+			} else {
+				el.removeAttribute('data-tb-edit-selected');
+			}
+
+			const style = styleMap[editId] || {};
+			if (style.textColor) {
+				el.style.setProperty('--tb-edit-text', style.textColor);
+				el.classList.add('tb-edit-custom-text');
+			} else {
+				el.style.removeProperty('--tb-edit-text');
+				el.classList.remove('tb-edit-custom-text');
+			}
+
+			if (style.backgroundColor) {
+				el.style.setProperty('--tb-edit-bg', style.backgroundColor);
+				el.classList.add('tb-edit-custom-bg');
+			} else {
+				el.style.removeProperty('--tb-edit-bg');
+				el.classList.remove('tb-edit-custom-bg');
+			}
+		}
+
+		const previous = Array.from(contentRoot.querySelectorAll('[data-tb-editable="1"]'));
+		for (const el of previous) {
+			if (!kept.has(el)) clearEditableDecoration(el);
+		}
+	}
+
+	function editableSectionAction(node, payload) {
+		decorateEditableElements(node, payload?.section, payload?.selected);
+		return {
+			update(nextPayload) {
+				decorateEditableElements(node, nextPayload?.section, nextPayload?.selected);
+			},
+			destroy() {
+				const tagged = Array.from(node.querySelectorAll('[data-tb-editable="1"]'));
+				for (const el of tagged) clearEditableDecoration(el);
+			}
+		};
+	}
+
 	$: hasHeaderSection = sections?.some((s) => s.section_type === 'header');
 	$: hasFooterSection = sections?.some((s) => s.section_type === 'footer');
 
 	function handleSectionClick(event, section) {
 		if (!editor || !section?.id) return;
+		const host = event?.currentTarget;
+		const target = event?.target;
+		const editable = target?.closest?.('[data-tb-editable="1"]');
 		event?.preventDefault?.();
 		event?.stopPropagation?.();
 		dispatch('sectionSelect', { sectionId: section.id });
+		if (editable && host?.contains(editable)) {
+			dispatch('elementSelect', {
+				sectionId: section.id,
+				editId: editable.getAttribute('data-tb-edit-id') || '',
+				kind: editable.getAttribute('data-tb-edit-kind') || 'text',
+				label: editable.getAttribute('data-tb-edit-label') || ''
+			});
+		}
 	}
 
 	function handleSectionMouseEnter(section) {
@@ -135,6 +286,7 @@
 				class:tb-custom-bg={hasSectionBackgroundColor(section)}
 				class:tb-custom-text={hasSectionTextColor(section)}
 				style={getSectionInlineStyle(section)}
+				use:editableSectionAction={{ section, selected: selectedEditableElement }}
 				on:mouseenter={() => handleSectionMouseEnter(section)}
 				on:mouseleave={() => handleSectionMouseLeave(section)}
 				on:click={(e) => handleSectionClick(e, section)}
@@ -207,6 +359,23 @@
 		outline-offset: inherit;
 	}
 
+	.tb-builder-section :global([data-tb-editable='1']) {
+		outline: 1px solid transparent;
+		outline-offset: 2px;
+		transition: outline-color 0.12s ease, box-shadow 0.12s ease;
+		cursor: pointer;
+	}
+
+	.tb-builder-section :global([data-tb-editable='1']:hover) {
+		outline-color: rgba(14, 165, 233, 0.95);
+		box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.25);
+	}
+
+	.tb-builder-section :global([data-tb-editable='1'][data-tb-edit-selected='1']) {
+		outline: 2px solid rgba(14, 165, 233, 1);
+		box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.35);
+	}
+
 	.tb-builder-badge {
 		position: absolute;
 		top: 10px;
@@ -245,5 +414,13 @@
 	.tb-custom-text :global(em),
 	.tb-custom-text :global(small) {
 		color: var(--tb-section-text) !important;
+	}
+
+	:global(.tb-edit-custom-text) {
+		color: var(--tb-edit-text) !important;
+	}
+
+	:global(.tb-edit-custom-bg) {
+		background-color: var(--tb-edit-bg) !important;
 	}
 </style>
