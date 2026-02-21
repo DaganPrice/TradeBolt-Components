@@ -395,6 +395,15 @@
 		background: var(--tb-section-bg) !important;
 	}
 
+	.tb-custom-bg[data-builder-section-type='header'] :global(.tb-header-2),
+	.tb-custom-bg[data-builder-section-type='header'] :global(.tb-header-2 > div),
+	.tb-custom-bg[data-builder-section-type='header'] :global(.tb-header-3),
+	.tb-custom-bg[data-builder-section-type='header'] :global(.tb-header-3 .tb-header3-top),
+	.tb-custom-bg[data-builder-section-type='header'] :global(.tb-header-3 .tb-header3-main),
+	.tb-custom-bg[data-builder-section-type='header'] :global(.tb-header-3 .tb-header3-mobile) {
+		background: var(--tb-section-bg) !important;
+	}
+
 	.tb-custom-text {
 		color: var(--tb-section-text);
 	}
