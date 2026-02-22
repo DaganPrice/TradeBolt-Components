@@ -1,4 +1,5 @@
 <script>
+	export let website;
 	export let pb;
 	export let data = {};
 	export let embed = false;
@@ -40,10 +41,23 @@
 		lightboxIndex = (lightboxIndex + 1) % images.length;
 	}
 
+	function getColorClasses(colorScheme = 'orange') {
+		const colorMap = {
+			orange: { accentText: 'text-orange-500' },
+			red: { accentText: 'text-red-500' },
+			blue: { accentText: 'text-blue-500' },
+			green: { accentText: 'text-emerald-500' },
+			yellow: { accentText: 'text-yellow-500' },
+			purple: { accentText: 'text-purple-500' },
+			pink: { accentText: 'text-pink-500' },
+			gray: { accentText: 'text-gray-600' }
+		};
+		return colorMap[colorScheme] || colorMap.orange;
+	}
+
+	$: colors = getColorClasses(website?.color_scheme);
 	$: kicker = (data?.kicker || '').toString().trim() || 'Gallery';
 	$: heading = (data?.heading || '').toString().trim() || 'Our Work';
-	$: layout = (data?.layout || 'masonry').toString().trim().toLowerCase();
-	$: resolvedLayout = layout === 'grid' ? 'masonry' : layout;
 	$: images = Array.isArray(data?.images) ? data.images : [];
 	$: activeImage = images[lightboxIndex] || null;
 	$: activeImageUrl = activeImage ? getImageUrl(activeImage, '2200x1600') : '';
@@ -52,58 +66,33 @@
 <section id="gallery" class="bg-[#f3f3f3] px-4 py-16 sm:py-20">
 	<div class="mx-auto max-w-7xl">
 		<div class="mb-8 text-center">
-			<p class="text-lg font-semibold text-yellow-500">{kicker}</p>
+			<p class={`text-lg font-semibold ${colors.accentText}`}>{kicker}</p>
 			<h2 class="mt-1 text-4xl font-bold text-[#0F172A] sm:text-5xl">{heading}</h2>
 		</div>
 
 		{#if images.length > 0}
-			{#if resolvedLayout === 'grid'}
-				<div class="tb-gallery2-grid grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
-					{#each images as image, i}
-						<button
-							type="button"
-							on:click={() => openLightbox(i)}
-							class="group block overflow-hidden bg-gray-200 text-left"
-							aria-label={`Open image ${i + 1}`}
-						>
-							{#if getImageUrl(image)}
-								<img
-									src={getImageUrl(image)}
-									alt={image?.alt_text || image?.title || 'Gallery image'}
-									class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-									loading="lazy"
-									decoding="async"
-								/>
-							{:else}
-								<div class="h-full min-h-[140px] w-full bg-gray-300"></div>
-							{/if}
-						</button>
-					{/each}
-				</div>
-			{:else}
-				<div class="tb-gallery2-masonry">
-					{#each images as image, i}
-						<button
-							type="button"
-							on:click={() => openLightbox(i)}
-							class="tb-gallery2-masonry-item group block w-full overflow-hidden bg-gray-200 text-left"
-							aria-label={`Open image ${i + 1}`}
-						>
-							{#if getImageUrl(image)}
-								<img
-									src={getImageUrl(image)}
-									alt={image?.alt_text || image?.title || 'Gallery image'}
-									class="h-auto w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
-									loading="lazy"
-									decoding="async"
-								/>
-							{:else}
-								<div class="h-[200px] w-full bg-gray-300"></div>
-							{/if}
-						</button>
-					{/each}
-				</div>
-			{/if}
+			<div class="tb-gallery2-masonry">
+				{#each images as image, i}
+					<button
+						type="button"
+						on:click={() => openLightbox(i)}
+						class="tb-gallery2-masonry-item group block w-full overflow-hidden bg-gray-200 text-left"
+						aria-label={`Open image ${i + 1}`}
+					>
+						{#if getImageUrl(image)}
+							<img
+								src={getImageUrl(image)}
+								alt={image?.alt_text || image?.title || 'Gallery image'}
+								class="h-auto w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+								loading="lazy"
+								decoding="async"
+							/>
+						{:else}
+							<div class="h-[200px] w-full bg-gray-300"></div>
+						{/if}
+					</button>
+				{/each}
+			</div>
 		{:else}
 			<p class="py-10 text-center text-slate-600">No images to display.</p>
 		{/if}
@@ -165,6 +154,7 @@
 
 <style>
 	.tb-gallery2-masonry {
+		display: block;
 		column-count: 1;
 		column-gap: 8px;
 	}
@@ -174,21 +164,21 @@
 		margin-bottom: 8px;
 	}
 
-	@container (min-width: 520px) {
+	@media (min-width: 640px) {
 		.tb-gallery2-masonry {
 			column-count: 2;
 		}
 	}
 
-	@container (min-width: 900px) {
+	@media (min-width: 1024px) {
 		.tb-gallery2-masonry {
-			column-count: 4;
+			column-count: 3;
 		}
 	}
 
-	@container (min-width: 1200px) {
+	@media (min-width: 1400px) {
 		.tb-gallery2-masonry {
-			column-count: 5;
+			column-count: 4;
 		}
 	}
 </style>

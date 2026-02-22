@@ -16,6 +16,7 @@
 	let headerEl = null;
 	let headerSpacerHeight = 128;
 	let headerResizeObserver = null;
+	let isScrolled = false;
 
 	function handleLinkClick(e) {
 		if (embed) e.preventDefault();
@@ -34,6 +35,16 @@
 		if (!headerEl) return;
 		const next = headerEl.offsetHeight || 0;
 		if (next > 0) headerSpacerHeight = next;
+	}
+
+	function handleScroll() {
+		if (embed) {
+			isScrolled = false;
+			return;
+		}
+		const win = typeof globalThis !== 'undefined' ? globalThis.window : undefined;
+		const y = win?.scrollY || win?.pageYOffset || 0;
+		isScrolled = y > 28;
 	}
 
 	function getOrderedNavPages(allPages, orderKeys) {
@@ -160,23 +171,30 @@
 
 	onMount(() => {
 		const win = typeof globalThis !== 'undefined' ? globalThis.window : undefined;
+		handleScroll();
 		updateHeaderSpacer();
 		if (typeof ResizeObserver !== 'undefined') {
 			headerResizeObserver = new ResizeObserver(() => updateHeaderSpacer());
 			if (headerEl) headerResizeObserver.observe(headerEl);
 		}
 		win?.addEventListener?.('resize', updateHeaderSpacer);
+		if (!embed) win?.addEventListener?.('scroll', handleScroll, { passive: true });
 	});
 
 	onDestroy(() => {
 		const win = typeof globalThis !== 'undefined' ? globalThis.window : undefined;
 		win?.removeEventListener?.('resize', updateHeaderSpacer);
+		win?.removeEventListener?.('scroll', handleScroll);
 		headerResizeObserver?.disconnect?.();
 	});
 </script>
 
-<header bind:this={headerEl} class="tb-header-4 fixed top-0 left-0 right-0 z-50 text-white">
-	<div class="border-b border-white/10 bg-[#0B0C10]">
+<header
+	bind:this={headerEl}
+	class="tb-header-4 fixed top-0 left-0 right-0 z-50 text-white"
+	class:tb-header-4--scrolled={isScrolled}
+>
+	<div class="tb-header4-topbar border-b border-white/10 bg-[#0B0C10]">
 		<div class="tb-header4-top mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 text-sm">
 			<div class="tb-header4-meta flex flex-wrap items-center gap-x-5 gap-y-2 text-white/90">
 				<span class="inline-flex items-center gap-2">
@@ -324,7 +342,7 @@
 						<a
 							href={ctaHref}
 							on:click={handleLinkClick}
-							class={`inline-flex items-center justify-center rounded-md px-7 py-3 text-sm font-semibold transition-colors ${colors.accentBg} ${colors.accentHoverBg}`}
+							class={`tb-header4-cta inline-flex items-center justify-center rounded-md px-7 py-3 text-sm font-semibold transition-colors ${colors.accentBg} ${colors.accentHoverBg}`}
 						>
 							{ctaLabel}
 						</a>
@@ -421,6 +439,54 @@
 <div class="tb-header-4-spacer" style={`height: ${headerSpacerHeight}px;`}></div>
 
 <style>
+	.tb-header-4 {
+		transition: box-shadow 0.2s ease;
+	}
+
+	.tb-header4-topbar,
+	.tb-header4-top,
+	.tb-header4-main,
+	.tb-header4-logo,
+	.tb-header4-cta {
+		transition:
+			max-height 0.22s ease,
+			padding 0.22s ease,
+			opacity 0.22s ease,
+			height 0.22s ease,
+			width 0.22s ease;
+	}
+
+	.tb-header4-topbar {
+		max-height: 88px;
+		opacity: 1;
+		overflow: hidden;
+	}
+
+	.tb-header-4--scrolled {
+		box-shadow: 0 14px 30px rgba(2, 6, 23, 0.38);
+	}
+
+	.tb-header-4--scrolled .tb-header4-topbar {
+		max-height: 0;
+		opacity: 0;
+		border-bottom-color: transparent;
+	}
+
+	.tb-header-4--scrolled .tb-header4-main {
+		padding-top: 0.6rem;
+		padding-bottom: 0.6rem;
+	}
+
+	.tb-header-4--scrolled .tb-header4-logo {
+		height: 3.75rem;
+		width: 3.75rem;
+	}
+
+	.tb-header-4--scrolled .tb-header4-cta {
+		padding-top: 0.6rem;
+		padding-bottom: 0.6rem;
+	}
+
 	@container (max-width: 768px) {
 		.tb-header4-meta {
 			font-size: 12px;

@@ -140,7 +140,7 @@
 		min-height: 420px;
 	}
 
-	@container (min-width: 1024px) {
+	@media (min-width: 980px) {
 		.tb-about3-layout {
 			grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
 			align-items: center;
@@ -151,7 +151,7 @@
 		}
 
 		.tb-about3-card {
-			margin-left: -64px;
+			margin-left: -48px;
 		}
 	}
 </style>

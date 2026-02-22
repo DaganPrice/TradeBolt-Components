@@ -33,10 +33,60 @@
 		return [];
 	}
 
+	function getColorClasses(colorScheme = 'orange') {
+		const colorMap = {
+			orange: {
+				accentText: 'text-orange-400',
+				accentHover: 'hover:text-orange-400',
+				accentBorder: 'border-orange-400/70'
+			},
+			red: {
+				accentText: 'text-red-400',
+				accentHover: 'hover:text-red-400',
+				accentBorder: 'border-red-400/70'
+			},
+			blue: {
+				accentText: 'text-blue-400',
+				accentHover: 'hover:text-blue-400',
+				accentBorder: 'border-blue-400/70'
+			},
+			green: {
+				accentText: 'text-emerald-400',
+				accentHover: 'hover:text-emerald-400',
+				accentBorder: 'border-emerald-400/70'
+			},
+			yellow: {
+				accentText: 'text-yellow-400',
+				accentHover: 'hover:text-yellow-400',
+				accentBorder: 'border-yellow-400/70'
+			},
+			purple: {
+				accentText: 'text-purple-400',
+				accentHover: 'hover:text-purple-400',
+				accentBorder: 'border-purple-400/70'
+			},
+			pink: {
+				accentText: 'text-pink-400',
+				accentHover: 'hover:text-pink-400',
+				accentBorder: 'border-pink-400/70'
+			},
+			gray: {
+				accentText: 'text-gray-300',
+				accentHover: 'hover:text-gray-300',
+				accentBorder: 'border-gray-300/70'
+			}
+		};
+		return colorMap[colorScheme] || colorMap.orange;
+	}
+
 	function getMapEmbedUrl() {
 		const fromData = (data?.map_embed_url || '').toString().trim();
 		if (fromData) return fromData;
-		const query = encodeURIComponent((website?.business_name || 'Local business').toString().trim());
+		const fromQuery = (data?.map_query || '').toString().trim();
+		const addressQuery = (website?.contact_details?.address || '').toString().trim();
+		const fallbackQuery =
+			fromQuery || addressQuery || (website?.business_name || 'Local business').toString().trim();
+		const query = encodeURIComponent(fallbackQuery);
 		return `https://www.google.com/maps?q=${query}&output=embed`;
 	}
 
@@ -50,6 +100,7 @@
 	}
 
 	$: logoUrl = getLogoUrl();
+	$: colors = getColorClasses(website?.color_scheme);
 	$: aboutText =
 		(data?.about_text || '').toString().trim() ||
 		(website?.about_business || '').toString().trim() ||
@@ -83,7 +134,7 @@
 							<img
 								src={logoUrl}
 								alt={`${website?.business_name || 'Business'} logo`}
-								class="h-20 w-20 rounded-full border border-yellow-400/70 bg-white object-cover"
+								class={`h-20 w-20 rounded-full border bg-white object-cover ${colors.accentBorder}`}
 								loading="lazy"
 								decoding="async"
 							/>
@@ -103,7 +154,7 @@
 					<div class="grid grid-cols-2 gap-x-6 gap-y-2 sm:col-span-2 lg:col-span-2">
 						{#each services as service}
 							<p class="inline-flex items-center gap-2 text-lg font-semibold text-white">
-								<span class="text-yellow-400" aria-hidden="true">
+								<span class={colors.accentText} aria-hidden="true">
 									<svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
 										<path d="M9 6l6 6-6 6" />
 									</svg>
@@ -115,16 +166,16 @@
 
 					<div class="space-y-3">
 						{#if phone}
-							<a href={`tel:${phone}`} class="flex items-center gap-3 text-lg text-white transition hover:text-yellow-400">
-								<svg class="h-4 w-4 text-yellow-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+							<a href={`tel:${phone}`} class={`flex items-center gap-3 text-lg text-white transition ${colors.accentHover}`}>
+								<svg class={`h-4 w-4 ${colors.accentText}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 									<path d="M22 16.9v3a2 2 0 0 1-2.2 2A19.8 19.8 0 0 1 11.2 19a19.3 19.3 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.6a2 2 0 0 1-.5 2.1l-1.3 1.3a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.8.3 1.7.6 2.6.7A2 2 0 0 1 22 16.9z" />
 								</svg>
 								{phone}
 							</a>
 						{/if}
 						{#if email}
-							<a href={`mailto:${email}`} class="flex items-center gap-3 text-lg text-white transition hover:text-yellow-400">
-								<svg class="h-4 w-4 text-yellow-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+							<a href={`mailto:${email}`} class={`flex items-center gap-3 text-lg text-white transition ${colors.accentHover}`}>
+								<svg class={`h-4 w-4 ${colors.accentText}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 									<path d="M4 6h16v12H4z" />
 									<path d="M22 7l-10 7L2 7" />
 								</svg>
@@ -132,7 +183,7 @@
 							</a>
 						{/if}
 						<div class="flex items-center gap-3 text-lg text-white">
-							<svg class="h-4 w-4 text-yellow-400" viewBox="0 0 24 24" fill="currentColor">
+							<svg class={`h-4 w-4 ${colors.accentText}`} viewBox="0 0 24 24" fill="currentColor">
 								<path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z" />
 							</svg>
 							{location}
@@ -141,7 +192,7 @@
 							{#each openingHours as row, i}
 								<div class="flex items-center gap-3 text-lg text-white/90">
 									{#if i === 0}
-										<svg class="h-4 w-4 text-yellow-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+										<svg class={`h-4 w-4 ${colors.accentText}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 											<circle cx="12" cy="12" r="9" />
 											<path d="M12 7v5l3 3" />
 										</svg>
@@ -157,9 +208,9 @@
 								href={websiteUrl}
 								target="_blank"
 								rel="noopener noreferrer"
-								class="inline-flex items-center gap-3 text-lg text-white/80 transition hover:text-yellow-400"
+								class={`inline-flex items-center gap-3 text-lg text-white/80 transition ${colors.accentHover}`}
 							>
-								<svg class="h-4 w-4 text-yellow-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<svg class={`h-4 w-4 ${colors.accentText}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 									<circle cx="12" cy="12" r="9" />
 									<path d="M3.5 9h17M3.5 15h17M12 3a15 15 0 0 1 0 18" />
 								</svg>
