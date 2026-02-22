@@ -191,7 +191,7 @@
 
 <header
 	bind:this={headerEl}
-	class="tb-header-4 fixed top-0 left-0 right-0 z-50 text-white"
+	class="tb-header-4 fixed top-0 left-0 right-0 z-50 overflow-hidden bg-[#111317] text-white"
 	class:tb-header-4--scrolled={isScrolled}
 >
 	<div class="tb-header4-topbar border-b border-white/10 bg-[#0B0C10]">
@@ -441,6 +441,8 @@
 <style>
 	.tb-header-4 {
 		transition: box-shadow 0.2s ease;
+		backface-visibility: hidden;
+		transform: translateZ(0);
 	}
 
 	.tb-header4-topbar,
@@ -451,14 +453,12 @@
 		transition:
 			max-height 0.22s ease,
 			padding 0.22s ease,
-			opacity 0.22s ease,
 			height 0.22s ease,
 			width 0.22s ease;
 	}
 
 	.tb-header4-topbar {
 		max-height: 88px;
-		opacity: 1;
 		overflow: hidden;
 	}
 
@@ -468,8 +468,12 @@
 
 	.tb-header-4--scrolled .tb-header4-topbar {
 		max-height: 0;
-		opacity: 0;
-		border-bottom-color: transparent;
+		border-bottom-width: 0;
+	}
+
+	.tb-header-4--scrolled .tb-header4-top {
+		padding-top: 0;
+		padding-bottom: 0;
 	}
 
 	.tb-header-4--scrolled .tb-header4-main {
