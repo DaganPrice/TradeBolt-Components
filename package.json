@@ -6,6 +6,8 @@
 	"exports": {
 		".": "./src/WebsitePageRenderer.svelte",
 		"./WebsitePageRenderer.svelte": "./src/WebsitePageRenderer.svelte",
+		"./themes/index.js": "./src/themes/index.js",
+		"./themes/themeDefinitions.js": "./src/themes/themeDefinitions.js",
 		"./components/heroes/Hero1.svelte": "./src/components/heroes/Hero1.svelte",
 		"./components/heroes/Hero2.svelte": "./src/components/heroes/Hero2.svelte",
 		"./components/heroes/Hero3.svelte": "./src/components/heroes/Hero3.svelte",
