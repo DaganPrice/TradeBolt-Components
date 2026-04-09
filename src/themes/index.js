@@ -537,3 +537,6 @@ export function getThemeBlueprint(themeId, blueprintKey = 'home') {
 	const pageBlueprints = theme.pageBlueprints || {};
 	return clone(pageBlueprints[key] || pageBlueprints.generic || pageBlueprints.home || []);
 }
+
+export const TRADEBOLT_THEME_DEFINITIONS = THEME_DEFINITIONS;
+export const themeDefinitions = TRADEBOLT_THEME_DEFINITIONS;
