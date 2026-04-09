@@ -46,36 +46,41 @@ const SHARED_COPY = {
 
 const THEME_DEFINITIONS = [
 	{
-		id: 'classic-local',
-		name: 'Classic Local',
-		description: 'A balanced theme for local trade businesses that need trust, clarity, and simple structure.',
+		id: 'lead-engine',
+		name: 'Lead Engine',
+		description: 'A conversion-first template with strong enquiry routes, trust sections, and service imagery.',
 		bestFor:
-			'Best for dependable local-service websites that need a familiar layout, clear service coverage, and strong contact paths without feeling over-designed.',
-		tags: ['Local trust', 'Balanced layout', 'Service coverage'],
+			'Best for service businesses that want a straightforward lead-generation layout with clear CTAs, visible proof, and a practical local structure.',
+		tags: ['Lead generation', 'Service proof', 'Local conversion'],
 		websitePatch: {
-			color_scheme: 'green',
+			color_scheme: 'orange',
 			website_style: 'traditional',
 			theme_tokens: {}
 		},
 		pageBlueprints: {
 			home: [
 				section('header', 'Header1', { cta_label: 'Get a quote' }),
-				section('hero', 'Hero1', {
-					heading: 'Trusted local tradespeople',
-					subheading: 'Friendly service, clear pricing and workmanship you can rely on.'
+				section('hero', 'Hero3', {
+					heading: 'Website templates built to turn clicks into booked work',
+					subheading: 'Launch faster with a proven lead-generation layout',
+					content:
+						'Keep trust, contact, and service intent above the fold so visitors can enquire quickly on mobile or desktop.',
+					chips: ['Fast to launch', 'Mobile first', 'SEO ready'],
+					background_type: 'image',
+					overlay_opacity: 56
 				}),
 				section('about', 'About2', {
-					kicker: 'About us',
-					heading: 'A reliable local team with practical experience',
+					kicker: 'Why this template works',
+					heading: 'Built for clarity, trust, and local conversion',
 					lead:
-						'This layout is built for everyday service businesses that want to feel approachable, established, and easy to contact.',
+						'The layout prioritises confident messaging, direct enquiry actions, and a simple path from first impression to quote request.',
 					sub:
-						'It leaves plenty of room for service proof, local coverage, and contact details without becoming visually heavy.',
+						'It gives enough room for proof and positioning without burying the contact route behind visual clutter.',
 					bullet_points: [
-						'Clear service hierarchy',
-						'Strong local coverage section',
-						'Simple enquiry path',
-						'Easy to adapt across trades'
+						'Strong above-the-fold CTA',
+						'Simple mobile enquiry path',
+						'Service proof with imagery',
+						'Easy location coverage section'
 					],
 					show_contact_button: true,
 					cta_label: 'View services',
@@ -210,12 +215,12 @@ const THEME_DEFINITIONS = [
 		}
 	},
 	{
-		id: 'bold-conversion',
-		name: 'Bold Conversion',
-		description: 'A more aggressive conversion-led theme with stronger contrast and more visual energy.',
+		id: 'portfolio-showcase',
+		name: 'Portfolio Showcase',
+		description: 'A visual template for firms that win work through project imagery and stronger presentation.',
 		bestFor:
-			'Best for trade businesses that want a sharper first impression, stronger calls to action, and a more modern lead-generation feel across the whole website.',
-		tags: ['High contrast', 'Lead generation', 'Premium feel'],
+			'Best for contractors and trade businesses that need a more image-led layout, stronger visual authority, and premium presentation.',
+		tags: ['Visual proof', 'Project-led', 'Premium feel'],
 		websitePatch: {
 			color_scheme: 'orange',
 			website_style: 'bold',
@@ -223,60 +228,49 @@ const THEME_DEFINITIONS = [
 		},
 		pageBlueprints: {
 			home: [
-				section('header', 'Header4', {
-					cta_label: 'Book a call',
-					location_label: 'Fast response across West Yorkshire',
-					business_hours: 'Mon-Fri: 8:00am - 6:00pm'
-				}),
+				section('header', 'Header2', { cta_label: 'Talk to us' }),
 				section('hero', 'Hero4', {
-					heading: 'Fast quotes. Clean work. Reliable results.',
-					subheading: 'Trusted local experts for homes and businesses.',
-					primary_button_label: 'Get a quote',
-					primary_button_href: '/contact',
-					secondary_button_label: 'See services',
-					secondary_button_href: '/services',
+					heading: 'A premium project-led website experience',
+					subheading: 'Template preview',
+					primary_button_label: 'See projects',
+					primary_button_href: '/gallery',
+					secondary_button_label: 'Contact us',
+					secondary_button_href: '/contact',
 					callback_button_label: 'Request callback',
 					background_type: 'image',
-					overlay_opacity: 60
+					overlay_opacity: 58
 				}),
 				section('about', 'About3', {
-					kicker: 'Built to convert',
-					heading: 'A stronger layout for firms that want more urgency and authority',
+					kicker: 'Presentation-focused',
+					heading: 'Ideal for businesses that need strong visual authority',
 					lead:
-						'This theme uses sharper framing, stronger CTA rhythm, and more contrast to keep attention high as users scroll.',
+						'This format gives more weight to imagery, spacing, and high-end presentation while still keeping calls to action clear.',
 					bullet_points: [
-						'Designed for faster enquiries',
-						'Clear hero and CTA flow',
-						'Works well with strong imagery',
-						'Feels more premium from the first fold'
+						'Balances image-led design with enquiries',
+						'Works well with project galleries',
+						'Strong for premium positioning',
+						'Easy to adapt across trades'
 					],
 					show_contact_button: true,
 					cta_label: 'Start now',
 					cta_href: '/contact'
 				}),
-				section('services', 'Services2', {
-					kicker: 'What we do',
-					heading: 'High-demand services',
-					items: []
-				}),
 				section('gallery', 'Gallery2', {
 					kicker: 'Selected work',
-					heading: 'Projects customers remember',
+					heading: 'Recent project imagery',
 					images: []
 				}),
-				section('faq', 'Faq1', {
-					heading: 'Questions we hear before every quote',
-					subheading: 'Short answers that remove friction before someone gets in touch.',
-					items: SHARED_COPY.boldFaq,
-					cta_label: 'Contact us',
-					cta_href: '/contact'
+				section('services', 'Services2', {
+					kicker: 'What it supports',
+					heading: 'Built for modern service pages',
+					items: []
 				}),
-				section('cta', 'Cta1', {
-					heading: 'Need help with your next',
-					highlight_text: 'project',
-					heading_suffix: '?',
-					content:
-						'Use this theme when you want a more decisive visual style and a clearer route to enquiry.'
+				section('faq', 'Faq1', {
+					heading: 'Template questions',
+					subheading: 'Quick answers for comparing the layout',
+					items: SHARED_COPY.boldFaq,
+					cta_label: 'Get started',
+					cta_href: '/contact'
 				}),
 				section('contact', 'Contact2', {
 					heading: 'Start the conversation'
@@ -514,6 +508,270 @@ const THEME_DEFINITIONS = [
 					heading: 'Get in touch'
 				}),
 				section('footer', 'Footer2', {})
+			]
+		}
+	},
+	{
+		id: 'elite-contractor',
+		name: 'Elite Contractor',
+		description: 'A darker, higher-contrast template with bold CTAs and stronger premium framing.',
+		bestFor:
+			'Best for higher-ticket services that need a more established visual tone, heavier CTA rhythm, and stronger authority from the first screen.',
+		tags: ['Premium positioning', 'High contrast', 'Bold CTA'],
+		websitePatch: {
+			color_scheme: 'gray',
+			website_style: 'bold',
+			theme_tokens: {}
+		},
+		pageBlueprints: {
+			home: [
+				section('header', 'Header4', {
+					cta_label: 'Book a call',
+					location_label: 'Manchester and surrounding areas',
+					business_hours: 'Mon-Fri: 8:00am - 6:00pm'
+				}),
+				section('hero', 'Hero1', {
+					heading: 'A high-trust template for service businesses that need authority fast',
+					subheading: 'Sharper contrast. Stronger CTAs. Clearer user paths.',
+					background_type: 'image',
+					overlay_opacity: 60,
+					show_phone_button: true
+				}),
+				section('about', 'About3', {
+					kicker: 'Premium layout',
+					heading: 'Designed to feel established from the first scroll',
+					lead:
+						'This starter combines bold navigation, a darker visual tone, and focused calls to action for firms that want a more premium first impression.',
+					bullet_points: [
+						'Works well for higher-ticket services',
+						'Strong contrast across key CTAs',
+						'Ideal for authority-led messaging',
+						'Good base for case-study content'
+					],
+					show_contact_button: true,
+					cta_label: 'Discuss your site',
+					cta_href: '/contact'
+				}),
+				section('services', 'Services1', {
+					heading: 'What this layout showcases best',
+					items: []
+				}),
+				section('cta', 'Cta1', {
+					heading: 'Need a website that feels',
+					highlight_text: 'premium',
+					heading_suffix: 'from the first click?',
+					content:
+						'Use this starter if you want a more established tone, heavier visual framing, and a stronger call-to-action rhythm across the page.'
+				}),
+				section('gallery', 'Gallery1', {
+					kicker: 'Proof',
+					heading: 'Project and brand imagery',
+					images: []
+				}),
+				section('contact', 'Contact1', {
+					heading: 'Talk through your project'
+				}),
+				section('footer', 'Footer2', {})
+			],
+			about: [
+				section('header', 'Header4', {
+					cta_label: 'Book a call',
+					location_label: 'Manchester and surrounding areas',
+					business_hours: 'Mon-Fri: 8:00am - 6:00pm'
+				}),
+				section('hero', 'Hero2', {
+					heading: 'A premium layout with stronger authority',
+					subheading: 'Sharper framing, deeper contrast, and more decisive calls to action.'
+				}),
+				section('about', 'About3', {
+					kicker: 'About this template',
+					heading: 'Built to feel established and conversion-ready',
+					lead:
+						'Use this structure when you want the website to signal confidence quickly without losing clarity.'
+				}),
+				section('gallery', 'Gallery1', {
+					kicker: 'Selected work',
+					heading: 'Visual proof',
+					images: []
+				}),
+				section('footer', 'Footer2', {})
+			],
+			servicesIndex: [
+				section('header', 'Header4', {
+					cta_label: 'Book a call',
+					location_label: 'Manchester and surrounding areas',
+					business_hours: 'Mon-Fri: 8:00am - 6:00pm'
+				}),
+				section('hero', 'Hero2', {
+					heading: 'Services framed around trust and value',
+					subheading: 'A stronger fit for businesses that need premium presentation and clear commercial intent.'
+				}),
+				section('services', 'Services1', {
+					heading: 'Featured services',
+					items: []
+				}),
+				section('contact', 'Contact1', {
+					heading: 'Request a quote'
+				}),
+				section('footer', 'Footer2', {})
+			],
+			contact: [
+				section('header', 'Header4', {
+					cta_label: 'Book a call',
+					location_label: 'Manchester and surrounding areas',
+					business_hours: 'Mon-Fri: 8:00am - 6:00pm'
+				}),
+				section('hero', 'Hero2', {
+					heading: 'Start the conversation',
+					subheading: 'Tell us about the job and we will come back with clear next steps.'
+				}),
+				section('contact', 'Contact1', {
+					heading: 'Talk through your project'
+				}),
+				section('footer', 'Footer2', {})
+			],
+			generic: [
+				section('header', 'Header4', {
+					cta_label: 'Book a call',
+					location_label: 'Manchester and surrounding areas',
+					business_hours: 'Mon-Fri: 8:00am - 6:00pm'
+				}),
+				section('hero', 'Hero2', {
+					heading: 'A premium service website structure',
+					subheading: 'Stronger contrast, clearer CTAs, and more authority-led presentation.'
+				}),
+				section('about', 'About3', {
+					kicker: 'Flexible base',
+					heading: 'A stronger layout to build on',
+					lead: 'This template keeps the visual tone established as the site grows.'
+				}),
+				section('footer', 'Footer2', {})
+			]
+		}
+	},
+	{
+		id: 'local-authority',
+		name: 'Local Authority',
+		description: 'A clean all-rounder with strong location, FAQ, and service hierarchy for local growth.',
+		bestFor:
+			'Best for trade businesses that want a dependable local SEO structure with balanced content flow, service hierarchy, and room for expansion.',
+		tags: ['Local SEO', 'Balanced content', 'Service hierarchy'],
+		websitePatch: {
+			color_scheme: 'blue',
+			website_style: 'traditional',
+			theme_tokens: {}
+		},
+		pageBlueprints: {
+			home: [
+				section('header', 'Header3', { cta_label: 'Contact us' }),
+				section('hero', 'Hero4', {
+					heading: 'A strong local template for ranking, trust, and easy enquiry flow',
+					subheading: 'Template preview',
+					primary_button_label: 'Explore sections',
+					primary_button_href: '/services',
+					secondary_button_label: 'Get in touch',
+					secondary_button_href: '/contact',
+					callback_button_label: 'Request callback',
+					background_type: 'image',
+					overlay_opacity: 60
+				}),
+				section('about', 'About2', {
+					kicker: 'Structured for growth',
+					heading: 'A dependable starter for service and location expansion',
+					lead:
+						'This template keeps the page easy to scan while leaving room for deeper service, FAQ, and local landing-page expansion.',
+					sub:
+						'It works especially well when you want a practical site structure that can grow over time without redesigning the front end.',
+					bullet_points: [
+						'Clear hierarchy from hero to proof',
+						'Easy to extend with service pages',
+						'Local landing-page friendly',
+						'Balanced between SEO and conversion'
+					],
+					show_contact_button: true,
+					cta_label: 'See coverage',
+					cta_href: '/locations'
+				}),
+				section('services', 'Services2', {
+					kicker: 'Service layout',
+					heading: 'What the template handles well',
+					items: []
+				}),
+				section('locations', 'Locations1', {
+					heading: 'Ideal for local coverage pages',
+					items: SHARED_COPY.classicLocations
+				}),
+				section('faq', 'Faq1', {
+					heading: 'Helpful comparisons',
+					subheading: 'Questions a buyer might ask before choosing a layout',
+					items: SHARED_COPY.classicFaq,
+					cta_label: 'Open a preview',
+					cta_href: '/contact'
+				}),
+				section('contact', 'Contact1', {
+					heading: 'Ready to adapt this template?'
+				}),
+				section('footer', 'Footer1', {})
+			],
+			about: [
+				section('header', 'Header3', { cta_label: 'Contact us' }),
+				section('hero', 'Hero2', {
+					heading: 'A practical structure for local expansion',
+					subheading: 'Clear content hierarchy, helpful proof sections, and room for future growth.'
+				}),
+				section('about', 'About2', {
+					kicker: 'Why it works',
+					heading: 'Designed to grow with service and location pages',
+					lead: 'This structure stays easy to scan even as the site becomes more comprehensive.'
+				}),
+				section('footer', 'Footer1', {})
+			],
+			servicesIndex: [
+				section('header', 'Header3', { cta_label: 'Contact us' }),
+				section('hero', 'Hero2', {
+					heading: 'Services organised for clarity and search intent',
+					subheading: 'A balanced page structure for commercial and local browsing.'
+				}),
+				section('services', 'Services2', {
+					kicker: 'Services',
+					heading: 'What we cover',
+					items: []
+				}),
+				section('faq', 'Faq1', {
+					heading: 'Questions before booking',
+					subheading: 'Useful answers before someone gets in touch.',
+					items: SHARED_COPY.classicFaq,
+					cta_label: 'Contact us',
+					cta_href: '/contact'
+				}),
+				section('contact', 'Contact1', {
+					heading: 'Request a quote'
+				}),
+				section('footer', 'Footer1', {})
+			],
+			contact: [
+				section('header', 'Header3', { cta_label: 'Contact us' }),
+				section('hero', 'Hero2', {
+					heading: 'Talk to the team',
+					subheading: 'Keep the next step simple with a direct contact page and clear service intent.'
+				}),
+				section('contact', 'Contact1', {
+					heading: 'Get in touch'
+				}),
+				section('footer', 'Footer1', {})
+			],
+			generic: [
+				section('header', 'Header3', { cta_label: 'Contact us' }),
+				section('hero', 'Hero2', {
+					heading: 'A dependable local website structure',
+					subheading: 'Balanced enough for local SEO, clear enough for conversion.'
+				}),
+				section('about', 'About2', {
+					kicker: 'Flexible base',
+					heading: 'A practical template you can keep expanding',
+					lead: 'This layout is intended to stay useful as more service and location pages are added.'
+				}),
+				section('footer', 'Footer1', {})
 			]
 		}
 	}

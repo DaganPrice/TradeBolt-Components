@@ -81,7 +81,23 @@ function createDashboardThemeEntry(themeId) {
 		media: {
 			heroBackground: getPreviewAsset(`dashboard/${themeId}/hero.png`),
 			aboutImage: getPreviewAsset(`dashboard/${themeId}/about.png`),
+			serviceImages: [],
 			galleryImages: buildDashboardGallery(themeId)
+		}
+	};
+}
+
+function createDashboardEntryFromSiteTemplate(templateSlug, templateLabel, tradeSlug = 'electrician') {
+	const template = createSiteTemplateEntry(templateSlug, templateLabel);
+	const tradeMedia = template.trades[tradeSlug] || template.trades.electrician;
+
+	return {
+		cardPreview: template.cardPreview,
+		media: {
+			heroBackground: tradeMedia?.hero?.file || '',
+			aboutImage: tradeMedia?.about?.file || '',
+			serviceImages: tradeMedia?.serviceImages || [],
+			galleryImages: tradeMedia?.galleryImages || []
 		}
 	};
 }
@@ -99,8 +115,10 @@ export const SITE_TEMPLATE_PREVIEW_MEDIA = {
 // Edit dashboard theme previews here:
 // - each theme has its own folder at `template-preview-assets/dashboard/<theme-id>/`
 export const DASHBOARD_THEME_PREVIEW_MEDIA = {
-	'classic-local': createDashboardThemeEntry('classic-local'),
-	'bold-conversion': createDashboardThemeEntry('bold-conversion')
+	'lead-engine': createDashboardEntryFromSiteTemplate('lead-engine', 'Lead Engine'),
+	'portfolio-showcase': createDashboardEntryFromSiteTemplate('portfolio-showcase', 'Portfolio Showcase'),
+	'elite-contractor': createDashboardEntryFromSiteTemplate('elite-contractor', 'Elite Contractor'),
+	'local-authority': createDashboardEntryFromSiteTemplate('local-authority', 'Local Authority')
 };
 
 export function getSiteTemplateCardPreview(templateSlug) {
