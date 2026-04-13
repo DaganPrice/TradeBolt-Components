@@ -71,6 +71,7 @@ function buildDashboardGallery(themeId) {
 function createSiteTemplateEntry(templateSlug, templateLabel) {
 	return {
 		cardPreview: getPreviewAsset(`site/${templateSlug}/card.png`),
+		logoPreview: getPreviewAsset(`site/${templateSlug}/logo.png`),
 		trades: buildAllTradeMedia(templateSlug, templateLabel)
 	};
 }
@@ -78,6 +79,7 @@ function createSiteTemplateEntry(templateSlug, templateLabel) {
 function createDashboardThemeEntry(themeId) {
 	return {
 		cardPreview: getPreviewAsset(`dashboard/${themeId}/card.png`),
+		logoPreview: getPreviewAsset(`dashboard/${themeId}/logo.png`),
 		media: {
 			heroBackground: getPreviewAsset(`dashboard/${themeId}/hero.png`),
 			aboutImage: getPreviewAsset(`dashboard/${themeId}/about.png`),
@@ -93,6 +95,7 @@ function createDashboardEntryFromSiteTemplate(templateSlug, templateLabel, trade
 
 	return {
 		cardPreview: template.cardPreview,
+		logoPreview: template.logoPreview,
 		media: {
 			heroBackground: tradeMedia?.hero?.file || '',
 			aboutImage: tradeMedia?.about?.file || '',
@@ -123,6 +126,10 @@ export const DASHBOARD_THEME_PREVIEW_MEDIA = {
 
 export function getSiteTemplateCardPreview(templateSlug) {
 	return SITE_TEMPLATE_PREVIEW_MEDIA[templateSlug]?.cardPreview || '';
+}
+
+export function getSiteTemplateLogoPreview(templateSlug) {
+	return SITE_TEMPLATE_PREVIEW_MEDIA[templateSlug]?.logoPreview || '';
 }
 
 export function getSiteTemplatePreviewMedia(templateSlug, tradeSlug = 'electrician') {
