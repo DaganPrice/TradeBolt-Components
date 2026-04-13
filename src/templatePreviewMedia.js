@@ -26,8 +26,10 @@ const SITE_TRADE_SLUGS = ['electrician', 'plumber', 'builder', 'landscaper'];
 function createTradeMediaSet(templateSlug, templateLabel, tradeSlug) {
 	const label = templateLabel || 'Template';
 	const basePath = `site/${templateSlug}/${tradeSlug}`;
+	const templateLogoPreview = getPreviewAsset(`site/${templateSlug}/logo.png`);
 
 	return {
+		logoPreview: getPreviewAsset(`${basePath}/logo.png`) || templateLogoPreview,
 		hero: createTradeImageRef(
 			`${label}-${tradeSlug}-hero`,
 			getPreviewAsset(`${basePath}/hero.png`),
@@ -95,7 +97,7 @@ function createDashboardEntryFromSiteTemplate(templateSlug, templateLabel, trade
 
 	return {
 		cardPreview: template.cardPreview,
-		logoPreview: template.logoPreview,
+		logoPreview: tradeMedia?.logoPreview || template.logoPreview,
 		media: {
 			heroBackground: tradeMedia?.hero?.file || '',
 			aboutImage: tradeMedia?.about?.file || '',
@@ -128,8 +130,11 @@ export function getSiteTemplateCardPreview(templateSlug) {
 	return SITE_TEMPLATE_PREVIEW_MEDIA[templateSlug]?.cardPreview || '';
 }
 
-export function getSiteTemplateLogoPreview(templateSlug) {
-	return SITE_TEMPLATE_PREVIEW_MEDIA[templateSlug]?.logoPreview || '';
+export function getSiteTemplateLogoPreview(templateSlug, tradeSlug = 'electrician') {
+	const template = SITE_TEMPLATE_PREVIEW_MEDIA[templateSlug] || null;
+	if (!template) return '';
+
+	return template.trades[tradeSlug]?.logoPreview || template.trades.electrician?.logoPreview || template.logoPreview || '';
 }
 
 export function getSiteTemplatePreviewMedia(templateSlug, tradeSlug = 'electrician') {
@@ -138,6 +143,22 @@ export function getSiteTemplatePreviewMedia(templateSlug, tradeSlug = 'electrici
 	return template.trades[tradeSlug] || template.trades.electrician || null;
 }
 
-export function getDashboardThemePreviewMedia(themeId) {
-	return DASHBOARD_THEME_PREVIEW_MEDIA[themeId] || null;
+export function getDashboardThemePreviewMedia(themeId, tradeSlug = 'electrician') {
+	const theme = DASHBOARD_THEME_PREVIEW_MEDIA[themeId] || null;
+	if (!theme) return null;
+
+	if (tradeSlug === 'electrician') return theme;
+
+	switch (themeId) {
+		case 'lead-engine':
+			return createDashboardEntryFromSiteTemplate('lead-engine', 'Lead Engine', tradeSlug);
+		case 'portfolio-showcase':
+			return createDashboardEntryFromSiteTemplate('portfolio-showcase', 'Portfolio Showcase', tradeSlug);
+		case 'elite-contractor':
+			return createDashboardEntryFromSiteTemplate('elite-contractor', 'Elite Contractor', tradeSlug);
+		case 'local-authority':
+			return createDashboardEntryFromSiteTemplate('local-authority', 'Local Authority', tradeSlug);
+		default:
+			return theme;
+	}
 }
