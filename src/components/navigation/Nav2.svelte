@@ -166,15 +166,15 @@
 						<img
 							src={logoUrl}
 							srcset={logoSrcSet}
-							sizes="48px"
+							sizes="96px"
 							alt="{website.business_name} logo"
-							class="h-12 w-auto object-contain"
+							class="h-24 w-auto object-contain"
 							loading="eager"
 							decoding="async"
 						/>
 					{:else}
 						<div class="flex items-center gap-3">
-							<div class="{colors.accent} w-16 h-12 flex items-center justify-center text-2xl font-bold italic">
+							<div class="{colors.accent} w-32 h-24 flex items-center justify-center text-4xl font-bold italic">
 								{website.business_name.charAt(0)}
 							</div>
 							<div class="text-2xl font-bold tracking-wider">

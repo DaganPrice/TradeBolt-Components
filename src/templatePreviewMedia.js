@@ -61,33 +61,11 @@ function buildAllTradeMedia(templateSlug, templateLabel) {
 	);
 }
 
-function buildDashboardGallery(themeId) {
-	return createRepeatedImageRefs(
-		`${themeId}-gallery`,
-		getPreviewAsset(`dashboard/${themeId}/gallery.png`),
-		`${themeId} gallery`,
-		3
-	);
-}
-
 function createSiteTemplateEntry(templateSlug, templateLabel) {
 	return {
 		cardPreview: getPreviewAsset(`site/${templateSlug}/card.png`),
 		logoPreview: getPreviewAsset(`site/${templateSlug}/logo.png`),
 		trades: buildAllTradeMedia(templateSlug, templateLabel)
-	};
-}
-
-function createDashboardThemeEntry(themeId) {
-	return {
-		cardPreview: getPreviewAsset(`dashboard/${themeId}/card.png`),
-		logoPreview: getPreviewAsset(`dashboard/${themeId}/logo.png`),
-		media: {
-			heroBackground: getPreviewAsset(`dashboard/${themeId}/hero.png`),
-			aboutImage: getPreviewAsset(`dashboard/${themeId}/about.png`),
-			serviceImages: [],
-			galleryImages: buildDashboardGallery(themeId)
-		}
 	};
 }
 
@@ -117,8 +95,7 @@ export const SITE_TEMPLATE_PREVIEW_MEDIA = {
 	'local-authority': createSiteTemplateEntry('local-authority', 'Local Authority')
 };
 
-// Edit dashboard theme previews here:
-// - each theme has its own folder at `template-preview-assets/dashboard/<theme-id>/`
+// Dashboard theme previews reuse the site template preview assets above.
 export const DASHBOARD_THEME_PREVIEW_MEDIA = {
 	'lead-engine': createDashboardEntryFromSiteTemplate('lead-engine', 'Lead Engine'),
 	'portfolio-showcase': createDashboardEntryFromSiteTemplate('portfolio-showcase', 'Portfolio Showcase'),

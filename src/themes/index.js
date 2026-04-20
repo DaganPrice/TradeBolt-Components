@@ -103,7 +103,9 @@ const THEME_DEFINITIONS = [
 				section('header', 'Header1', { cta_label: 'Get a quote' }),
 				section('hero', 'Hero2', {
 					heading: 'A straightforward team focused on quality work',
-					subheading: 'Clear communication, dependable workmanship, and local knowledge.'
+					subheading: 'Clear communication, dependable workmanship, and local knowledge.',
+					background_type: 'image',
+					overlay_opacity: 58
 				}),
 				section('about', 'About1', {
 					heading: 'Why this theme works well for established local firms',
@@ -115,7 +117,8 @@ const THEME_DEFINITIONS = [
 					highlight_text: 'trustworthy',
 					heading_suffix: 'from the first visit?',
 					content:
-						'This theme keeps the layout practical, familiar, and easy to adapt as the website grows.'
+						'This theme keeps the layout practical, familiar, and easy to adapt as the website grows.',
+					overlay_opacity: 62
 				}),
 				section('footer', 'Footer1', {})
 			],
@@ -145,7 +148,9 @@ const THEME_DEFINITIONS = [
 				section('header', 'Header1', { cta_label: 'Get a quote' }),
 				section('hero', 'Hero2', {
 					heading: 'Get in touch for honest advice and clear next steps',
-					subheading: 'Tell us about the job and we will come back with a practical response.'
+					subheading: 'Tell us about the job and we will come back with a practical response.',
+					background_type: 'image',
+					overlay_opacity: 58
 				}),
 				section('contact', 'Contact1', {
 					heading: 'Contact our team'
@@ -278,21 +283,10 @@ const THEME_DEFINITIONS = [
 				section('footer', 'Footer2', {})
 			],
 			about: [
-				section('header', 'Header4', {
-					cta_label: 'Book a call',
-					location_label: 'Fast response across West Yorkshire',
-					business_hours: 'Mon-Fri: 8:00am - 6:00pm'
-				}),
-				section('hero', 'Hero4', {
+				section('header', 'Header2', { cta_label: 'Talk to us' }),
+				section('hero', 'Hero2', {
 					heading: 'A modern trade website built around trust and momentum',
-					subheading: 'Sharper sections, stronger contrast, and a confident sales path.',
-					primary_button_label: 'Get in touch',
-					primary_button_href: '/contact',
-					secondary_button_label: 'See services',
-					secondary_button_href: '/services',
-					callback_button_label: 'Request callback',
-					background_type: 'image',
-					overlay_opacity: 60
+					subheading: 'Sharper sections, stronger contrast, and a confident sales path.'
 				}),
 				section('about', 'About3', {
 					kicker: 'About this theme',
@@ -323,21 +317,10 @@ const THEME_DEFINITIONS = [
 				section('footer', 'Footer2', {})
 			],
 			servicesIndex: [
-				section('header', 'Header4', {
-					cta_label: 'Book a call',
-					location_label: 'Fast response across West Yorkshire',
-					business_hours: 'Mon-Fri: 8:00am - 6:00pm'
-				}),
-				section('hero', 'Hero4', {
+				section('header', 'Header2', { cta_label: 'Talk to us' }),
+				section('hero', 'Hero2', {
 					heading: 'Services positioned to keep momentum high',
-					subheading: 'Introduce the offer quickly, then direct the visitor toward a quote.',
-					primary_button_label: 'Request a quote',
-					primary_button_href: '/contact',
-					secondary_button_label: 'Call now',
-					secondary_button_href: '/contact',
-					callback_button_label: 'Request callback',
-					background_type: 'image',
-					overlay_opacity: 60
+					subheading: 'Introduce the offer quickly, then direct the visitor toward a quote.'
 				}),
 				section('services', 'Services2', {
 					kicker: 'Services',
@@ -357,21 +340,10 @@ const THEME_DEFINITIONS = [
 				section('footer', 'Footer2', {})
 			],
 			contact: [
-				section('header', 'Header4', {
-					cta_label: 'Book a call',
-					location_label: 'Fast response across West Yorkshire',
-					business_hours: 'Mon-Fri: 8:00am - 6:00pm'
-				}),
-				section('hero', 'Hero4', {
+				section('header', 'Header2', { cta_label: 'Talk to us' }),
+				section('hero', 'Hero2', {
 					heading: 'Let customers reach you quickly',
-					subheading: 'Shorter paths, clearer contact detail, and stronger CTAs throughout.',
-					primary_button_label: 'Send enquiry',
-					primary_button_href: '#contact',
-					secondary_button_label: 'View services',
-					secondary_button_href: '/services',
-					callback_button_label: 'Request callback',
-					background_type: 'image',
-					overlay_opacity: 60
+					subheading: 'Shorter paths, clearer contact detail, and stronger CTAs throughout.'
 				}),
 				section('contact', 'Contact2', {
 					heading: 'Start your enquiry'
@@ -385,21 +357,10 @@ const THEME_DEFINITIONS = [
 				section('footer', 'Footer2', {})
 			],
 			serviceDetail: [
-				section('header', 'Header4', {
-					cta_label: 'Book a call',
-					location_label: 'Fast response across West Yorkshire',
-					business_hours: 'Mon-Fri: 8:00am - 6:00pm'
-				}),
-				section('hero', 'Hero4', {
+				section('header', 'Header2', { cta_label: 'Talk to us' }),
+				section('hero', 'Hero2', {
 					heading: 'A service detail page built to convert',
-					subheading: 'Use bold framing and tighter calls to action on each core service page.',
-					primary_button_label: 'Request a quote',
-					primary_button_href: '/contact',
-					secondary_button_label: 'Contact us',
-					secondary_button_href: '/contact',
-					callback_button_label: 'Request callback',
-					background_type: 'image',
-					overlay_opacity: 60
+					subheading: 'Use clear framing and tighter calls to action on each core service page.'
 				}),
 				section('about', 'About3', {
 					kicker: 'Service detail',
@@ -418,21 +379,10 @@ const THEME_DEFINITIONS = [
 				section('footer', 'Footer2', {})
 			],
 			locationsIndex: [
-				section('header', 'Header4', {
-					cta_label: 'Book a call',
-					location_label: 'Fast response across West Yorkshire',
-					business_hours: 'Mon-Fri: 8:00am - 6:00pm'
-				}),
-				section('hero', 'Hero4', {
+				section('header', 'Header2', { cta_label: 'Talk to us' }),
+				section('hero', 'Hero2', {
 					heading: 'Location pages built to support local visibility',
-					subheading: 'Add service-area coverage without breaking the overall conversion flow.',
-					primary_button_label: 'Contact us',
-					primary_button_href: '/contact',
-					secondary_button_label: 'View services',
-					secondary_button_href: '/services',
-					callback_button_label: 'Request callback',
-					background_type: 'image',
-					overlay_opacity: 60
+					subheading: 'Add service-area coverage without breaking the overall conversion flow.'
 				}),
 				section('locations', 'Locations1', {
 					heading: 'Areas we cover',
@@ -444,21 +394,10 @@ const THEME_DEFINITIONS = [
 				section('footer', 'Footer2', {})
 			],
 			locationDetail: [
-				section('header', 'Header4', {
-					cta_label: 'Book a call',
-					location_label: 'Fast response across West Yorkshire',
-					business_hours: 'Mon-Fri: 8:00am - 6:00pm'
-				}),
-				section('hero', 'Hero4', {
+				section('header', 'Header2', { cta_label: 'Talk to us' }),
+				section('hero', 'Hero2', {
 					heading: 'A location landing page with stronger commercial intent',
-					subheading: 'Use this structure when you want local relevance and a more forceful CTA style.',
-					primary_button_label: 'Get a quote',
-					primary_button_href: '/contact',
-					secondary_button_label: 'Call now',
-					secondary_button_href: '/contact',
-					callback_button_label: 'Request callback',
-					background_type: 'image',
-					overlay_opacity: 60
+					subheading: 'Use this structure when you want local relevance and a clear CTA path.'
 				}),
 				section('about', 'About3', {
 					kicker: 'Local page',
@@ -477,21 +416,10 @@ const THEME_DEFINITIONS = [
 				section('footer', 'Footer2', {})
 			],
 			generic: [
-				section('header', 'Header4', {
-					cta_label: 'Book a call',
-					location_label: 'Fast response across West Yorkshire',
-					business_hours: 'Mon-Fri: 8:00am - 6:00pm'
-				}),
-				section('hero', 'Hero4', {
+				section('header', 'Header2', { cta_label: 'Talk to us' }),
+				section('hero', 'Hero2', {
 					heading: 'A stronger visual structure for conversion-led trade websites',
-					subheading: 'Bold framing, clearer CTAs, and a premium feel.',
-					primary_button_label: 'Get started',
-					primary_button_href: '/contact',
-					secondary_button_label: 'Contact us',
-					secondary_button_href: '/contact',
-					callback_button_label: 'Request callback',
-					background_type: 'image',
-					overlay_opacity: 60
+					subheading: 'Bold framing, clearer CTAs, and a premium feel.'
 				}),
 				section('about', 'About3', {
 					kicker: 'Flexible base',
