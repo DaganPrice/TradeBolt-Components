@@ -121,6 +121,8 @@
 	}
 
 	function getEditableId(el, root) {
+		const explicit = (el.getAttribute('data-tb-edit-id') || '').trim();
+		if (explicit) return explicit;
 		return `${el.tagName.toLowerCase()}-${getDomPath(el, root)}`;
 	}
 

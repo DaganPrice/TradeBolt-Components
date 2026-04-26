@@ -52,7 +52,7 @@
 
 		{#if services.length > 0}
 			<div class="tb-services2-grid mt-14 grid grid-cols-1 gap-x-8 gap-y-10">
-				{#each services as service}
+				{#each services as service, i}
 					<article class="flex items-start gap-4">
 						<div class={`mt-1 text-4xl ${colors.accentText}`} aria-hidden="true">
 							<svg viewBox="0 0 24 24" fill="currentColor" class="h-10 w-10">
@@ -60,8 +60,8 @@
 							</svg>
 						</div>
 						<div>
-							<h3 class="text-2xl font-bold text-[#0F172A]">{service.title}</h3>
-							<p class="mt-3 text-lg leading-relaxed text-slate-700">
+							<h3 data-tb-edit-id={`service-${i}-title`} class="text-2xl font-bold text-[#0F172A]">{service.title}</h3>
+							<p data-tb-edit-id={`service-${i}-description`} class="mt-3 text-lg leading-relaxed text-slate-700">
 								{service.description}
 							</p>
 						</div>

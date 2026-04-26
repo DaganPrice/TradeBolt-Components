@@ -51,7 +51,7 @@
 			<h2 class="text-4xl font-bold {colors.text} mb-12 text-center">{data.heading || 'Our Services'}</h2>
 
 			<div class="tb-services-grid grid grid-cols-1 gap-6">
-				{#each items as item}
+				{#each items as item, i}
 					{@const title = item?.title || 'Service'}
 					{@const description = item?.description || ''}
 					{@const href = item?.href || ''}
@@ -61,6 +61,7 @@
 						<div class="w-full aspect-[4/3] bg-gray-100">
 							{#if imageUrl}
 								<img
+									data-tb-edit-id={`service-${i}-image`}
 									src={imageUrl}
 									alt={item?.image_alt || `${website.business_name} - ${title}`}
 									class="w-full h-full object-cover"
@@ -79,14 +80,15 @@
 						</div>
 
 						<div class="p-6 flex-1 flex flex-col">
-							<h3 class="text-lg font-semibold text-gray-900 mb-2">{title}</h3>
+							<h3 data-tb-edit-id={`service-${i}-title`} class="text-lg font-semibold text-gray-900 mb-2">{title}</h3>
 
 							{#if description}
-								<p class="text-gray-700 leading-relaxed mb-4">{description}</p>
+								<p data-tb-edit-id={`service-${i}-description`} class="text-gray-700 leading-relaxed mb-4">{description}</p>
 							{/if}
 
 							{#if href}
 								<a
+									data-tb-edit-id={`service-${i}-link`}
 									href={href}
 									on:click={handleLinkClick}
 									class="mt-auto inline-flex items-center font-semibold {colors.text} hover:opacity-80 transition-opacity"
