@@ -30,7 +30,12 @@
 		"./components/navigation/Nav2.svelte": "./src/components/navigation/Nav2.svelte",
 		"./components/navigation/Nav3.svelte": "./src/components/navigation/Nav3.svelte",
 		"./components/navigation/Nav4.svelte": "./src/components/navigation/Nav4.svelte",
-		"./components/cta/Cta1.svelte": "./src/components/cta/Cta1.svelte"
+		"./components/cta/Cta1.svelte": "./src/components/cta/Cta1.svelte",
+		"./components/case-studies/CaseStudiesGrid.svelte": "./src/components/case-studies/CaseStudiesGrid.svelte",
+		"./components/case-studies/CaseStudiesList.svelte": "./src/components/case-studies/CaseStudiesList.svelte",
+		"./components/case-studies/CaseStudiesFeatured.svelte": "./src/components/case-studies/CaseStudiesFeatured.svelte",
+		"./components/case-studies/CaseStudyDetail.svelte": "./src/components/case-studies/CaseStudyDetail.svelte",
+		"./components/case-studies/colors.js": "./src/components/case-studies/colors.js"
 	},
 	"peerDependencies": {
 		"svelte": "^5.0.0"
